@@ -1,0 +1,11 @@
+Log info stdout
+ExitPolicy "reject *:*"
+
+AuthoritativeDirectory 1
+V3AuthoritativeDirectory 1
+V3BandwidthsFile ../bwauthority/v3bw
+
+TestingDirAuthVoteGuard 1ED7B18A3812CCE08AFC551820F0112D33123538,8C296FC789E2DF4B1DEE8BB688ADD2006B88858E
+TestingDirAuthVoteGuardIsStrict 1
+TestingDirAuthVoteExit D99655858211E2361D30C4C2961D5155146124C4,8C296FC789E2DF4B1DEE8BB688ADD2006B88858E
+TestingDirAuthVoteExitIsStrict 1

@@ -1,0 +1,40 @@
+# Tor state file last generated on 2000-01-01 00:35:34 local time
+# Other times below are in UTC
+# You *do not* need to edit this file.
+
+CircuitBuildTimeBin 385 4
+CircuitBuildTimeBin 395 2
+CircuitBuildTimeBin 405 1
+CircuitBuildTimeBin 415 4
+CircuitBuildTimeBin 425 3
+CircuitBuildTimeBin 435 1
+CircuitBuildTimeBin 445 1
+CircuitBuildTimeBin 455 2
+CircuitBuildTimeBin 465 4
+CircuitBuildTimeBin 475 6
+CircuitBuildTimeBin 485 1
+CircuitBuildTimeBin 495 1
+CircuitBuildTimeBin 505 1
+CircuitBuildTimeBin 535 1
+CircuitBuildTimeBin 545 1
+CircuitBuildTimeBin 565 1
+CircuitBuildTimeBin 585 3
+CircuitBuildTimeBin 595 6
+CircuitBuildTimeBin 605 5
+CircuitBuildTimeBin 615 2
+CircuitBuildTimeBin 625 6
+CircuitBuildTimeBin 635 7
+CircuitBuildTimeBin 645 8
+CircuitBuildTimeBin 655 6
+CircuitBuildTimeBin 665 4
+CircuitBuildTimeBin 675 8
+CircuitBuildTimeBin 685 4
+CircuitBuildTimeBin 715 1
+CircuitBuildTimeBin 725 3
+CircuitBuildTimeBin 735 4
+Dormant 0
+Guard in=default rsa_id=8C296FC789E2DF4B1DEE8BB688ADD2006B88858E nickname=relay1exitguard sampled_on=1999-12-24T21:18:22 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
+LastWritten 2000-01-01 00:35:34
+MinutesSinceUserActivity 4
+TorVersion Tor 0.4.8.0-alpha-dev (git-9e17af91a3d88ed8)
+TotalBuildTimes 101
