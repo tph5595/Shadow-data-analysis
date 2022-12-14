@@ -50,7 +50,7 @@ experimental:
   scheduler: thread-per-core
 hosts:
   4uthority1:
-    network_node_id: 327
+    network_node_id: 49
     processes:
     - path: ~/.local/bin/tor
       args: --Address 4uthority1 --Nickname 4uthority1 --defaults-torrc torrc-defaults -f torrc
@@ -96,7 +96,7 @@ hosts:
       pcap_directory: .
       pcap_capture_size: 65535 B
   4uthority3:
-    network_node_id: 1410
+    network_node_id: 49
     processes:
     - path: ~/.local/bin/tor
       args: --Address 4uthority3 --Nickname 4uthority3 --defaults-torrc torrc-defaults -f torrc
@@ -3036,7 +3036,7 @@ hosts:
       pcap_directory: .
       pcap_capture_size: 65535 B
   relay1exitguard:
-    network_node_id: 1601
+    network_node_id: 1085
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay1exitguard --Nickname relay1exitguard --defaults-torrc torrc-defaults -f torrc
@@ -3050,16 +3050,16 @@ hosts:
       quantity: 1
       start_time: 3 sec
       stop_time: null
-    ip_addr: 185.220.101.218
+    ip_addr: 54.37.19.84
     quantity: 1
-    bandwidth_down: 143280 Kbit
-    bandwidth_up: 143280 Kbit
+    bandwidth_down: 138592 Kbit
+    bandwidth_up: 138592 Kbit
     options:
       log_level: null
       pcap_directory: .
       pcap_capture_size: 65535 B
   relay2exit:
-    network_node_id: 1143
+    network_node_id: 2133
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay2exit --Nickname relay2exit --defaults-torrc torrc-defaults -f torrc
@@ -3073,16 +3073,16 @@ hosts:
       quantity: 1
       start_time: 4 sec
       stop_time: null
-    ip_addr: 198.98.59.197
+    ip_addr: 83.97.20.100
     quantity: 1
-    bandwidth_down: 64608 Kbit
-    bandwidth_up: 64608 Kbit
+    bandwidth_down: 59736 Kbit
+    bandwidth_up: 59736 Kbit
     options:
       log_level: null
       pcap_directory: .
       pcap_capture_size: 65535 B
   relay3guard:
-    network_node_id: 277
+    network_node_id: 1631
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay3guard --Nickname relay3guard --defaults-torrc torrc-defaults -f torrc
@@ -3096,16 +3096,16 @@ hosts:
       quantity: 1
       start_time: 5 sec
       stop_time: null
-    ip_addr: 23.237.137.244
+    ip_addr: 146.185.189.197
     quantity: 1
-    bandwidth_down: 131888 Kbit
-    bandwidth_up: 131888 Kbit
+    bandwidth_down: 113616 Kbit
+    bandwidth_up: 113616 Kbit
     options:
       log_level: null
       pcap_directory: .
       pcap_capture_size: 65535 B
   relay4middle:
-    network_node_id: 96
+    network_node_id: 2037
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay4middle --Nickname relay4middle --defaults-torrc torrc-defaults -f torrc
@@ -3119,10 +3119,10 @@ hosts:
       quantity: 1
       start_time: 6 sec
       stop_time: null
-    ip_addr: 213.35.191.39
+    ip_addr: 91.145.82.111
     quantity: 1
-    bandwidth_down: 8840 Kbit
-    bandwidth_up: 8840 Kbit
+    bandwidth_down: 9208 Kbit
+    bandwidth_up: 9208 Kbit
     options:
       log_level: null
       pcap_directory: .

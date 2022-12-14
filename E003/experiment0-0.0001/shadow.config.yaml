@@ -12,7 +12,7 @@ network:
       compression: xz
 hosts:
   4uthority1:
-    network_node_id: 1151
+    network_node_id: 1640
     ip_addr: 100.0.0.1
     bandwidth_down: 1000000 kilobit
     bandwidth_up: 1000000 kilobit
@@ -24,7 +24,7 @@ hosts:
       args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
       start_time: 2
   4uthority2:
-    network_node_id: 1151
+    network_node_id: 1640
     ip_addr: 100.0.0.2
     bandwidth_down: 1000000 kilobit
     bandwidth_up: 1000000 kilobit
@@ -36,7 +36,7 @@ hosts:
       args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
       start_time: 2
   4uthority3:
-    network_node_id: 1151
+    network_node_id: 49
     ip_addr: 100.0.0.3
     bandwidth_down: 1000000 kilobit
     bandwidth_up: 1000000 kilobit
@@ -60,10 +60,10 @@ hosts:
       args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
       start_time: 3
   relay2exit:
-    network_node_id: 1150
-    ip_addr: 185.100.87.61
-    bandwidth_down: 44672 kilobit
-    bandwidth_up: 44672 kilobit
+    network_node_id: 1143
+    ip_addr: 198.98.59.197
+    bandwidth_down: 64608 kilobit
+    bandwidth_up: 64608 kilobit
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay2exit --Nickname relay2exit --defaults-torrc torrc-defaults -f torrc
@@ -72,10 +72,10 @@ hosts:
       args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
       start_time: 4
   relay3guard:
-    network_node_id: 1978
-    ip_addr: 185.4.135.157
-    bandwidth_down: 127880 kilobit
-    bandwidth_up: 127880 kilobit
+    network_node_id: 736
+    ip_addr: 89.249.65.153
+    bandwidth_down: 81704 kilobit
+    bandwidth_up: 81704 kilobit
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay3guard --Nickname relay3guard --defaults-torrc torrc-defaults -f torrc
@@ -84,10 +84,10 @@ hosts:
       args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
       start_time: 5
   relay4middle:
-    network_node_id: 2243
-    ip_addr: 45.79.124.9
-    bandwidth_down: 32024 kilobit
-    bandwidth_up: 32024 kilobit
+    network_node_id: 1196
+    ip_addr: 54.36.103.231
+    bandwidth_down: 8776 kilobit
+    bandwidth_up: 8776 kilobit
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay4middle --Nickname relay4middle --defaults-torrc torrc-defaults -f torrc

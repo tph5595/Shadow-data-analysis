@@ -1,21 +1,125 @@
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
-morning
+time: 946686600.0
+diff: 0.0
+going to web site
+Hello world	Thread-3	5
+
+time: 946686600.636976
+diff: 59.36302399635315
+waiting
+going to web site
+Hello world	Thread-11	4
+
+time: 946686660.636976
+diff: 119.36302399635315
+waiting
+going to web site
+Hello world	Thread-25	3
+
+time: 946686780.636976
+diff: 60.36302399635315
+waiting
+going to web site
+Hello world	Thread-32	5
+
+time: 946686841.6459771
+diff: 119.35402286052704
+waiting
+going to web site
+Hello world	Thread-45	5
+
+time: 946686961.636976
+diff: 59.36302399635315
+waiting
+going to web site
+Hello world	Thread-52	6
+
+time: 946687021.636976
+diff: 59.36302399635315
+waiting
+going to web site
+Hello world	Thread-59	6
+
+time: 946687081.636976
+diff: 119.36302399635315
+waiting
+going to web site
+Hello world	Thread-75	2
+
+time: 946687201.7261381
+diff: 59.2738618850708
+waiting
+going to web site
+Hello world	Thread-82	2
+
+time: 946687261.7066641
+diff: 120.29333591461182
+waiting
+going to web site
+Hello world	Thread-94	2
+
+time: 946687382.7056642
+diff: 119.29433584213257
+waiting
+going to web site
+Hello world	Thread-108	4
+
+time: 946687502.7066641
+diff: 59.293335914611816
+waiting
+going to web site
+Hello world	Thread-115	3
+
+time: 946687562.7166641
+diff: 59.28333592414856
+waiting
+going to web site
+Hello world	Thread-125	2
+
+time: 946687622.7156641
+diff: 119.28433585166931
+waiting
+going to web site
+Hello world	Thread-136	2
+
+time: 946687742.7156641
+diff: 119.28433585166931
+waiting
+going to web site
+Hello world	Thread-146	3
+
+time: 946687862.7203321
+diff: 60.27966785430908
+waiting
+going to web site
+Hello world	Thread-158	2
+
+time: 946687923.728664
+diff: 59.27133595943451
+waiting
+going to web site
+Hello world	Thread-163	2
+
+time: 946687983.7156641
+diff: 59.28433585166931
+waiting
+going to web site
+Hello world	Thread-173	2
+
+time: 946688044.7146642
+diff: 118.28533577919006
+waiting
+going to web site
+Hello world	Thread-187	2
+
+time: 946688163.7156641
+diff: 59.28433585166931
+waiting
+going to web site
+Hello world	Thread-193	3
+
+time: 946688223.7146642
+diff: 59.28533577919006
+waiting
+going to web site
+Hello world	Thread-201	2
+

@@ -38,9 +38,9 @@ experimental:
   use_legacy_working_dir: false
   host_heartbeat_log_level: info
   host_heartbeat_log_info:
+  - socket
   - ram
   - node
-  - socket
   host_heartbeat_interval: 1 min
   strace_logging_mode: off
   max_unapplied_cpu_latency: 1 μs
@@ -50,7 +50,7 @@ experimental:
   scheduler: thread-per-core
 hosts:
   4uthority1:
-    network_node_id: 49
+    network_node_id: 1640
     processes:
     - path: ~/.local/bin/tor
       args: --Address 4uthority1 --Nickname 4uthority1 --defaults-torrc torrc-defaults -f torrc
@@ -73,7 +73,7 @@ hosts:
       pcap_directory: .
       pcap_capture_size: 65535 B
   4uthority2:
-    network_node_id: 1151
+    network_node_id: 1410
     processes:
     - path: ~/.local/bin/tor
       args: --Address 4uthority2 --Nickname 4uthority2 --defaults-torrc torrc-defaults -f torrc
@@ -96,7 +96,7 @@ hosts:
       pcap_directory: .
       pcap_capture_size: 65535 B
   4uthority3:
-    network_node_id: 327
+    network_node_id: 1640
     processes:
     - path: ~/.local/bin/tor
       args: --Address 4uthority3 --Nickname 4uthority3 --defaults-torrc torrc-defaults -f torrc
@@ -408,10 +408,10 @@ hosts:
       log_level: null
       pcap_directory: .
       pcap_capture_size: 65535 B
-  myMarkovServer:
+  myMarkovServer0:
     network_node_id: 9999
     processes:
-    - path: /tordata/config/pythonServer.py
+    - path: /tordata/config/pythonServerThread.py
       args: ''
       environment: ''
       quantity: 1
@@ -426,7 +426,7 @@ hosts:
       pcap_directory: .
       pcap_capture_size: 65535 B
   relay1exitguard:
-    network_node_id: 1085
+    network_node_id: 436
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay1exitguard --Nickname relay1exitguard --defaults-torrc torrc-defaults -f torrc
@@ -440,16 +440,16 @@ hosts:
       quantity: 1
       start_time: 3 sec
       stop_time: null
-    ip_addr: 54.37.19.84
+    ip_addr: 145.239.82.229
     quantity: 1
-    bandwidth_down: 138592 Kbit
-    bandwidth_up: 138592 Kbit
+    bandwidth_down: 153088 Kbit
+    bandwidth_up: 153088 Kbit
     options:
       log_level: null
       pcap_directory: .
       pcap_capture_size: 65535 B
   relay2exit:
-    network_node_id: 732
+    network_node_id: 1143
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay2exit --Nickname relay2exit --defaults-torrc torrc-defaults -f torrc
@@ -463,16 +463,16 @@ hosts:
       quantity: 1
       start_time: 4 sec
       stop_time: null
-    ip_addr: 178.165.72.177
+    ip_addr: 198.98.53.153
     quantity: 1
-    bandwidth_down: 74944 Kbit
-    bandwidth_up: 74944 Kbit
+    bandwidth_down: 71888 Kbit
+    bandwidth_up: 71888 Kbit
     options:
       log_level: null
       pcap_directory: .
       pcap_capture_size: 65535 B
   relay3guard:
-    network_node_id: 2505
+    network_node_id: 2282
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay3guard --Nickname relay3guard --defaults-torrc torrc-defaults -f torrc
@@ -486,16 +486,16 @@ hosts:
       quantity: 1
       start_time: 5 sec
       stop_time: null
-    ip_addr: 5.135.199.13
+    ip_addr: 95.217.16.212
     quantity: 1
-    bandwidth_down: 110208 Kbit
-    bandwidth_up: 110208 Kbit
+    bandwidth_down: 160064 Kbit
+    bandwidth_up: 160064 Kbit
     options:
       log_level: null
       pcap_directory: .
       pcap_capture_size: 65535 B
   relay4middle:
-    network_node_id: 503
+    network_node_id: 96
     processes:
     - path: ~/.local/bin/tor
       args: --Address relay4middle --Nickname relay4middle --defaults-torrc torrc-defaults -f torrc
@@ -509,10 +509,10 @@ hosts:
       quantity: 1
       start_time: 6 sec
       stop_time: null
-    ip_addr: 107.189.11.123
+    ip_addr: 213.35.191.39
     quantity: 1
-    bandwidth_down: 8832 Kbit
-    bandwidth_up: 8832 Kbit
+    bandwidth_down: 8840 Kbit
+    bandwidth_up: 8840 Kbit
     options:
       log_level: null
       pcap_directory: .

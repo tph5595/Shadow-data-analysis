@@ -1,31 +1,36 @@
-# Tor state file last generated on 2000-01-01 00:35:03 local time
+# Tor state file last generated on 2000-01-01 00:50:05 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
-CircuitBuildTimeBin 505 2
-CircuitBuildTimeBin 525 1
-CircuitBuildTimeBin 555 5
-CircuitBuildTimeBin 565 8
-CircuitBuildTimeBin 575 4
-CircuitBuildTimeBin 585 6
-CircuitBuildTimeBin 595 9
-CircuitBuildTimeBin 605 7
+CircuitBuildTimeBin 355 1
+CircuitBuildTimeBin 365 1
+CircuitBuildTimeBin 375 3
+CircuitBuildTimeBin 385 5
+CircuitBuildTimeBin 395 6
+CircuitBuildTimeBin 405 6
+CircuitBuildTimeBin 415 7
+CircuitBuildTimeBin 425 11
+CircuitBuildTimeBin 435 9
+CircuitBuildTimeBin 445 6
+CircuitBuildTimeBin 455 17
+CircuitBuildTimeBin 465 10
+CircuitBuildTimeBin 475 1
+CircuitBuildTimeBin 495 1
+CircuitBuildTimeBin 505 3
+CircuitBuildTimeBin 515 1
+CircuitBuildTimeBin 525 2
+CircuitBuildTimeBin 535 3
+CircuitBuildTimeBin 545 1
+CircuitBuildTimeBin 555 3
+CircuitBuildTimeBin 585 1
 CircuitBuildTimeBin 625 1
-CircuitBuildTimeBin 665 3
-CircuitBuildTimeBin 685 2
-CircuitBuildTimeBin 715 1
-CircuitBuildTimeBin 745 1
-CircuitBuildTimeBin 765 16
-CircuitBuildTimeBin 775 19
-CircuitBuildTimeBin 785 7
-CircuitBuildTimeBin 795 3
-CircuitBuildTimeBin 805 1
-CircuitBuildTimeBin 855 1
-CircuitBuildTimeBin 865 2
-CircuitBuildTimeBin 1635 1
+CircuitBuildTimeBin 745 2
+CircuitBuildTimeBin 765 5
+CircuitBuildTimeBin 775 3
+CircuitBuildTimeBin 785 1
+CircuitBuildTimeBin 1275 1
 Dormant 0
-Guard in=default rsa_id=4BA341A1487C59A833C1D40102902D0B3D1A5959 nickname=relay1exitguard sampled_on=1999-12-24T17:00:30 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
-LastWritten 2000-01-01 00:35:03
-MinutesSinceUserActivity 4
+Guard in=default rsa_id=A17F05ADFA9E2E0A1EE8182B1ABF4D7BFF7928B0 nickname=relay1exitguard sampled_on=1999-12-24T17:00:30 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
+LastWritten 2000-01-01 00:50:05
 TorVersion Tor 0.4.8.0-alpha-dev (git-9e17af91a3d88ed8)
-TotalBuildTimes 100
+TotalBuildTimes 111

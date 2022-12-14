@@ -1,0 +1,119 @@
+time: 946686600.0
+diff: 0.0
+going to web site
+Hello world	Thread-1	2
+
+time: 946686600.81164
+diff: 119.18835997581482
+waiting
+going to web site
+Hello world	Thread-2	2
+
+time: 946686720.81164
+diff: 119.18835997581482
+waiting
+going to web site
+Hello world	Thread-3	2
+
+time: 946686840.81164
+diff: 60.18835997581482
+waiting
+going to web site
+Hello world	Thread-4	2
+
+time: 946686901.81164
+diff: 59.18835997581482
+waiting
+going to web site
+Hello world	Thread-5	2
+
+time: 946686961.81164
+diff: 59.18835997581482
+waiting
+going to web site
+Hello world	Thread-6	2
+
+time: 946687021.81164
+diff: 119.18835997581482
+waiting
+going to web site
+Hello world	Thread-7	2
+
+time: 946687141.81164
+diff: 119.18835997581482
+waiting
+going to web site
+Hello world	Thread-8	2
+
+time: 946687261.94982
+diff: 59.050179958343506
+waiting
+going to web site
+Hello world	Thread-9	2
+
+time: 946687321.94982
+diff: 59.050179958343506
+waiting
+going to web site
+Hello world	Thread-10	2
+
+time: 946687381.94982
+diff: 119.0501799583435
+waiting
+going to web site
+Hello world	Thread-11	2
+
+time: 946687501.94982
+diff: 119.0501799583435
+waiting
+going to web site
+Hello world	Thread-12	2
+
+time: 946687621.9498202
+diff: 60.050179839134216
+waiting
+going to web site
+Hello world	Thread-13	2
+
+time: 946687682.9498202
+diff: 119.05017983913422
+waiting
+going to web site
+Hello world	Thread-14	2
+
+time: 946687802.9498202
+diff: 119.05017983913422
+waiting
+going to web site
+Hello world	Thread-15	2
+
+time: 946687922.8120401
+diff: 59.18795990943909
+waiting
+going to web site
+Hello world	Thread-16	2
+
+time: 946687982.8120402
+diff: 59.1879597902298
+waiting
+going to web site
+Hello world	Thread-17	2
+
+time: 946688042.8120402
+diff: 59.1879597902298
+waiting
+going to web site
+Hello world	Thread-18	2
+
+time: 946688102.8120402
+diff: 119.1879597902298
+waiting
+going to web site
+Hello world	Thread-19	2
+
+time: 946688222.8120402
+diff: 119.1879597902298
+waiting
+going to web site
+Hello world	Thread-20	2
+

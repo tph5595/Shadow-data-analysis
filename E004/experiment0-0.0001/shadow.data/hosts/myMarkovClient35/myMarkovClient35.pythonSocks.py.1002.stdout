@@ -1,46 +1,135 @@
-Hello world	Thread-6	2
+time: 946686600.0
+diff: 0.0
+going to web site
+Hello world	Thread-11	3
 
-Hello world	Thread-12	8
+time: 946686601.580656
+diff: 118.41934394836426
+waiting
+going to web site
+Hello world	Thread-120	5
 
-Hello world	Thread-24	8
+time: 946686727.594573
+diff: 112.40542697906494
+waiting
+going to web site
+Hello world	Thread-311	2
 
-Hello world	Thread-36	8
+time: 946686847.596656
+diff: 52.40334403514862
+waiting
+going to web site
+Hello world	Thread-367	7
 
-Hello world	Thread-54	7
+time: 946686907.589657
+diff: 52.410343050956726
+waiting
+going to web site
+Hello world	Thread-446	7
 
-Hello world	Thread-68	7
+time: 946686967.5896561
+diff: 53.41034388542175
+waiting
+going to web site
+Hello world	Thread-489	7
 
-Hello world	Thread-82	11
+time: 946687022.587656
+diff: 58.412343978881836
+waiting
+going to web site
+Hello world	Thread-568	4
 
-Hello world	Thread-100	11
+time: 946687096.590656
+diff: 44.409343957901
+waiting
+going to web site
+Hello world	Thread-599	4
 
-Hello world	Thread-120	7
+time: 946687142.596192
+diff: 58.40380799770355
+waiting
+going to web site
+Hello world	Thread-681	5
 
-Hello world	Thread-140	8
+time: 946687204.590656
+diff: 56.409343957901
+waiting
+going to web site
+Hello world	Thread-704	6
 
-Hello world	Thread-238	6
+time: 946687261.592492
+diff: 59.40750801563263
+waiting
+going to web site
+Hello world	Thread-839	5
 
-Hello world	Thread-287	10
+time: 946687328.590656
+diff: 52.409343957901
+waiting
+going to web site
+Hello world	Thread-911	6
 
-Hello world	Thread-310	8
+time: 946687396.590656
+diff: 45.409343957901
+waiting
+going to web site
+Hello world	Thread-1005	6
 
-Hello world	Thread-331	10
+time: 946687473.598518
+diff: 28.401481986045837
+waiting
+going to web site
+Hello world	Thread-1136	6
 
-Hello world	Thread-353	9
+time: 946687622.898795
+diff: -60.89879500865936
+going to web site
+Hello world	Thread-1142	9
 
-Hello world	Thread-376	8
+time: 946687623.496656
+diff: -1.4966559410095215
+going to web site
+Hello world	Thread-1156	2
 
-Hello world	Thread-400	9
+time: 946687624.1023121
+diff: 117.8976879119873
+waiting
+going to web site
+Hello world	Thread-1312	7
 
-Hello world	Thread-420	8
+time: 946687773.590656
+diff: 88.409343957901
+waiting
+going to web site
+Hello world	Thread-1429	5
 
-Hello world	Thread-442	8
+time: 946687865.580656
+diff: 117.41934394836426
+waiting
+going to web site
+Hello world	Thread-1589	3
 
-Hello world	Thread-462	6
+time: 946687990.5896571
+diff: 52.41034293174744
+waiting
+going to web site
+Hello world	Thread-1660	6
 
-Hello world	Thread-480	5
+time: 946688050.582656
+diff: 52.417343974113464
+waiting
+going to web site
+Hello world	Thread-1707	6
 
-Hello world	Thread-494	4
+time: 946688106.580656
+diff: 116.41934394836426
+waiting
+going to web site
+Hello world	Thread-1839	6
 
-Hello world	Thread-506	4
+time: 946688230.590656
+diff: 52.409343957901
+waiting
+going to web site
+Hello world	Thread-1889	6
 

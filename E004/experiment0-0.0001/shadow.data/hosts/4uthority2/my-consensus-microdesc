@@ -12,64 +12,64 @@ recommended-client-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2
 recommended-relay-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2 Link=4-5 LinkAuth=3 Microdesc=2 Relay=2
 required-client-protocols Cons=2 Desc=2 Link=4 Microdesc=2 Relay=2
 required-relay-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2 Link=4-5 LinkAuth=3 Microdesc=2 Relay=2
-dir-source 4uthority2 AF238435A7CCAC99352247FDCEFCF1B60B7574D7 100.0.0.2 100.0.0.2 8080 9001
+dir-source 4uthority2 1DC99169A352A52CB710B4DE360E9C59EB5BCDF9 100.0.0.2 100.0.0.2 8080 9001
 contact https://github.com/shadow/shadow-plugin-tor/issues
-vote-digest 09F924B8649EBA45A76F50F0B88709A25DC9C6A1
-dir-source 4uthority1 C6FF45E721321B7C3E024BBE3BDF1C0B58D54908 100.0.0.1 100.0.0.1 8080 9001
+vote-digest 8518E66AC2988F6F49B28E7FC52B09A6758C6655
+dir-source 4uthority3 BEFF1EAD8B7B6934C6130D576FF0796999903006 100.0.0.3 100.0.0.3 8080 9001
 contact https://github.com/shadow/shadow-plugin-tor/issues
-vote-digest 2BF0E6E24971F802E161DA360F5D4D5B3D825E9B
-dir-source 4uthority3 FBF77FF3453F143A919CC03AA5C2A6A89704945C 100.0.0.3 100.0.0.3 8080 9001
+vote-digest 4781584D831C1EBB14D3B1B2F3BB385D74CAB81E
+dir-source 4uthority1 FE12404B18D47099E61010E2CB9B476BDF53785B 100.0.0.1 100.0.0.1 8080 9001
 contact https://github.com/shadow/shadow-plugin-tor/issues
-vote-digest 342AAC1D142DFAB6D5693D6171DBE984C112AB9B
-r relay3guard HtexijgSzOCK/FUYIPARLTMSNTg 2038-01-01 00:00:00 23.237.137.244 9001 0
-m AaZY1uNxoVcFTbDoMGKoFScfeD7xq4RAbPsv4kSSgwA
-s Fast Guard Running V2Dir Valid
+vote-digest E6F3CCD0B90973E31B69BB35B4BB4224C14EA564
+r 4uthority1 RlIcYM94R5JKI/lnXiomDxZti/I 2038-01-01 00:00:00 100.0.0.1 9001 8080
+m QBhGoUUfi7wv/Vwyidiy1uO4Rr5/mAk5JDWZfmSMMtU
+s Authority Fast HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.0-alpha-dev
 pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=18
-r relay4middle K7rNorTmh4i4r/QYRRwqhYxEt38 2038-01-01 00:00:00 213.35.191.39 9001 0
-m ebgDTJPuLTIXmWhx0ZtMXkMSD6aTbm8+VjgDX8eN4PI
+w Bandwidth=20 Unmeasured=1
+r relay4middle XKoT5KHaxdLRAmJexn4x8bn3WIA 2038-01-01 00:00:00 91.145.82.111 9001 0
+m nVGeK4VCheWzhfBK0DUEwFsScv1AdCia2NvL/dHzTiU
 s Fast Running V2Dir Valid
 v Tor 0.4.8.0-alpha-dev
 pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=1
-r relay1exitguard jClvx4ni30sd7ou2iK3SAGuIhY4 2038-01-01 00:00:00 185.220.101.218 9001 0
-m oqw2qPO7yitVD8MFH9X5xL9zZQBmZwCTpCxNI9/qEPg
+r relay3guard dIkuWV0GQ4jzRelNJX8unl8loXY 2038-01-01 00:00:00 146.185.189.197 9001 0
+m Mmcfmh9dEkb1D1gaDLoAADKiFqn0vilejbIZmjm3VhA
+s Fast Guard Running V2Dir Valid
+v Tor 0.4.8.0-alpha-dev
+pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=18
+r relay1exitguard e963Ky0Jl39vuTt0i9DYMtN2upE 2038-01-01 00:00:00 54.37.19.84 9001 0
+m r6XkSDTpeLtCLr5DyF8Bjh2rby9hMEbB6YR3wDQ+vLQ
 s Exit Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.0-alpha-dev
 pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=29
-r 4uthority1 x9JFGs8MsrwiOepVYbC1MtqUHog 2038-01-01 00:00:00 100.0.0.1 9001 8080
-m qbo/zTmryMU1B+FXI/vooUoYO+GoUYrTcfbwW4bIgFc
+w Bandwidth=31
+r 4uthority2 fhmjElz85FK2uJPkS7NpbGvtoro 2038-01-01 00:00:00 100.0.0.2 9001 8080
+m fd+8Dc+3AXmt8oQ1Sq02nV7mjT/ApudgLoxkyNnWLGE
 s Authority Fast HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.0-alpha-dev
 pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=20 Unmeasured=1
-r 4uthority2 199DShVO0VcDuFkhIJUVttemXtM 2038-01-01 00:00:00 100.0.0.2 9001 8080
-m eMGprq01VtMkme0FWTEp86eUalHxLCQg1/TaUH3s7CM
+r 4uthority3 gN3pINhgFAD0e9vfuuHf54VZc7g 2038-01-01 00:00:00 100.0.0.3 9001 8080
+m lz3oShBlpjupqqu8XYUHnGJMP80IN/Cto/ASk9VNSDE
 s Authority Fast HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.0-alpha-dev
 pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=20 Unmeasured=1
-r 4uthority3 2Nw/yRk16lloTrQNQB/jRt9VKoI 2038-01-01 00:00:00 100.0.0.3 9001 8080
-m WDBRxln6u3Ur/cpBNduHA/3ij1hHozHi9s3g5X4IWdQ
-s Authority Fast HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.0-alpha-dev
-pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=20 Unmeasured=1
-r relay2exit 2ZZVhYIR4jYdMMTClh1RVRRhJMQ 2038-01-01 00:00:00 198.98.59.197 9001 0
-m THnYo3RXbv28pubWWQ9pCSKoGoUY3qU/Sg5TFldmX8Q
+r relay2exit 375q/kwUQcUHaOq/HEFgxKg1q8o 2038-01-01 00:00:00 83.97.20.100 9001 0
+m jMuzUClrmD/O4NgBkTudk9ptlCqB5c/oMVoc/iD9xIU
 s Exit Fast Running V2Dir Valid
 v Tor 0.4.8.0-alpha-dev
 pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=8
+w Bandwidth=7
 directory-footer
-directory-signature sha256 AF238435A7CCAC99352247FDCEFCF1B60B7574D7 A5E06B35FFEE7522DA76EEBBBA032DFFEDDF1E31
+directory-signature sha256 1DC99169A352A52CB710B4DE360E9C59EB5BCDF9 249B13A255F548A55FE15FADC6A4B1D95B4AD705
 -----BEGIN SIGNATURE-----
-NSOYVmDZR8Iyw+PsSwA12u4VDc1GgLM/2vhLuHZX5oGgnwmAL/KL5zboKHzH00vK
-P19pyKYj3fXglSGljWeRpmsk0ae7kNQfRMVdgYZpM9xg9LhY24+I9kzOJKLcv8fw
-+gbF4/UJFwACQCom5GXSqODxcTsX6lNfjq0CJOm6vq+LZ6GcuyuIGL9OJoLgZ7jh
-o3z9fjGoZaofxz+PJIdncXpfDzslABeClKNXs4R2v/fDFO3pRSJ5sTgyARaP82/4
-JTeAbLl5PpUQ6SJ0fFpHSxLzXt0uw98GN60T04jqI9Nb+mKk4u7qWasc8V6Cisui
-RUJAesJp6K9K1r2tiO2vnw==
+OXoaYXnpyp31023g8LFu206393Y7x7HaxC55P9dZ8g/NjwRNTKYT9yUBGJImxijJ
+0EKuCNYzVFXMCGyK1InkTUdGu1whXCNDKnhTcGPyiIt4SbvDH+EcMo41+jJssdfP
+UBwYHt2ue8dwJlfAMcmyZaZUzn6Cvr4/AWr9ljGuH5a9JRoJGffUfduNOTdjI7xJ
+WvJB9GxsiCb+qA6qtHskPWJHYoZXJWbyCw7SOEYag9EqpfheyIfzfvXKllDu1KlW
+7j/Sd4A1QHE+LD6iKHAY7VlvRhRQCqtCrGBd+GS9NNFxVFOqe6Lsjbcvz2ZMmwum
+ttQO41isYdAhFnnlcGvMCw==
 -----END SIGNATURE-----

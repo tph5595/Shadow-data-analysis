@@ -1,6 +1,6 @@
 "Dstat 0.8.0 CSV output"
 "Author:","Dag Wieers <dag@wieers.com>",,,,"URL:","http://dag.wieers.com/home-made/dstat/"
-"Host:","99368b091436",,,,"User:","root"
-"Cmdline:","dstat -cmstTy --fs --output dstat.log",,,,"Date:","06 Dec 2022 17:44:11 UTC"
+"Host:","cbf578f17162",,,,"User:","root"
+"Cmdline:","dstat -cmstTy --fs --output dstat.log",,,,"Date:","12 Dec 2022 16:48:55 UTC"
 "total cpu usage",,,,,"memory usage",,,,"swap",,"system","epoch","system",,"filesystem",
 "usr","sys","idl","wai","stl","used","free","buff","cach","used","free","time","epoch","int","csw","files","inodes"

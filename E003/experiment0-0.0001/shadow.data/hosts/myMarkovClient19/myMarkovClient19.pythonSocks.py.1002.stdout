@@ -1,36 +1,107 @@
-Hello world	Thread-16	9
+time: 946686600.0
+diff: 0.0
+going to web site
+Hello world	Thread-5	9
 
-Hello world	Thread-30	11
+time: 946686600.6587939
+diff: 119.34120607376099
+waiting
+going to web site
+Hello world	Thread-67	7
 
-Hello world	Thread-60	14
+time: 946686720.666575
+diff: 59.33342504501343
+waiting
+going to web site
+Hello world	Thread-136	5
 
-Hello world	Thread-77	11
+time: 946686787.668364
+diff: 112.33163595199585
+waiting
+going to web site
+Hello world	Thread-173	6
 
-Hello world	Thread-95	14
+time: 946686900.666751
+diff: 119.33324897289276
+waiting
+going to web site
+Hello world	Thread-243	5
 
-Hello world	Thread-118	13
+time: 946687020.658365
+diff: 60.34163498878479
+waiting
+going to web site
+Hello world	Thread-299	7
 
-Hello world	Thread-166	11
+time: 946687096.667364
+diff: 104.33263599872589
+waiting
+going to web site
+Hello world	Thread-339	5
 
-Hello world	Thread-187	14
+time: 946687201.656908
+diff: 119.34309196472168
+waiting
+going to web site
+Hello world	Thread-422	7
 
-Hello world	Thread-212	10
+time: 946687328.656908
+diff: 112.34309196472168
+waiting
+going to web site
+Hello world	Thread-468	7
 
-Hello world	Thread-238	13
+time: 946687441.646908
+diff: 59.35309195518494
+waiting
+going to web site
+Hello world	Thread-501	7
 
-Hello world	Thread-264	10
+time: 946687501.646908
+diff: 119.35309195518494
+waiting
+going to web site
+Hello world	Thread-567	4
 
-Hello world	Thread-290	11
+time: 946687621.646908
+diff: 60.35309195518494
+waiting
+going to web site
+Hello world	Thread-622	6
 
-Hello world	Thread-319	7
+time: 946687689.656908
+diff: 52.34309196472168
+waiting
+going to web site
+Hello world	Thread-638	3
 
-Hello world	Thread-347	6
+time: 946687742.646908
+diff: 59.35309195518494
+waiting
+going to web site
+Hello world	Thread-674	7
 
-Hello world	Thread-370	5
+time: 946687805.656908
+diff: 116.34309196472168
+waiting
+going to web site
+Hello world	Thread-734	6
 
-Hello world	Thread-392	4
+time: 946687922.646908
+diff: 119.35309195518494
+waiting
+going to web site
+Hello world	Thread-798	6
 
-Hello world	Thread-414	5
+time: 946688042.646908
+diff: 119.35309195518494
+waiting
+going to web site
+Hello world	Thread-864	5
 
-Hello world	Thread-437	6
+time: 946688162.646908
+diff: 120.35309195518494
+waiting
+going to web site
+Hello world	Thread-951	6
 

@@ -1,41 +1,28 @@
-# Tor state file last generated on 2000-01-01 00:35:33 local time
+# Tor state file last generated on 2000-01-01 00:51:04 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
-CircuitBuildTimeBin 365 1
-CircuitBuildTimeBin 375 1
-CircuitBuildTimeBin 385 1
-CircuitBuildTimeBin 395 2
-CircuitBuildTimeBin 405 5
-CircuitBuildTimeBin 425 2
-CircuitBuildTimeBin 435 3
-CircuitBuildTimeBin 445 2
-CircuitBuildTimeBin 455 3
-CircuitBuildTimeBin 465 3
-CircuitBuildTimeBin 475 6
-CircuitBuildTimeBin 485 2
-CircuitBuildTimeBin 495 1
+CircuitBuildTimeBin 345 2
+CircuitBuildTimeBin 355 2
+CircuitBuildTimeBin 365 12
+CircuitBuildTimeBin 375 17
+CircuitBuildTimeBin 385 11
+CircuitBuildTimeBin 395 9
+CircuitBuildTimeBin 405 1
+CircuitBuildTimeBin 425 1
+CircuitBuildTimeBin 435 2
+CircuitBuildTimeBin 445 11
+CircuitBuildTimeBin 455 9
+CircuitBuildTimeBin 465 7
+CircuitBuildTimeBin 475 9
+CircuitBuildTimeBin 485 1
+CircuitBuildTimeBin 495 3
+CircuitBuildTimeBin 505 5
+CircuitBuildTimeBin 515 6
 CircuitBuildTimeBin 525 1
 CircuitBuildTimeBin 535 1
-CircuitBuildTimeBin 585 4
-CircuitBuildTimeBin 595 7
-CircuitBuildTimeBin 605 1
-CircuitBuildTimeBin 615 4
-CircuitBuildTimeBin 625 9
-CircuitBuildTimeBin 635 5
-CircuitBuildTimeBin 645 6
-CircuitBuildTimeBin 655 6
-CircuitBuildTimeBin 665 6
-CircuitBuildTimeBin 675 6
-CircuitBuildTimeBin 685 5
-CircuitBuildTimeBin 695 1
-CircuitBuildTimeBin 705 2
-CircuitBuildTimeBin 715 2
-CircuitBuildTimeBin 725 1
-CircuitBuildTimeBin 735 2
 Dormant 0
-Guard in=default rsa_id=8C296FC789E2DF4B1DEE8BB688ADD2006B88858E nickname=relay1exitguard sampled_on=1999-12-30T17:34:23 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
-LastWritten 2000-01-01 00:35:33
-MinutesSinceUserActivity 2
+Guard in=default rsa_id=7BDEB72B2D09977F6FB93B748BD0D832D376BA91 nickname=relay1exitguard sampled_on=1999-12-30T17:34:23 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
+LastWritten 2000-01-01 00:51:04
 TorVersion Tor 0.4.8.0-alpha-dev (git-9e17af91a3d88ed8)
-TotalBuildTimes 101
+TotalBuildTimes 110

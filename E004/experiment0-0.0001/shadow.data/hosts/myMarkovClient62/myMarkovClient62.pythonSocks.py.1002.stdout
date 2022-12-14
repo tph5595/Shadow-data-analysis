@@ -1,0 +1,113 @@
+time: 946686600.0
+diff: 0.0
+going to web site
+Hello world	Thread-198	4
+
+time: 946686783.840484
+diff: -123.84048402309418
+going to web site
+Hello world	Thread-204	4
+
+time: 946686784.42114
+diff: -64.42113995552063
+going to web site
+Hello world	Thread-209	4
+
+time: 946686785.001796
+diff: 55.99820399284363
+waiting
+going to web site
+Hello world	Thread-315	4
+
+time: 946686848.5856571
+diff: 112.41434288024902
+waiting
+going to web site
+Hello world	Thread-439	5
+
+time: 946686964.585656
+diff: 56.41434395313263
+waiting
+going to web site
+Hello world	Thread-503	5
+
+time: 946687024.580656
+diff: 116.41934394836426
+waiting
+going to web site
+Hello world	Thread-752	5
+
+time: 946687264.896656
+diff: -3.896656036376953
+going to web site
+Hello world	Thread-758	5
+
+time: 946687265.477312
+diff: 55.522688031196594
+waiting
+going to web site
+Hello world	Thread-946	7
+
+time: 946687442.929555
+diff: -1.929555058479309
+going to web site
+Hello world	Thread-952	9
+
+time: 946687443.519211
+diff: 58.48078894615173
+waiting
+going to web site
+Hello world	Thread-1139	4
+
+time: 946687622.939656
+diff: -60.939656019210815
+going to web site
+Hello world	Thread-1144	7
+
+time: 946687623.525312
+diff: 58.4746880531311
+waiting
+going to web site
+Hello world	Thread-1344	6
+
+time: 946687803.96244
+diff: -1.962440013885498
+going to web site
+Hello world	Thread-1352	4
+
+time: 946687804.5430961
+diff: 57.45690393447876
+waiting
+going to web site
+Hello world	Thread-1451	4
+
+time: 946687877.590656
+diff: 44.409343957901
+waiting
+going to web site
+Hello world	Thread-1512	3
+
+time: 946687929.590656
+diff: 53.409343957901
+waiting
+going to web site
+Hello world	Thread-1563	5
+
+time: 946687984.580656
+diff: 118.41934394836426
+waiting
+going to web site
+Hello world	Thread-1720	2
+
+time: 946688110.590656
+diff: 112.409343957901
+waiting
+going to web site
+Hello world	Thread-1801	6
+
+time: 946688223.585656
+diff: 59.41434395313263
+waiting
+going to web site
+Hello world	Thread-1901	6
+

@@ -1,40 +1,29 @@
-# Tor state file last generated on 2000-01-01 00:35:33 local time
+# Tor state file last generated on 2000-01-01 00:53:04 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
-CircuitBuildTimeBin 375 2
-CircuitBuildTimeBin 395 1
-CircuitBuildTimeBin 405 4
-CircuitBuildTimeBin 415 4
-CircuitBuildTimeBin 425 4
-CircuitBuildTimeBin 445 1
-CircuitBuildTimeBin 455 4
-CircuitBuildTimeBin 465 2
+CircuitBuildTimeBin 345 3
+CircuitBuildTimeBin 355 6
+CircuitBuildTimeBin 365 19
+CircuitBuildTimeBin 375 13
+CircuitBuildTimeBin 385 10
+CircuitBuildTimeBin 395 2
+CircuitBuildTimeBin 405 1
+CircuitBuildTimeBin 425 1
+CircuitBuildTimeBin 435 3
+CircuitBuildTimeBin 445 9
+CircuitBuildTimeBin 455 12
+CircuitBuildTimeBin 465 7
 CircuitBuildTimeBin 475 4
 CircuitBuildTimeBin 485 2
-CircuitBuildTimeBin 495 3
-CircuitBuildTimeBin 515 2
-CircuitBuildTimeBin 525 2
-CircuitBuildTimeBin 565 1
-CircuitBuildTimeBin 575 1
-CircuitBuildTimeBin 585 6
-CircuitBuildTimeBin 595 5
-CircuitBuildTimeBin 605 4
-CircuitBuildTimeBin 615 6
-CircuitBuildTimeBin 625 6
-CircuitBuildTimeBin 635 10
-CircuitBuildTimeBin 645 3
-CircuitBuildTimeBin 655 4
-CircuitBuildTimeBin 665 5
-CircuitBuildTimeBin 675 6
-CircuitBuildTimeBin 685 3
-CircuitBuildTimeBin 695 2
-CircuitBuildTimeBin 705 1
-CircuitBuildTimeBin 725 2
-CircuitBuildTimeBin 735 1
+CircuitBuildTimeBin 495 2
+CircuitBuildTimeBin 505 2
+CircuitBuildTimeBin 515 8
+CircuitBuildTimeBin 525 3
+CircuitBuildTimeBin 535 2
+CircuitBuildTimeBin 545 1
 Dormant 0
-Guard in=default rsa_id=8C296FC789E2DF4B1DEE8BB688ADD2006B88858E nickname=relay1exitguard sampled_on=1999-12-20T22:59:41 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
-LastWritten 2000-01-01 00:35:33
-MinutesSinceUserActivity 5
+Guard in=default rsa_id=7BDEB72B2D09977F6FB93B748BD0D832D376BA91 nickname=relay1exitguard sampled_on=1999-12-20T22:59:41 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
+LastWritten 2000-01-01 00:53:04
 TorVersion Tor 0.4.8.0-alpha-dev (git-9e17af91a3d88ed8)
-TotalBuildTimes 101
+TotalBuildTimes 110

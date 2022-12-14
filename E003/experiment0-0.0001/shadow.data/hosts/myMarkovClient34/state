@@ -1,27 +1,33 @@
-# Tor state file last generated on 2000-01-01 00:35:03 local time
+# Tor state file last generated on 2000-01-01 00:35:04 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
-CircuitBuildTimeBin 555 3
-CircuitBuildTimeBin 565 4
-CircuitBuildTimeBin 575 9
-CircuitBuildTimeBin 585 7
-CircuitBuildTimeBin 595 3
-CircuitBuildTimeBin 605 10
-CircuitBuildTimeBin 615 7
-CircuitBuildTimeBin 625 1
-CircuitBuildTimeBin 635 1
-CircuitBuildTimeBin 675 2
-CircuitBuildTimeBin 765 21
-CircuitBuildTimeBin 775 12
-CircuitBuildTimeBin 785 11
-CircuitBuildTimeBin 795 4
-CircuitBuildTimeBin 805 3
-CircuitBuildTimeBin 845 1
-CircuitBuildTimeBin 855 1
+CircuitBuildTimeBin 365 1
+CircuitBuildTimeBin 375 2
+CircuitBuildTimeBin 385 6
+CircuitBuildTimeBin 395 2
+CircuitBuildTimeBin 405 8
+CircuitBuildTimeBin 415 3
+CircuitBuildTimeBin 425 10
+CircuitBuildTimeBin 435 7
+CircuitBuildTimeBin 445 15
+CircuitBuildTimeBin 455 10
+CircuitBuildTimeBin 465 6
+CircuitBuildTimeBin 475 3
+CircuitBuildTimeBin 485 3
+CircuitBuildTimeBin 495 2
+CircuitBuildTimeBin 505 3
+CircuitBuildTimeBin 515 1
+CircuitBuildTimeBin 535 3
+CircuitBuildTimeBin 545 1
+CircuitBuildTimeBin 555 2
+CircuitBuildTimeBin 565 1
+CircuitBuildTimeBin 575 3
+CircuitBuildTimeBin 755 5
+CircuitBuildTimeBin 765 2
+CircuitBuildTimeBin 785 1
 Dormant 0
-Guard in=default rsa_id=4BA341A1487C59A833C1D40102902D0B3D1A5959 nickname=relay1exitguard sampled_on=1999-12-30T17:34:23 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
-LastWritten 2000-01-01 00:35:03
-MinutesSinceUserActivity 4
+Guard in=default rsa_id=A17F05ADFA9E2E0A1EE8182B1ABF4D7BFF7928B0 nickname=relay1exitguard sampled_on=1999-12-30T17:34:23 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1
+LastWritten 2000-01-01 00:35:04
 TorVersion Tor 0.4.8.0-alpha-dev (git-9e17af91a3d88ed8)
 TotalBuildTimes 100

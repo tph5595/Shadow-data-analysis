@@ -1,0 +1,19 @@
+2022-12-12 17:34:07 1670866447.850130 [tornettools] [INFO] Logging system initialized! Logging events to stdout and to '/tordata/tornettools/experiment0-0.0001/tornettools.parse.2022-12-12.17.34.07.log'
+2022-12-12 17:34:07 1670866447.850475 [tornettools] [INFO] Seeded standard and numpy PRNGs with seed=1224705015
+2022-12-12 17:34:07 1670866447.850529 [tornettools] [INFO] The argument namespace is: Namespace(command='parse', converge_time=1200, do_version=False, formatter_class=<class '__main__.CustomHelpFormatter'>, func=<function parse at 0x7fae164140e0>, nprocesses=12, prefix='/tordata/tornettools/experiment0-0.0001', quiet=0, run_time=-1, seed=1224705015, skip_raw=False, tornet_config_path='/tordata/tornettools/experiment0-0.0001')
+2022-12-12 17:34:07 1670866447.850839 [tornettools] [INFO] The platform is: Linux-6.0.6-76060006-generic-x86_64-with-Ubuntu-20.04-focal
+2022-12-12 17:34:07 1670866447.850890 [tornettools] [INFO] System info: uname_result(system='Linux', node='d398342f540a', release='6.0.6-76060006-generic', version='#202210290932~1669062050~22.04~d94609a SMP PREEMPT_DYNAMIC Mon N', machine='x86_64', processor='x86_64')
+2022-12-12 17:34:07 1670866447.859551 [tornettools] [INFO] Parsing simulation output from /tordata/tornettools/experiment0-0.0001
+2022-12-12 17:34:07 1670866447.859596 [tornettools] [INFO] Parsing tgen logs.
+2022-12-12 17:34:07 1670866447.859730 [tornettools] [WARNING] Cannot find tgentools in your PATH. Is your python venv active? Do you have tgentools installed?
+2022-12-12 17:34:07 1670866447.859765 [tornettools] [WARNING] Unable to parse tgen simulation data.
+2022-12-12 17:34:07 1670866447.859803 [tornettools] [WARNING] Parsing tgen logs failed, so we cannot extract tgen plot data.
+2022-12-12 17:34:07 1670866447.859848 [tornettools] [INFO] Parsing oniontrace logs.
+2022-12-12 17:34:07 1670866447.860013 [tornettools] [WARNING] Cannot find oniontracetools in your PATH. Is your python venv active? Do you have oniontracetools installed?
+2022-12-12 17:34:07 1670866447.860068 [tornettools] [WARNING] Unable to parse oniontrace simulation data.
+2022-12-12 17:34:07 1670866447.860114 [tornettools] [WARNING] Parsing oniontrace logs failed, so we cannot extract oniontrace plot data.
+2022-12-12 17:34:07 1670866447.860161 [tornettools] [INFO] Parsing resource usage logs.
+2022-12-12 17:34:07 1670866447.860228 [tornettools] [INFO] Parsing resource usage from free log
+2022-12-12 17:34:07 1670866447.867791 [tornettools] [INFO] Parsing resource usage from shadow log
+2022-12-12 17:34:08 1670866448.097293 [tornettools] [INFO] Extracting resource usage plot data.
+2022-12-12 17:34:08 1670866448.115831 [tornettools] [INFO] Done parsing!
