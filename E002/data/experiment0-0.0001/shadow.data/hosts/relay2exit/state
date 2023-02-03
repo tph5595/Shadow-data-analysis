@@ -1,20 +1,19 @@
-# Tor state file last generated on 2000-01-01 00:58:16 local time
+# Tor state file last generated on 2000-01-01 00:58:00 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
-CircuitBuildTimeBin 565 3
-CircuitBuildTimeBin 595 1
-CircuitBuildTimeBin 615 2
-CircuitBuildTimeBin 655 3
-CircuitBuildTimeBin 705 1
+CircuitBuildTimeBin 125 2
+CircuitBuildTimeBin 215 2
+CircuitBuildTimeBin 225 2
+CircuitBuildTimeBin 245 4
 BWHistoryDirReadEnds 2000-01-02 00:00:03
 BWHistoryDirReadInterval 86400
 BWHistoryDirReadMaxima 0
-BWHistoryDirReadValues 7168
+BWHistoryDirReadValues 5120
 BWHistoryDirWriteEnds 2000-01-02 00:00:03
 BWHistoryDirWriteInterval 86400
-BWHistoryDirWriteMaxima 1024
-BWHistoryDirWriteValues 37888
+BWHistoryDirWriteMaxima 0
+BWHistoryDirWriteValues 26624
 BWHistoryIPv6ReadEnds 2000-01-02 00:00:03
 BWHistoryIPv6ReadInterval 86400
 BWHistoryIPv6ReadMaxima 0
@@ -26,15 +25,15 @@ BWHistoryIPv6WriteValues 0
 BWHistoryReadEnds 2000-01-02 00:00:03
 BWHistoryReadInterval 86400
 BWHistoryReadMaxima 52224
-BWHistoryReadValues 1754112
+BWHistoryReadValues 2116608
 BWHistoryWriteEnds 2000-01-02 00:00:03
 BWHistoryWriteInterval 86400
-BWHistoryWriteMaxima 52224
-BWHistoryWriteValues 1789952
+BWHistoryWriteMaxima 53248
+BWHistoryWriteValues 2156544
 Dormant 0
-Guard in=default rsa_id=587927E1E08A36BD809548A9A5E629C6612A63D3 nickname=relay1exitguard sampled_on=1999-12-25T19:42:21 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1 confirmed_on=1999-12-31T12:21:04 confirmed_idx=0 pb_circ_attempts=13.000000 pb_circ_successes=6.000000 pb_successful_circuits_closed=6.000000
+Guard in=default rsa_id=A8624AFD4269E91C6CABC3103DCB9AA4A2300198 nickname=relay1exitguard sampled_on=1999-12-22T05:33:59 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1 confirmed_on=1999-12-21T22:23:37 confirmed_idx=0 pb_circ_attempts=8.000000 pb_circ_successes=6.000000 pb_successful_circuits_closed=6.000000
 LastRotatedOnionKey 2000-01-01 00:00:03
-LastWritten 2000-01-01 00:58:16
-MinutesSinceUserActivity 3
-TorVersion Tor 0.4.8.0-alpha-dev (git-9e17af91a3d88ed8)
+LastWritten 2000-01-01 00:58:00
+MinutesSinceUserActivity 2
+TorVersion Tor 0.4.8.0-alpha-dev (git-a4d61c84e37a979b)
 TotalBuildTimes 10

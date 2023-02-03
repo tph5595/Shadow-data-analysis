@@ -1,13 +1,13 @@
-# Tor state file last generated on 2000-01-01 00:59:34 local time
+# Tor state file last generated on 2000-01-01 00:57:59 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
-CircuitBuildTimeBin 425 1
-CircuitBuildTimeBin 435 4
-CircuitBuildTimeBin 455 1
-CircuitBuildTimeBin 515 2
-CircuitBuildTimeBin 825 1
-CircuitBuildTimeBin 1485 1
+CircuitBuildTimeBin 245 1
+CircuitBuildTimeBin 255 2
+CircuitBuildTimeBin 275 3
+CircuitBuildTimeBin 335 2
+CircuitBuildTimeBin 355 1
+CircuitBuildTimeBin 395 1
 BWHistoryDirReadEnds 2000-01-02 00:00:03
 BWHistoryDirReadInterval 86400
 BWHistoryDirReadMaxima 0
@@ -15,7 +15,7 @@ BWHistoryDirReadValues 0
 BWHistoryDirWriteEnds 2000-01-02 00:00:03
 BWHistoryDirWriteInterval 86400
 BWHistoryDirWriteMaxima 0
-BWHistoryDirWriteValues 1024
+BWHistoryDirWriteValues 3072
 BWHistoryIPv6ReadEnds 2000-01-02 00:00:03
 BWHistoryIPv6ReadInterval 86400
 BWHistoryIPv6ReadMaxima 0
@@ -27,15 +27,15 @@ BWHistoryIPv6WriteValues 0
 BWHistoryReadEnds 2000-01-02 00:00:03
 BWHistoryReadInterval 86400
 BWHistoryReadMaxima 53248
-BWHistoryReadValues 1787904
+BWHistoryReadValues 1406976
 BWHistoryWriteEnds 2000-01-02 00:00:03
 BWHistoryWriteInterval 86400
 BWHistoryWriteMaxima 53248
-BWHistoryWriteValues 1782784
+BWHistoryWriteValues 1411072
 Dormant 0
-Guard in=default rsa_id=3C327AF2AEE72773FCD4F71BB60649B76C9A6A67 nickname=relay1exitguard sampled_on=1999-12-31T13:12:09 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1 confirmed_on=1999-12-30T21:31:56 confirmed_idx=0 pb_circ_attempts=58.000000 pb_circ_successes=6.000000 pb_successful_circuits_closed=6.000000
+Guard in=default rsa_id=F33BD9EA0CC3297C8E3A43E2736B6AFF5D6B2821 nickname=relay1exitguard sampled_on=1999-12-25T17:18:46 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1 confirmed_on=1999-12-24T21:38:47 confirmed_idx=0 pb_circ_attempts=8.000000 pb_circ_successes=6.000000 pb_successful_circuits_closed=6.000000
 LastRotatedOnionKey 2000-01-01 00:00:03
-LastWritten 2000-01-01 00:59:34
-MinutesSinceUserActivity 4
-TorVersion Tor 0.4.8.0-alpha-dev (git-9e17af91a3d88ed8)
+LastWritten 2000-01-01 00:57:59
+MinutesSinceUserActivity 2
+TorVersion Tor 0.4.8.0-alpha-dev (git-a4d61c84e37a979b)
 TotalBuildTimes 10
