@@ -1,2 +1,3 @@
 *.rpls.csv
-*.csv
+**/data/csv/*.csv
+**/data/argus/csv/*.csv
