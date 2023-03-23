@@ -15,7 +15,7 @@ for f in $(find data -type f -name "*.pcap"); do
         -e dtls.handshake.certificate_length -e dtls.handshake.certificates_length -e dtls.handshake.cipher_suites_length -e dtls.handshake.comp_methods_length -e dtls.handshake.exponent_len \
         -e dtls.handshake.extension.len -e dtls.handshake.extensions_alpn_str -e dtls.handshake.extensions_alpn_str_len -e dtls.handshake.extensions_key_share_client_length \
         -e http.request -e udp.port -e frame.time_relative -e frame.time_delta -e tcp.time_relative -e tcp.time_delta \
-        -e tcp.payload \
+        -e tcp.payload -e dns.qry.name\
         -E header=y -E separator=, -E quote=d \
         -E occurrence=f> ./"${base%.pcap}.csv"
 done
