@@ -1,0 +1,93 @@
+network-status-version 3
+vote-status consensus
+consensus-method 33
+valid-after 2000-01-01 00:55:00
+fresh-until 2000-01-01 01:00:00
+valid-until 2000-01-01 01:10:00
+voting-delay 20 20
+client-versions 
+server-versions 
+known-flags Authority Exit Fast Guard HSDir NoEdConsensus Running Stable StaleDesc Sybil V2Dir Valid
+recommended-client-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2 Link=4-5 Microdesc=2 Relay=2
+recommended-relay-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2 Link=4-5 LinkAuth=3 Microdesc=2 Relay=2
+required-client-protocols Cons=2 Desc=2 Link=4 Microdesc=2 Relay=2
+required-relay-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2 Link=4-5 LinkAuth=3 Microdesc=2 Relay=2
+dir-source 4uthority2 452FD59A7F8B0806FFE049275DDCB67C200770E8 100.0.0.2 100.0.0.2 8080 9001
+contact https://github.com/shadow/shadow-plugin-tor/issues
+vote-digest C9BFBCCB3851B4663955BD0283C50D3FC0390B50
+dir-source 4uthority3 62FAE29043F8DF0A5F2C87FFB567A828DD585D83 100.0.0.3 100.0.0.3 8080 9001
+contact https://github.com/shadow/shadow-plugin-tor/issues
+vote-digest 05A67E3FBC3AF4D738F806CBA7196C6B55F13048
+dir-source 4uthority1 FDCE669087DDD484E0D2B5F4AD7192DE84945411 100.0.0.1 100.0.0.1 8080 9001
+contact https://github.com/shadow/shadow-plugin-tor/issues
+vote-digest B35C899DE66AC50560BDD07A3DEF832EDB4A018A
+r relay4middle BpQLQ2tNEI/NanAWDxAfLk7xBNE uNS/AtWvD6+Je/Vq9xvfX0eyLSQ 2000-01-01 00:05:32 86.239.253.189 9001 0
+s Fast Running V2Dir Valid
+v Tor 0.4.8.0-alpha-dev
+pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1
+p reject 1-65535
+r relay2exit IaDVjXAbQ0Fu0poAf3RloDB2LRU 9N/twR1dwo51QxIEMfr5TFuNcJQ 2000-01-01 00:04:31 178.165.72.177 9001 0
+s Exit Fast Running V2Dir Valid
+v Tor 0.4.8.0-alpha-dev
+pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=7
+p accept 1-65535
+r 4uthority1 cvYxBoNsyvF7av+xOJNIvJXNfzk 6mZuYkq4DsFNcfN0+iHyc6D1zL4 2000-01-01 00:03:32 100.0.0.1 9001 8080
+s Authority Fast HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.0-alpha-dev
+pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=20 Unmeasured=1
+p reject 1-65535
+r relay3guard frkig7//MEcJc4xz3quWaNje89g +9IuG74uFoIeLRmgjZhzmkkhgE0 2000-01-01 00:03:31 80.100.69.97 9001 0
+s Fast Guard Running V2Dir Valid
+v Tor 0.4.8.0-alpha-dev
+pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=17
+p reject 1-65535
+r relay1exitguard jGcR5PWap1qVXeslmJYWe4J3K2Y wIGVrUAPVz3BkGB4hH7KhnuQT7M 2000-01-01 00:04:31 104.244.76.39 9001 0
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.0-alpha-dev
+pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=29
+p accept 1-65535
+r 4uthority2 xzOQduCJ5fMVdH/g7WPMbzVxcJw IMqO78NyEO+6StK6PmpBSqMf6jI 2000-01-01 00:03:33 100.0.0.2 9001 8080
+s Authority Fast HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.0-alpha-dev
+pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=20 Unmeasured=1
+p reject 1-65535
+r 4uthority3 2vRI2UkMPs3gpNecQT55Mo+KJ64 apkYRoJUXEMgdJsDQAK0DF/9RN0 2000-01-01 00:03:32 100.0.0.3 9001 8080
+s Authority Fast HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.0-alpha-dev
+pr Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=20 Unmeasured=1
+p reject 1-65535
+directory-footer
+directory-signature 452FD59A7F8B0806FFE049275DDCB67C200770E8 C8BB0CC1D95764557EB4E5EB299432417866D08A
+-----BEGIN SIGNATURE-----
+c8LIWv/lq1e+RnCLgeSPthdKZeDwLas+UUiFaiERU9Z2NWMx2hMSSc8xEyCxuSoz
+hoeHWpXFzrTMb7ZilUwPsep+nNHsoeZHndcTbLGq53tJG+8TZSOwyRuoxNUGgwrG
+egCFOqWsjMfD911cd/4ERfyY1ckziqk5kE4p97bweuNPv9ja3y3wVEw/6AJCUB5w
+W25O3XUrOkzx0DCRHIXTHlb+9YGL8kVluKtqcWFD7DDGK7y81V+t++mWddOLSCvZ
+1taE1droO+tma4RqBJUFgvezlz74MyWpt0vSxNafKVmB1rvaoQHuH+GsPHw4GdHl
+xZmrLTK1IKApxHB+A4Nu9A==
+-----END SIGNATURE-----
+directory-signature 62FAE29043F8DF0A5F2C87FFB567A828DD585D83 4834FB600D800E48F0E4724FEACB437BF487F5FB
+-----BEGIN SIGNATURE-----
+UB98QenZB/oWi+d+YnHEM7Uq4LdYICS12ymHMnT926QV4uWZ9kOGhkJmHsv1UP/l
+OS3eRAfVjRoDAyTO3x8U0nEsTVPPKDUL2rPuD5Kw3sLHa5SUGwDIuAnbdDPXjt9g
+nTLbxyAldW2WOq+q+YbzQSm9q7ekf49OueRY5NBwFEn1g8vzVbkaZsoWtzWxBZsW
+HgdpZakk43Me6vtz8mXQN//rF+o+l3fJYvUwDGmux4WRIospfBmO8EnSuWE5g4y5
+mq0M9oVac/iy/uCnDqKIf98WWEAt/kPeak5ljJlG3roDxAIlwAuOizVhphNDUKTQ
+19fyCtMDl1ldLP2LRUAc6g==
+-----END SIGNATURE-----
+directory-signature FDCE669087DDD484E0D2B5F4AD7192DE84945411 E3A13F58A9DEDA44236D026E7B06BD57CF412E08
+-----BEGIN SIGNATURE-----
+RX/U48Ezpd0LqEIYEZWJkD7ew0Wt2dUkzjbGgTIsN4CsIDNE+wYrDu8SJxhhR5G/
+0HAxmyDTW9dh/nVFpRtiJzWcYOz1NPEYU8eEsYlSIPydP44cjkhjBC7tJ8BGVVu3
+vpeHC3fs0TwDjTpMWfLYiTQCOc6U96caEICu6rb7wmN8DoPFv8NlgazF4xwORPkf
+EhuZAXntNOeWEbVaW2xXu0D2afuf4NklU7DgHKG6CVfjvbemv4GPvugOWHQc/ODy
+22FcdQp40P8P0lYuIXM/sn04CiBxK2qwGzZAki0wSUa2z5NP1/v8x2yGJSZkjbtk
+/6TylkI9Mha6M4u/xlMUVg==
+-----END SIGNATURE-----
