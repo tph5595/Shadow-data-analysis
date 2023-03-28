@@ -1,0 +1,16 @@
+timestamp,source_ip,destination_ip,domain,resource
+1678981250,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981251,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981251,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981252,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981252,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981253,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981272,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981276,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981277,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981277,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981279,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981280,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981282,192.168.100.15,172.30.0.100,example.dne,/resource2.html
+1678981310,192.168.100.15,172.30.0.101,sonnenbatterie.de,/
+1678981401,192.168.100.15,172.30.0.101,mparticle.com,/
