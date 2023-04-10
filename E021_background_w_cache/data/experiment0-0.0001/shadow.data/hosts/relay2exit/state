@@ -1,0 +1,41 @@
+# Tor state file last generated on 2000-01-01 01:52:41 local time
+# Other times below are in UTC
+# You *do not* need to edit this file.
+
+CircuitBuildTimeBin 385 16
+CircuitBuildTimeBin 415 17
+CircuitBuildTimeBin 425 17
+CircuitBuildTimeBin 485 1
+CircuitBuildTimeBin 495 2
+CircuitBuildTimeBin 525 2
+BWHistoryDirReadEnds 2000-01-02 00:00:03
+BWHistoryDirReadInterval 86400
+BWHistoryDirReadMaxima 0
+BWHistoryDirReadValues 22528
+BWHistoryDirWriteEnds 2000-01-02 00:00:03
+BWHistoryDirWriteInterval 86400
+BWHistoryDirWriteMaxima 2048
+BWHistoryDirWriteValues 117760
+BWHistoryIPv6ReadEnds 2000-01-02 00:00:03
+BWHistoryIPv6ReadInterval 86400
+BWHistoryIPv6ReadMaxima 0
+BWHistoryIPv6ReadValues 0
+BWHistoryIPv6WriteEnds 2000-01-02 00:00:03
+BWHistoryIPv6WriteInterval 86400
+BWHistoryIPv6WriteMaxima 0
+BWHistoryIPv6WriteValues 0
+BWHistoryReadEnds 2000-01-02 00:00:03
+BWHistoryReadInterval 86400
+BWHistoryReadMaxima 53248
+BWHistoryReadValues 2873344
+BWHistoryWriteEnds 2000-01-02 00:00:03
+BWHistoryWriteInterval 86400
+BWHistoryWriteMaxima 54272
+BWHistoryWriteValues 3343360
+Dormant 0
+Guard in=default rsa_id=5692C8270726D01E3AE17A43FB9D9FC06B81C903 nickname=relay1exitguard sampled_on=1999-12-28T01:20:48 sampled_idx=0 sampled_by=0.4.8.0-alpha-dev listed=1 confirmed_on=1999-12-20T23:37:40 confirmed_idx=0 pb_circ_attempts=100.000000 pb_circ_successes=51.000000 pb_successful_circuits_closed=51.000000
+LastRotatedOnionKey 2000-01-01 00:00:03
+LastWritten 2000-01-01 01:52:41
+MinutesSinceUserActivity 2
+TorVersion Tor 0.4.8.0-alpha-dev (git-447775a5e0b2178b)
+TotalBuildTimes 55
