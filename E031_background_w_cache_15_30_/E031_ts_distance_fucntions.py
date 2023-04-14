@@ -735,11 +735,16 @@ def iterate_features(df, n, filename):
     features = df[next(iter(df))].columns
     subsets = findsubsets(features, n)
     results = []
-    for subset in tqdm(subsets):
-        results.append(evaluate_subset(df, subset))
-        print(subset)
+    print("adding to queue")
+    with mp.Pool() as pool:
+        results = []
+        for subset in tqdm(subsets):
+            results.append(pool.apply_async(evaluate_subset, args=(df, subset)))
+        pool.close()
+        pool.join()
+    print("completed")
     with open(filename, 'a') as f:
-        for result in results:
+        for result in tqdm(results, total=len(subsets)):
             score, subset = result.get()
             f.write(str(score) + "\t" + str(subset) + "\n")
 
