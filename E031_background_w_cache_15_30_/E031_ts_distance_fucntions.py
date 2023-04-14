@@ -720,6 +720,7 @@ import itertools
 from tqdm import tqdm
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
+import os
 
 
 def findsubsets(s, n):
@@ -735,7 +736,9 @@ def iterate_features(df, n, filename):
     features = df[next(iter(df))].columns
     subsets = findsubsets(features, n)
     results = []
-    with mp.Pool() as pool:
+    num_cpus = os.cpu_count() * 2
+    print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
+    with mp.Pool(processes=num_cpus) as pool:
         results = []
         for subset in subsets:
             results.append(pool.apply_async(evaluate_subset, args=(df, subset)))
