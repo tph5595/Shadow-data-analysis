@@ -735,25 +735,21 @@ def iterate_features(df, n, filename):
     features = df[next(iter(df))].columns
     subsets = findsubsets(features, n)
     results = []
-    print("adding to queue")
     with mp.Pool() as pool:
         results = []
-        for subset in tqdm(subsets):
+        for subset in subsets:
             results.append(pool.apply_async(evaluate_subset, args=(df, subset)))
-        pool.close()
-        pool.join()
-    print("completed")
-    with open(filename, 'a') as f:
-        for result in tqdm(results, total=len(subsets)):
-            score, subset = result.get()
-            f.write(str(score) + "\t" + str(subset) + "\n")
+        with open(filename, 'a') as f:
+            for result in tqdm(results, total=len(subsets)):
+                score, subset = result.get()
+                f.write(str(score) + "\t" + str(subset) + "\n")
 
 
 flows_ts_ip_total_str_int = {}
 for ip in flows_ts_ip_total:
     flows_ts_ip_total_str_int[ip] = cast_columns(flows_ts_ip_total[ip])
 
-for n in range(2, 4):
+for n in range(1, 4):
     best_features = iterate_features(flows_ts_ip_total_str_int, n,
                                      "dtws_dns_all_" + str(n) +
                                      "_" + str(datetime.now()) + ".output")
