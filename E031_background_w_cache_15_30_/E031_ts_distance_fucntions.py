@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[137]:
 
 
-get_ipython().system(' pip install pandas matplotlib')
+# get_ipython().system(' pip install pandas matplotlib')
 # Knapsack NP complete could work
 # or check for candidate DNSers that would be apart of the resource access and with enough resource access and DNS 
 # could probably determine\
@@ -14,7 +14,7 @@ get_ipython().system(' pip install pandas matplotlib')
 # input and output with TDA to filter down candidates)
 
 
-# In[2]:
+# In[138]:
 
 
 # give shadow files old names
@@ -38,28 +38,28 @@ get_ipython().system(' pip install pandas matplotlib')
 #             shutil.move(root+"/"+file, sup+"/"+newname+"-"+file)
 
 
-# In[3]:
+# In[139]:
 
 
 # Get argus flows from PCAPs
 #!../util/process_data_argus.sh
 
 
-# In[4]:
+# In[140]:
 
 
 # PCAP to CSV
 #!../util/pcap_to_csv.sh
 
 
-# In[5]:
+# In[141]:
 
 
 # PCAPNG to CSV
 #!../util/pcapng_to_csv.sh
 
 
-# In[6]:
+# In[142]:
 
 
 from os import listdir
@@ -69,7 +69,7 @@ def getFilenames(path):
     return [path+f for f in listdir(path) if isfile(join(path, f))]
 
 
-# In[7]:
+# In[143]:
 
 
 # Get argus data
@@ -82,32 +82,32 @@ pcapCSVs = getFilenames(pcappath)
 data = argusCSVs + pcapCSVs
 
 
-# In[8]:
+# In[144]:
 
 
 import pandas as pd
 
 
-# In[9]:
+# In[145]:
 
 
 df = pd.read_csv (pcapCSVs[0])
 df
 
 
-# In[10]:
+# In[146]:
 
 
 len(data)
 
 
-# In[11]:
+# In[147]:
 
 
 len(argusCSVs)
 
 
-# In[12]:
+# In[148]:
 
 
 class PrivacyScope:
@@ -196,7 +196,7 @@ class PrivacyScope:
         return matches
 
 
-# In[13]:
+# In[149]:
 
 
 # Basic Scopes
@@ -253,7 +253,7 @@ r = re.compile(".*resolver.*")
 resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
 
-# In[14]:
+# In[150]:
 
 
 from datetime import datetime
@@ -270,7 +270,7 @@ def df_to_ts(df):
     return tmp.reset_index()
 
 
-# In[15]:
+# In[151]:
 
 
 # get start time for GNS3
@@ -281,13 +281,13 @@ Shadow_offset = GNS3_starttime - Shadow_starttime
 Shadow_offset
 
 
-# In[16]:
+# In[ ]:
 
 
 #dns_df = Access_to_auth_zone.pcap_df()
 
 
-# In[17]:
+# In[ ]:
 
 
 window = pd.Timedelta("300 seconds") # cache size but maybe smaller 
@@ -311,7 +311,7 @@ def solo_pipeline(df_list):
     return solo
 
 
-# In[18]:
+# In[ ]:
 
 
 def combineScopes(dfs):
@@ -330,7 +330,7 @@ def scopeToTS(df):
     return df_to_ts(df.copy()).set_index('frame.time')
 
 
-# In[19]:
+# In[ ]:
 
 
 def scope_label(df, scope_name):
@@ -340,7 +340,7 @@ def scope_label(df, scope_name):
     return df
 
 
-# In[20]:
+# In[ ]:
 
 
 # Setup filters for different scopes
@@ -368,7 +368,7 @@ tld.ip_search_enabled = True
 tld.cache_search_enabled = True
 
 
-# In[21]:
+# In[ ]:
 
 
 # Cluster DNS
@@ -442,32 +442,32 @@ for ip in IPs:
         flows_ts_ip_total[ip].fillna(0, inplace=True)
 
 
-# In[22]:
+# In[ ]:
 
 
 flows_ip[ip]['dns.qry.name'].unique()
 
 
-# In[23]:
+# In[ ]:
 
 
 flows_ip[ip]
 
 
-# In[24]:
+# In[ ]:
 
 
 flows_ts_ip_total[ip]
 
 
-# In[25]:
+# In[ ]:
 
 
 # extract scope order
 flows_ip[ip]["scope_name"].cat.codes
 
 
-# In[26]:
+# In[ ]:
 
 
 ## Viz
@@ -482,10 +482,10 @@ plt.style.use('default')
   
 # %matplotlib inline: only draw static
 # images in the notebook
-get_ipython().run_line_magic('matplotlib', 'inline')
+# get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-# In[27]:
+# In[ ]:
 
 
 # code
@@ -510,14 +510,14 @@ plt.ylabel('Requests (seconds)')
 plt.legend()
 
 
-# In[28]:
+# In[ ]:
 
 
-get_ipython().system('pip install scikit-learn')
+# get_ipython().system('pip install scikit-learn')
 import numpy as np
 
 
-# In[29]:
+# In[ ]:
 
 
 import math
@@ -531,13 +531,13 @@ def get_real_label(dic):
     return result
 
 
-# In[30]:
+# In[ ]:
 
 
 answers = get_real_label(flows_ts_ip_total)
 
 
-# In[122]:
+# In[ ]:
 
 
 from sklearn import metrics
@@ -593,7 +593,7 @@ def gpt_cluster_metrics(true_labels, found_labels):
     print(f"V-measure: {v_measure:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
 
 
-# In[132]:
+# In[ ]:
 
 
 #!pip install fastdtw
@@ -601,6 +601,8 @@ from fastdtw import fastdtw
 def my_dist(ts1, ts2):
     distance, path = fastdtw(ts1, ts2)
     return distance
+
+
 
 from scipy.spatial.distance import pdist
 def calc_dist_matrix(samples, my_dist):
@@ -616,17 +618,73 @@ def calc_dist_matrix(samples, my_dist):
             dist_mat[j, i] = d
     return squareform(dist_mat)
 
+
+def cast_col(col: pd.Series) -> pd.Series:
+    if col.dtype == 'object':
+        if all([is_float(x) for x in col]):
+            return col.astype(float)
+        elif all([is_int(x) for x in col]):
+            return col.astype(int)
+        elif all([is_date(x) for x in col]):
+            return pd.Series(pd.to_datetime(col)).astype(int)
+        else:
+            return col.astype(str)
+    elif np.issubdtype(col.dtype, np.datetime64):
+        return pd.Series(col.astype(np.int64))
+    else:
+        return col
+
+
+def is_float(s: str) -> bool:
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+
+def is_int(s: str) -> bool:
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+
+def is_date(s: str) -> bool:
+    try:
+        pd.to_datetime(s)
+        return True
+    except ValueError:
+        return False
+
+
+def cast_columns(df):
+    for col in df.columns:
+        df[col] = cast_col(df[col])
+    return df
+ #    for col in df.columns:
+  #       if df[col].dtype != float:
+   #          try:
+    #             df[col] = df[col].astype(float)
+     #        except ValueError:
+      #           df[col] = df[col].astype(str)
+       #      except TypeError:
+        #         df[col] = df[col].astype(str)
+    #return df
+
 from scipy.cluster.hierarchy import dendrogram, linkage
 from scipy.cluster.hierarchy import fcluster
 from sklearn.metrics import silhouette_score
 from scipy.spatial.distance import squareform
 
+
 def cluster(samples, max_clust, display=False):
     dist_mat = calc_dist_matrix(samples, my_dist)
-    
+
     # Perform hierarchical clustering using the computed distances
     Z = linkage(dist_mat, method='single')
-    
+
     # Plot a dendrogram to visualize the clustering
     if display:
         dendrogram(Z)
@@ -637,8 +695,9 @@ def cluster(samples, max_clust, display=False):
 
     return labels
 
+
 def evaluate(df_dict, features, display=False):
-    data = {key: df.copy(deep=True) for key, df in df_dict.items()}
+    data = {key: df.loc[:, features] for key, df in df_dict.items()}
     for ip in data:
         data[ip] = data[ip][list(features)]
 #     print(answers)
@@ -646,44 +705,53 @@ def evaluate(df_dict, features, display=False):
     return purity_score(answers, cluster(data, max_clust, display))
 
 
-# In[135]:
+# In[ ]:
 
 
 purity = evaluate(flows_ts_ip_total, ['frame.time'], display=True)
 print("Average purity: " + str(purity))
 
 
-# In[134]:
+# In[ ]:
 
 
-# Find best features 
+# Find best features
 import itertools
 from tqdm import tqdm
-import warnings
-from concurrent.futures import ThreadPoolExecutor, as_completed
- 
+import multiprocessing as mp
+from concurrent.futures import ProcessPoolExecutor
+
+
 def findsubsets(s, n):
     return list(itertools.combinations(s, n))
+
 
 def evaluate_subset(df, subset):
     score = evaluate(df, subset)
     return score, subset
-            
+
+
 def iterate_features(df, n, filename):
     features = df[next(iter(df))].columns
     subsets = findsubsets(features, n)
-    with open(filename, 'a') as f, ThreadPoolExecutor() as executor:
-        futures = [executor.submit(evaluate_subset, df, subset) for subset in subsets]
-        for future in tqdm(as_completed(futures), total=len(futures)):
-            score, subset = future.result()
-            f.write(str(score)+"\t"+str(subset)+"\n")
+    results = []
+    for subset in tqdm(subsets):
+        results.append(evaluate_subset(df, subset))
+        print(subset)
+    with open(filename, 'a') as f:
+        for result in results:
+            score, subset = result.get()
+            f.write(str(score) + "\t" + str(subset) + "\n")
 
-for n in range(1,4):
-    best_features = iterate_features(flows_ts_ip_total, n, "dtws_dns_all_"+str(n)+ "_"+str(datetime.now()) + ".output")
+
+flows_ts_ip_total_str_int = {}
+for ip in flows_ts_ip_total:
+    flows_ts_ip_total_str_int[ip] = cast_columns(flows_ts_ip_total[ip])
+
+for n in range(2, 4):
+    best_features = iterate_features(flows_ts_ip_total_str_int, n,
+                                     "dtws_dns_all_" + str(n) +
+                                     "_" + str(datetime.now()) + ".output")
 
 
 # In[ ]:
-
-
-
-
