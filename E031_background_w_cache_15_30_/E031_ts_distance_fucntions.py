@@ -621,81 +621,19 @@ def rip_ts(window, dim, skip, data):
     return for_pl
 
 
-def save_bd_to_files(header, data):
-    for d in data:
-        np.savetxt(header + "_" + str(d) + '.csv',
-                   data[d],
-                   delimiter=" ",
-                   fmt="%f")
+import rpls_py
 
 
-# read in files to ts
-import glob
-
-
-# l2 norm
-def landscape_to_l2norm(l):
-    sum = 0
-    for i in range(0, len(l)-1):
-        height = abs(l.iloc[i][1] - l.iloc[i+1][1])
-        base = abs(l.iloc[i][0] - l.iloc[i+1][0])
-        sum += (height*base)/2
-    return sum
-
-
-def rpls_to_ts(header, skip, norm):
-    header = header + "_"
-    tail = '.csv.pl'
-    files = glob.glob(header+'*'+tail)
-    data = {}
-    max_num = 0
-    for f in files:
-        num = int(re.search(header + '(.+?)' + tail, f).group(1))
-        if num > max_num:
-            max_num = num
-        data[num] = norm(pd.read_csv(f, header=None).dropna())
-    max_num += 1
-    output = [None] * int((max_num)/skip)
-    for i in range(0, max_num, skip):
-        if i in data:
-            output[int(i/skip)] = data[i]
-        else:
-            output[int(i/skip)] = 0
-    return output
-
-
-# compute birth death pairs
-dim = 0  # must be greater than or equal to 0
-window = 3  # must be greater than or equal to 3
-skip = 1  # must be greater than or equal to 1
-
-
-def ts_to_tda(data, header, dim=0, window=3, skip=1):
-    data_2d = data.astype(float)
-
-    # min max normalize features
-    data_2d_norm = preprocessing.normalize(data_2d, norm='max', axis=0)
+def ts_to_tda(data, header, dim=0, window=3, skip=1, k=2, debug=False):
+    data = data.astype(float)
 
     # compute birth death pairs
-    rip_data = rip_ts(window, dim, skip, data_2d_norm)
-    save_bd_to_files(header, rip_data)
-
-    run_command("../util/rpls_proccess.sh", [header])
-
-    data_tda = rpls_to_ts(header, skip, landscape_to_l2norm)
-    return data_tda
-
-
-import subprocess
-
-
-def run_command(cmd, args):
-
-    cmd_args = ["bash", cmd]
-    cmd_args += args
-    result = subprocess.run(cmd_args, stdout=subprocess.PIPE)
-
-    return result.stdout
+    rip_data = rip_ts(window, dim, skip, data)
+    new_ts = [None] * len(rip_data)
+    for i, pairs in rip_data.items():
+        pairs = [(x[0], x[1]) for x in pairs]
+        new_ts[i] = rpls_py.pairs_to_l2_norm(pairs, k, debug)
+    return new_ts
 
 
 def my_pl_ts(ts1, ts2, ip1, ip2):
@@ -707,8 +645,7 @@ from scipy.spatial.distance import pdist
 
 def calc_dist_matrix(samples, my_dist, multi_to_single=lambda x: x):
     # create a list of dataframe values
-    print("Running multi to single ts")
-    X = [multi_to_single(df.to_numpy(), ip) for ip, df in tqdm(samples.items())]
+    X = [multi_to_single(df.to_numpy(), ip) for ip, df in samples.items()]
     n_samples = len(X)
     dist_mat = np.zeros((n_samples, n_samples))
     for i in range(n_samples):
@@ -854,7 +791,6 @@ for ip in flows_ts_ip_total:
 purity = evaluate(flows_ts_ip_total_str_int, ['frame.time', 'udp.port'], display=True)
 print("Average purity: " + str(purity))
 
-exit(1)
 
 for n in range(2, 4):
     best_features = iterate_features(flows_ts_ip_total_str_int, n,
