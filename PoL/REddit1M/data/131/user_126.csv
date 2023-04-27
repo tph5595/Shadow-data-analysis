@@ -1,0 +1,3 @@
+Timestamp,Message
+26041,"Actually, model is the same, they are just being somewhat clever with bump-mapping here. You can do a lot of interesting stuff using just textures, for example, take a look at [that displacement test for Ishiruka](https://www.youtube.com/watch?v=xeUaE0Hl4bU)."
+28103,"That's why it was just a test. It's a proof of concept, that by using  textures you can change the visible geometry of the world. If Tomoya's team does end up using this technonogy on Wolf-Link, they said that they will use much different textures and different tesselation settings."

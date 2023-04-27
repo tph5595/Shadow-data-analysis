@@ -1,0 +1,31 @@
+Timestamp,Message
+1905,"Yep, playing my favourite game in constant 1080p30fps with 8xAA and 16xAF is awesome. [Here](http://imgur.com/a/6IcVk)'s some random screenshots I took a minute ago, they don't look as good as in-game but yeah. If you can make out the FPS and emulation speed at the top, you can see it's only ever dropping a frame or two and is always at 100% speed.
+
+P.S: https://dolphin-emu.org/download/ - I'm using the most recent development version."
+5959,"Depends on what you mean by ""popular"". 
+
+According to it's [Zelda Wiki page](http://zeldawiki.org/The_Legend_of_Zelda:_Twilight_Princess#Sales): ""Considering combined sales of the Wii and GameCube versions of the game, the game is the second best selling Zelda game"" (and even if you're only counting Wii sales, third best selling).
+
+In terms of how much people like it in general and how many fans it has? Well, it gets a lot of hate sadly, but from what I've seen it's generally pretty popular. I seem to recall it coming third in a ""favourite LoZ game"" poll, just about beating WW.
+
+I'm biased because it's definitely my favourite ever game by quite a way and I *want* it to be popular, but thinking realistically I'd put it somewhere around fourth, fifth or sixth most popular in the series? Maybe? Which, considering this is out of seventeen isn't exactly bad.
+
+That guess is just based on my past experiences with what fans have said about the games though - for example, I've heard people saying how much they like TP just as much as (maybe even more than) I've heard people saying how much they like WW.
+
+Edit: [The survey I mentioned](http://www.zeldauniverse.net/2014/07/10/survey-reveals-fans-favorite-most-played-and-first-ever-zelda-games/). TP was third favourite, fifth highest rated overall, and the second most played."
+7583,"Dolphin can force widescreen in several ways and (so far) I've not noticed any issues caused by it; it's pretty neat.
+
+Edit: I'm using the widescreen hack /u/BakedlCookie mentions below, not the one in the Dolphin graphics options."
+8453,"I went from 4.0.2 to the dev version. I just downloaded the dev version, extracted it and dumped the contents into the Dolphin program files. Since your settings and saves are stored in My Documents now, it shouldn't have too much of an effect. The only thing I noticed was that it did seem to wipe my graphics settings, so you may want to take screenshots/notes of what you had before. In any case, if you make a backup of any files you're about to replace you can always revert."
+8773,"Ah, I just double checked and I am using that AR code hack instead of Dolphin's in-built one. Thanks for reminding me."
+11663,"Intel i7-4770 @ 3.4 Ghz, Nvidia GeForce GTX 760, 16GB RAM.
+
+I am running it at basically max graphical settings though. If you want more comparisons, head over to the Dolphin wiki - either [here](https://wiki.dolphin-emu.org/index.php?title=The_Legend_of_Zelda:_Twilight_Princess_(GC\)#Testing) (GC) or [here](https://wiki.dolphin-emu.org/index.php?title=The_Legend_of_Zelda:_Twilight_Princess_(Wii\)#Testing) (Wii) - and look for one that most closely matches your specs. Bear in mind all of that testing is from before the performance improvements though, so it'll probably run a lot better than what's stated there."
+16859,"I use a keyboard ~~+ mouse~~. I can't 100% say yes, but according to the Dolphin Emulator wikipedia page it supports DirectInput/XInput which is what the Xbox 360 controller uses, so you should be able to use a controller if you map it in the options. I'm not sure about other Xbox controllers."
+17757,"Thanks, I thought so but I didn't see any confirmation when I was looking it up so I decided to not take guesses as to whether it would or not."
+22112,"[""Xenoblade Chronicles: 40% faster""](https://dolphin-emu.org/blog/2014/09/30/dolphin-progress-report-september-2014/)
+
+Also, I didn't uninstall when I downloaded the development version, I just dumped the new files into Dolphin's Program Files directory - so you shouldn't need to, no."
+23327,"I copied and backed up the install directory first just to be safe, but all I did was put the new files in and let them overwrite the old ones. Since your saves and settings are stored in a different place, those should be safe - although as I mentioned higher up in the thread, updating did wipe my graphics settings for some reason (but *only* my graphics settings) so you might want to note/screenshot them before you update."
+27067,"Yeah, Midna being in Hyrule Warriors is what sold me a Wii U tbh. I would probably have gotten one for Zelda U eventually, but having her in HW has led to me being intent on getting one ASAP. I can't resist the opportunity to play as my favourite character."
+53317,"No, I think TP is old enough that it's one of the games where the framerate is bound to the speed of the game. So playing the game at 60 FPS causes it to go twice as fast."

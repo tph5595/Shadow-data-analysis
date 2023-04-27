@@ -1,0 +1,2 @@
+Timestamp,Message
+23230,"The game doesn't check for the DS to be closed, in fact it doesn't know whether it's closed or not. It checks for a ""sleep state"" because that's what happens when you close the DS/DSi/3DS. The 2DS has a switch on it that puts it to sleep, this would actually work because it does exactly what closing the other systems does."

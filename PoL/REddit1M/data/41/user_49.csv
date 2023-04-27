@@ -1,0 +1,28 @@
+Timestamp,Message
+14217,"Any shield can deflect guardian lasers with a properly-timed parry, even a pot lid. I'd practice it on the guardians in Hyrule Field before venturing into the castle.
+
+You basically want to hit the parry button as soon as you see the blue flash."
+20238,"The short answer is that there's no way to know exactly how Nintendo's generating loot without doing extensive testing. It could be that every rock in Hyrule has a 0.00001% chance of having a diamond underneath, or it could be that the specific rock you picked up was pre-programmed to always have a diamond. (The second scenario, at least, would be easy to test.)
+
+In general, most random sources of loot like that will have a ""loot table"" that lists all of the possible things that could spawn and the odds. It would look something like this:
+
+Item | Chance
+---|---
+Nothing | 50%
+Green Rupee | 20%
+Hot-footed Frog | 15%
+Blue Rupee | 10%
+Energetic Stag Beetle | 4%
+Diamond | 1%
+
+When you pick up the rock or open the chest or whatever, the game will roll a random number to determine what you find. So in this case, it might generate a random number from 1 to 100 and on 1-50 you get nothing, 51-70 you get a green rupee, etc. You'd only find a diamond if the roll was a 100. 
+
+There can be variations on this method: it may be that some rocks will always have loot (and thus wouldn't have the ""Nothing"" entry in the table) while others will not spawn loot at all. There can also be multiple levels of randomization: it could be that there's a 1% chance to find a gem of some kind, and then a second random roll is done to determine what kind of gem appears. 
+
+And of course, different loot sources can have different tables -- you won't necessarily find the same things under a Kakariko rock as under a Death Mountain rock, and even two otherwise-identical rocks in the same place could have different loot tables."
+85932,"I wouldn't worry about having to re-do the castle. Just like the rest of the game, it's pretty non-linear and focused around exploration.
+
+When you come back a second time, you can pretty much just skip the parts you've already done and head straight to the ""end"" with minimal fuss. Remember that you don't have to follow the marked path -- climbing and swimming are totally valid options."
+95456,"Even then, there are ways to get straight to the top that more or less bypass the enemies. You might have to run past a few guardians, but you can avoid fighting​ most or all of them.
+
+(I'm being intentionally value to avoid spoilers -- if you like me to just tell you the route I'm talking about, let me know.)"

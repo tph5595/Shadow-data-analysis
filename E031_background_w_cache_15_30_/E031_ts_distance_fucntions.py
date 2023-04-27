@@ -772,7 +772,7 @@ def iterate_features(df, n, filename):
     features = df[next(iter(df))].columns
     subsets = findsubsets(features, n)
     results = []
-    num_cpus = os.cpu_count() * 2
+    num_cpus = os.cpu_count()
     print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
     with mp.Pool(processes=num_cpus) as pool:
         results = []
@@ -792,7 +792,7 @@ purity = evaluate(flows_ts_ip_total_str_int, ['frame.time', 'udp.port'], display
 print("Average purity: " + str(purity))
 
 
-for n in range(2, 4):
+for n in range(3, 4):
     best_features = iterate_features(flows_ts_ip_total_str_int, n,
                                      "rpls_dtw_dns_all_" + str(n) +
                                      "_" + str(datetime.now()) + ".output")

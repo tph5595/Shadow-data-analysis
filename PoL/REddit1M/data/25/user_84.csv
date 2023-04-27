@@ -1,0 +1,4 @@
+Timestamp,Message
+28079,"&gt; The Ancient bow statistically can never beat a x5 multiple arrow Savage Lynel Bow. Not even against guardians in terms of raw power.
+
+this conclusion is correct, but your damage calculation for ancient weapons is wrong. ancient proficiency bonus, attack buffs, and damage bonus to guardians by guardian/ancient weapons all stack multiplicatively with one another (see test results [here](https://www.reddit.com/r/zelda/comments/5z22f1/botw_damage_modifier_test_results/)). so ancient set + ancient bow damage on a guardian is 44 * 1.8 * 1.5 * 1.5 = 178. which is still lower than a x5 savage lynel bow of 32 * 5 * 1.5 = 240, assuming you land all 5 of your arrows."
