@@ -1,0 +1,53 @@
+@downloaded-at 2000-01-01 01:02:33
+@source "100.0.0.2"
+router relay2exit 95.211.148.144 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByUKAd3M3Ga5LesaXVcfzAnWP0OzdzPj/MLeUYRFndsDp4l7AQAgBADJjCIC
+x06eJ0Zn7+EY1q9SnSYeQVu7Bmtkb7ZuWNwxH9ThDTf0MdgHyXcE4pUXkUuA3W98
+6B13DnmMb0MaEWJ9qqHlZiD1FWP9OQlcSHMr1LPm8MafOLz2X6VOaUXumQQ=
+-----END ED25519 CERT-----
+master-key-ed25519 yYwiAsdOnidGZ+/hGNavUp0mHkFbuwZrZG+2bljcMR8
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:57:31
+fingerprint 539B 3FB0 0A7A 2AF7 5417 101B B49D C90D 0B40 0A7B
+uptime 3447
+bandwidth 1073741824 1073741824 53693
+extra-info-digest 65DC165AEE24B489270326827BB986ABBD8089AD IwTs73CUbHvys3G+RIX3sz39FY6G4ew9mGmFr7wGnZ4
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAM55630UquSqV530clrVvqi+T/vLhpoJwrOIA+SZSMrAUzytExnu3j+v
+rSeDOLvfawj8AgBDZGZtLgkyHUGH2aSEwHgbpqWdKpmrEg30SlFxIUTsACB3ZH1I
+tMgtcOzHpM8DkwAhhx5mMygJEjX+t+J51YTbBTU1Ktc5srMs5EUPAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALYM6DBm4iWI7QEsv34Yk0NhERoYFWYkNM8K+8HVBqvakeHWIEspMD20
+gOi20xZ+PfRB74WgFage5oc12j2XIC+Z71EPuj3oCMPDM3vODZ498xUAle1OfVoE
+hFmRWnheA6omTxpUAHJF6hSLzjDBl/b+zF2knx6vEkS3BytRLPONAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+Du9aKwhv5pk6bBzlPWqVAN+X7bmieSNlMxEPj+xoieq/X7kAB0d5ECfpAx1AO1zf
+/05oROVfjRBMVa92LNba9xkP78H15jduWIrdtBPaEjMq2xbJtuNJZc3LEG2Yhlry
+IhzIXkHzrlvkdOWE2B0kBBwDg3+BIX5ntAL+JSWyE7s=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAcmMIgLHTp4nRmfv4RjWr1KdJh5BW7sGa2Rvtm5Y3DEfAGtxYJrIR0Ai
+eUnKgMVXHcAa/wsu60I+FT+uSBW3F2806KX/iOx6FNlxogsg3tkOTaE7Y9ClqE+5
+ZW6A2mg9PQA=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key l7LPo5LnDHXXirSaEVP/13Ck4b4Hl4w2aXiEd1AZBWg
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 W/9DxnCCrvzF16gxj8dno7/vlp1WktrVg7b5g4c3Ic1WNpjA3XlNLxA0bZPLuvZmm4zu16LM8A/cunRLYjoWDA
+router-signature
+-----BEGIN SIGNATURE-----
+l00r3ghMGaWNkoGZVH1KmJwv7st3XH6r3Dz5fwVnk91IUwekhFX0KkzYDXmEhOgw
++mEjzl55ky8DKC/Ddcl/tl8me/c3VDF+QDg1a5x7+ZjlkBxdD6jDpMKExOkwkjIs
+d69+LopvihrIoDhXUbqn4v39ZHz+6D67DGkkJaPVZR4=
+-----END SIGNATURE-----

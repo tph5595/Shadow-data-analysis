@@ -3,3 +3,4 @@
 **/data/csv/*.csv
 **/data/argus/csv/*.csv
 **/data/argus/*.argus
+*.zst

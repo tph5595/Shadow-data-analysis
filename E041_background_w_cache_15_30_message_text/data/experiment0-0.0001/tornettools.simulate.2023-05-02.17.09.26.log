@@ -1,0 +1,11 @@
+2023-05-02 17:09:26 1683047366.302149 [tornettools] [INFO] Logging system initialized! Logging events to stdout and to '/tordata/tornettools/experiment0-0.0001/tornettools.simulate.2023-05-02.17.09.26.log'
+2023-05-02 17:09:26 1683047366.302264 [tornettools] [INFO] Seeded standard and numpy PRNGs with seed=837463500
+2023-05-02 17:09:26 1683047366.302331 [tornettools] [INFO] The argument namespace is: Namespace(command='simulate', do_compress=False, do_version=False, formatter_class=<class '__main__.CustomHelpFormatter'>, func=<function simulate at 0x7f219b103050>, prefix='/tordata/tornettools/experiment0-0.0001', quiet=0, seed=837463500, shadow_args='--parallelism=6 --seed=666 --template-directory=shadow.data.template', shadow_config='shadow.config.yaml', shadow_exe='/root/.local/bin/shadow', tornet_config_path='/tordata/tornettools/experiment0-0.0001', use_realtime=False)
+2023-05-02 17:09:26 1683047366.302614 [tornettools] [INFO] The platform is: Linux-6.2.6-76060206-generic-x86_64-with-Ubuntu-20.04-focal
+2023-05-02 17:09:26 1683047366.302663 [tornettools] [INFO] System info: uname_result(system='Linux', node='8ae38de74c4e', release='6.2.6-76060206-generic', version='#202303130630~1681329778~22.04~d824cd4 SMP PREEMPT_DYNAMIC Wed A', machine='x86_64', processor='x86_64')
+2023-05-02 17:09:26 1683047366.302861 [tornettools] [INFO] Starting a simulation from tornet prefix /tordata/tornettools/experiment0-0.0001
+2023-05-02 17:09:26 1683047366.302909 [tornettools] [INFO] Starting dstat
+2023-05-02 17:09:26 1683047366.304646 [tornettools] [INFO] Starting free loop
+2023-05-02 17:09:26 1683047366.305020 [tornettools] [INFO] Starting shadow
+2023-05-02 17:19:44 1683047984.362203 [tornettools] [INFO] Cleaning up
+2023-05-02 17:19:45 1683047985.328702 [tornettools] [INFO] Done simulating; shadow returned code '0'

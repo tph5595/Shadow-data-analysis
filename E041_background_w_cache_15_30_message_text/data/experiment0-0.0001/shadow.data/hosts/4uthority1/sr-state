@@ -1,0 +1,12 @@
+# Tor shared random state file last generated on 2000-01-01 02:59:20 local time
+# Other times below are in UTC
+# Please *do not* edit this file.
+
+Commit 1 sha3-256 4037564C8F1B1E0AB189AE56A5FD06129E1D6431 AAAAADhtX6AsE6JEpKjavKSbrdhcdqZu6QoYFgYKQrJNE5vjkW49Mw== AAAAADhtX6DXCxM7BUvzDpjOwpor0UHqrZxp2BmnDo+SD6v90QS5ag==
+Commit 1 sha3-256 97DA69783E59D4E4A2552536AA33A00572384FB1 AAAAADhtX6C4yS+HU0Onl9J4Cbo39E5p/h/YJla5wrUnxZrC2BQxcA== AAAAADhtX6DTJCB9RodDH4MTWKAxJ9ISlofnvkFvkZ5ZZSW/rckdrg==
+Commit 1 sha3-256 0121FDDCBA12CF43D6E7332F071FF86C3A0A68AE AAAAADhtX6BFxtpFyMt3UJK2g907AjVk0/WtgsaKdHkT92cFT/LX/Q== AAAAADhtX6BnxOi/OjvSkbjhy6ZNenoRFqfN5LbgNZDcy4jtwQcntQ==
+SharedRandCurrentValue 3 LFaUiwjveV9nbl4GJmsAPi+josfUOevrretMkE2IfY4=
+TorVersion 0.4.8.0-alpha-dev (git-2bb8988629b6d7dd)
+ValidAfter 2000-01-01 03:00:00
+ValidUntil 2000-01-01 03:55:00
+Version 1
