@@ -160,6 +160,16 @@ class PrivacyScope:
             matches += [self.filterByCache(ip, cache_data)]
         return matches
 
+    def remove_zero_var(self, cutoff=0.01):
+        df = self.as_df()
+
+        numeric_cols = df.select_dtypes(include=np.number)
+        cols_to_drop = numeric_cols.columns[(numeric_cols.std() <= cutoff) |
+                                            (numeric_cols.std().isna())]\
+                                                    .tolist()
+        df_filtered = df.drop(cols_to_drop, axis=1)
+        self.df = df_filtered
+
 # Basic Scopes
 
 # Get all clients and ISP dns scope
@@ -295,8 +305,12 @@ DNS_PROTO = 17.0
 
 
 def dns_filter(df, ip):
-    return df[(df['dns.qry.name'] == evil_domain)
+    if ('dns.qry.name' in df.columns and 'ip.proto' in df.columns):
+        return df[(df['dns.qry.name'] == evil_domain)
               | (df['dns.qry.name'] == "") & (df['ip.proto'] == DNS_PROTO)]
+    else:
+        return df[(df['dns.qry.name'] == evil_domain)
+                  | (df['dns.qry.name'] == "")]
 
 
 resolver.set_filter(dns_filter)
@@ -346,6 +360,8 @@ solo = solo_pipeline(first_pass)
 # This should be a valid topo sorted list
 # of the scopes (it will be proccessed in order)
 scopes = [resolver, root, tld, sld]  # , Access_tor]
+for scope in scopes:
+    scope.remove_zero_var()
 cache_window = window  # see above
 print("scopes: " + str(scopes))
 print("cache window: " + str(cache_window))
@@ -839,7 +855,8 @@ def iterate_features(src_df, dst_df, n, filename):
         with open(filename, 'a') as f:
             for result in tqdm(results, total=len(subsets)):
                 score, subset = result.get()
-                f.write(str(score) + "\t" + str(subset) + "\n")
+                out = str(score) + "\t" + str(subset) + "\n"
+                f.write(out)
 
 
 flows_ts_ip_total_str_int = {}
@@ -875,8 +892,9 @@ for output_size in range(1, len(dst_df)+1):
         for ip in dst_df:
             dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features]))
         assert dst_arr[single_user].ndim == 1
-        for n in range(2, 3):
+        for n in range(1, 2):
             best_features = iterate_features(src_df, dst_arr, n,
                                              "chatlog_dtw_dns_all_" + str(n) +
+                                             "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
