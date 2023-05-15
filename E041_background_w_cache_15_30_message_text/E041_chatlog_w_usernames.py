@@ -916,7 +916,7 @@ filename = "tdaSweep_match.tsv"
 num_cpus = os.cpu_count()
 features = ['count']
 skip = 1
-for dim in range(0, 4):
+for dim in range(2, 4):
     for window in range(3, 20):
         for k in range(2, 10):
             with mp.Pool(processes=num_cpus) as pool:
