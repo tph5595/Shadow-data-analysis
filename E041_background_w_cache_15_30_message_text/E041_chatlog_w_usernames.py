@@ -515,23 +515,25 @@ def my_dist(ts1, ts2, ip1="", ip2=""):
     return my_pl_ts(ts1, ts2, ip1, ip2)
 
 
-def rip_ts(window, dim, skip, data):
+def rip_ts(window, dim, skip, data, thresh=float("inf")):
     for_pl = {}
     for i in range(0, len(data)-window+1, skip):
-        diagrams = ripser(data[i:i+window])['dgms']
+        diagrams = ripser(data[i:i+window], maxdim=dim, thresh=thresh)['dgms']
         for_pl[i] = diagrams[dim]
     return for_pl
 
 
-def ts_to_tda(data, header="", dim=0, window=3, skip=1, k=2, debug=False):
+def tda_trans(pairs, k=2, debug=False):
+    pairs = [(x[0], x[1]) for x in pairs]
+    return rpls_py.pairs_to_l2_norm(pairs, k, debug)
+
+
+def ts_to_tda(data, header="", dim=0, window=3, skip=1, k=2, debug=False, thresh=float("inf")):
     data = data.astype(float)
 
     # compute birth death pairs
-    rip_data = rip_ts(window, dim, skip, data)
-    new_ts = [None] * len(rip_data)
-    for i, pairs in rip_data.items():
-        pairs = [(x[0], x[1]) for x in pairs]
-        new_ts[i] = rpls_py.pairs_to_l2_norm(pairs, k, debug)
+    rip_data = rip_ts(window, dim, skip, data, thresh=thresh)
+    new_ts = [tda_trans(pairs, k, debug) for i, pairs in rip_data.items()]
     return new_ts
 
 
@@ -796,8 +798,8 @@ def evaluate(src_df_dict, dst_df_dict, features, display=False):
     src_data = {key: df.loc[:, features] for key, df in src_df_dict.items()}
     for ip in src_data:
         src_data[ip] = src_data[ip][list(features)]
-        if len(features) > 1:
-            src_data[ip] = ts_to_tda(src_data[ip])
+        # if len(features) > 1:
+        src_data[ip] = ts_to_tda(src_data[ip])
     num_correct = 0
     for user in dst_df_dict:
         best = None
@@ -886,15 +888,55 @@ src_single = {single_ip: flows_ts_ip_total[single_ip]}
 # print("Accuracy: " + str(purity*100) + "%")
 
 
-for output_size in range(1, len(dst_df)+1):
-    for features in findsubsets(dst_df[single_user], output_size):
+def evaluate_tda(src_df, dst_df, dim, window, skip, k, thresh):
+    try:
         dst_arr = {}
         for ip in dst_df:
-            dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features]))
+            dst_arr[ip] = np.array(
+                    ts_to_tda(
+                        dst_df[ip].loc[:, features],
+                        dim=dim,
+                        window=window,
+                        skip=skip,
+                        k=k,
+                        thresh=thresh))
         assert dst_arr[single_user].ndim == 1
-        for n in range(1, 2):
-            best_features = iterate_features(src_df, dst_arr, n,
-                                             "chatlog_dtw_dns_all_" + str(n) +
-                                             "_outputFeatures_" + str(features) +
-                                             "_" + str(datetime.now()) +
-                                             ".output")
+        result = evaluate(src_df, dst_arr, ['count'], display=True)
+    except Exception:
+        result = -1
+    return result, thresh
+
+
+filename = "tdaSweep.tsv"
+num_cpus = os.cpu_count()
+features = ['count']
+skip = 1
+for dim in range(0, 4):
+    for window in range(6, 20):
+        for k in range(2, 10):
+            with mp.Pool(processes=num_cpus) as pool:
+                results = []
+                r = np.arange(1, 20, 1)
+                for thresh in r:
+                    results.append(pool.apply_async(evaluate_tda, args=(src_df, dst_df, dim, window, skip, k, thresh)))
+                with open(filename, 'a') as f:
+                    for result in tqdm(results, total=len(r)):
+                        score, thresh = result.get()
+                        out = "{}\tdim: {}\twindow: {}\tskip: {}\tk: {}\tthresh: {}\n"\
+                                .format(score, dim, window, skip, k, thresh)
+                        f.write(out)
+
+# (data, header="", dim=0, window=3, skip=1, k=2, debug=False):
+
+# for output_size in range(1, len(dst_df)+1):
+#     for features in findsubsets(dst_df[single_user], output_size):
+#         dst_arr = {}
+#         for ip in dst_df:
+#             dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features]))
+#         assert dst_arr[single_user].ndim == 1
+#         for n in range(1, 2):
+#             best_features = iterate_features(src_df, dst_arr, n,
+#                                              "chatlog_dtw_dns_all_" + str(n) +
+#                                              "_outputFeatures_" + str(features) +
+#                                              "_" + str(datetime.now()) +
+#                                              ".output")
