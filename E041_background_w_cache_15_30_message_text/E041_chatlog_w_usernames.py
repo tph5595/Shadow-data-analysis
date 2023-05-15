@@ -528,12 +528,21 @@ def tda_trans(pairs, k=2, debug=False):
     return rpls_py.pairs_to_l2_norm(pairs, k, debug)
 
 
-def ts_to_tda(data, header="", dim=0, window=3, skip=1, k=2, debug=False, thresh=float("inf")):
+class TDA_Parameters:
+    def __init__(self, dim, window, skip, k, thresh):
+        self.dim = dim
+        self.window = window
+        self.skip = skip
+        self.k = k
+        self.thresh = thresh
+
+
+def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False):
     data = data.astype(float)
 
     # compute birth death pairs
-    rip_data = rip_ts(window, dim, skip, data, thresh=thresh)
-    new_ts = [tda_trans(pairs, k, debug) for i, pairs in rip_data.items()]
+    rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
+    new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
     return new_ts
 
 
@@ -794,12 +803,12 @@ from scipy.spatial.distance import squareform
 #     return labels
 
 
-def evaluate(src_df_dict, dst_df_dict, features, display=False):
+def evaluate(src_df_dict, dst_df_dict, features, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
     src_data = {key: df.loc[:, features] for key, df in src_df_dict.items()}
     for ip in src_data:
         src_data[ip] = src_data[ip][list(features)]
         # if len(features) > 1:
-        src_data[ip] = ts_to_tda(src_data[ip])
+        src_data[ip] = ts_to_tda(src_data[ip], params=params)
     num_correct = 0
     for user in dst_df_dict:
         best = None
@@ -888,42 +897,38 @@ src_single = {single_ip: flows_ts_ip_total[single_ip]}
 # print("Accuracy: " + str(purity*100) + "%")
 
 
-def evaluate_tda(src_df, dst_df, dim, window, skip, k, thresh):
+def evaluate_tda(src_df, dst_df, tda_params):
     try:
         dst_arr = {}
         for ip in dst_df:
             dst_arr[ip] = np.array(
                     ts_to_tda(
                         dst_df[ip].loc[:, features],
-                        dim=dim,
-                        window=window,
-                        skip=skip,
-                        k=k,
-                        thresh=thresh))
+                        tda_params))
         assert dst_arr[single_user].ndim == 1
-        result = evaluate(src_df, dst_arr, ['count'], display=True)
+        result = evaluate(src_df, dst_arr, ['count'], display=True, params=tda_params)
     except Exception:
         result = -1
-    return result, thresh
+    return result, tda_params.thresh
 
 
-filename = "tdaSweep.tsv"
+filename = "tdaSweep_match.tsv"
 num_cpus = os.cpu_count()
 features = ['count']
 skip = 1
 for dim in range(0, 4):
-    for window in range(6, 20):
+    for window in range(3, 20):
         for k in range(2, 10):
             with mp.Pool(processes=num_cpus) as pool:
                 results = []
                 r = np.arange(1, 20, 1)
                 for thresh in r:
-                    results.append(pool.apply_async(evaluate_tda, args=(src_df, dst_df, dim, window, skip, k, thresh)))
+                    results.append(pool.apply_async(evaluate_tda, args=(src_df, dst_df, TDA_Parameters(dim, window, skip, k, thresh))))
                 with open(filename, 'a') as f:
                     for result in tqdm(results, total=len(r)):
                         score, thresh = result.get()
-                        out = "{}\tdim: {}\twindow: {}\tskip: {}\tk: {}\tthresh: {}\n"\
-                                .format(score, dim, window, skip, k, thresh)
+                        out = "{}\tdim: {}\twindow: {}\tskip: {}\tk: {}\tthresh: {}\n" \
+                            .format(score, dim, window, skip, k, thresh)
                         f.write(out)
 
 # (data, header="", dim=0, window=3, skip=1, k=2, debug=False):
