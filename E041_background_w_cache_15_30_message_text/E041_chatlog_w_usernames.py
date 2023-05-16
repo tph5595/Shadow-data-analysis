@@ -848,12 +848,12 @@ def findsubsets(s, n):
     return list(itertools.combinations(s, n))
 
 
-def evaluate_subset(src_df, dst_df, subset):
-    score = evaluate(src_df, dst_df, subset)
+def evaluate_subset(src_df, dst_df, subset, tda_config=None):
+    score = evaluate(src_df, dst_df, subset, params=tda_config)
     return score, subset
 
 
-def iterate_features(src_df, dst_df, n, filename):
+def iterate_features(src_df, dst_df, n, tda_config, filename):
     features = src_df[next(iter(src_df))].columns
     subsets = findsubsets(features, n)
     results = []
@@ -862,7 +862,7 @@ def iterate_features(src_df, dst_df, n, filename):
     with mp.Pool(processes=num_cpus) as pool:
         results = []
         for subset in subsets:
-            results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset)))
+            results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset, tda_config)))
         with open(filename, 'a') as f:
             for result in tqdm(results, total=len(subsets)):
                 score, subset = result.get()
@@ -916,32 +916,22 @@ filename = "tdaSweep_match.tsv"
 num_cpus = os.cpu_count()
 features = ['count']
 skip = 1
-for dim in range(2, 4):
-    for window in range(3, 20):
-        for k in range(2, 10):
-            with mp.Pool(processes=num_cpus) as pool:
-                results = []
-                r = np.arange(1, 20, 1)
-                for thresh in r:
-                    results.append(pool.apply_async(evaluate_tda, args=(src_df, dst_df, TDA_Parameters(dim, window, skip, k, thresh))))
-                with open(filename, 'a') as f:
-                    for result in tqdm(results, total=len(r)):
-                        score, thresh = result.get()
-                        out = "{}\tdim: {}\twindow: {}\tskip: {}\tk: {}\tthresh: {}\n" \
-                            .format(score, dim, window, skip, k, thresh)
-                        f.write(out)
+dim = 0
+window = 3
+k = 9
+thresh = float("inf")
+tda_config = TDA_Parameters(dim, window, skip, k, thresh)
+# results.append(pool.apply_async(evaluate_tda, args=(src_df, dst_df, TDA_Parameters(dim, window, skip, k, thresh))))
 
-# (data, header="", dim=0, window=3, skip=1, k=2, debug=False):
-
-# for output_size in range(1, len(dst_df)+1):
-#     for features in findsubsets(dst_df[single_user], output_size):
-#         dst_arr = {}
-#         for ip in dst_df:
-#             dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features]))
-#         assert dst_arr[single_user].ndim == 1
-#         for n in range(1, 2):
-#             best_features = iterate_features(src_df, dst_arr, n,
-#                                              "chatlog_dtw_dns_all_" + str(n) +
-#                                              "_outputFeatures_" + str(features) +
-#                                              "_" + str(datetime.now()) +
-#                                              ".output")
+for output_size in range(1, len(dst_df)+1):
+    for features in findsubsets(dst_df[single_user], output_size):
+        dst_arr = {}
+        for ip in dst_df:
+            dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features], params=tda_config))
+        assert dst_arr[single_user].ndim == 1
+        for n in range(1, 2):
+            best_features = iterate_features(src_df, dst_arr, n, tda_config,
+                                             "chatlog_dtw_dns_all_" + str(n) +
+                                             "_outputFeatures_" + str(features) +
+                                             "_" + str(datetime.now()) +
+                                             ".output")
