@@ -1,0 +1,1380 @@
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay65middle 93.202.185.224 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAYxDWcO/v3zjoDt15g+iHV5snoV5QJrIJAUboBKyJj2GAQAgBAA/35sx
+3AJ9FzXpBZHiVQLXfbD8mYjY+S697qjzEzyaWasQujNSN5sepIUlaQMqePEUIJdD
+mk710Wofbp7bu/fm3KDxrovjbTGnDNaqlTgcwANDEXkGtJEIO5uUhXwl5Q0=
+-----END ED25519 CERT-----
+master-key-ed25519 P9+bMdwCfRc16QWR4lUC132w/JmI2Pkuve6o8xM8mlk
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:07
+fingerprint 0A80 B733 9292 46E0 A747 0543 CB90 C708 04F3 9FD2
+uptime 301
+bandwidth 1073741824 1073741824 54965
+extra-info-digest DA1ACD1518412BE3485A5E791F87C13E964EA502 HkaWJaN3OXTSWpY0VJZlaGFMyiX95ipHKolrW9mhWMc
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAKPRYzCkZqnAP7voUVJSSt5Vzs3LKwB5xZhEcNuNk5bLPtf3p9cVg923
+HKaUToLk3UZXWJa4kQr7DesyGWdDcCFrpCZ42gV4DO1tCopzFe6IWJdE7sgT+JGI
+/exM8JjttUnUcnnY5T2ldqYtVx4z80LwegQpJP2tCSPJGfx9BGZ7AgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAKNg1mH4WfivUht7z5gZb4jSax3sCzTKYUQJAz65UpuUKlJiFo1pP/NI
+73wTo/TqIfRasaKfJ9GzIJ87+KaOuky4J5+H/s44TZ4vICBr5fRJK6gVS5T7yCXk
+hF1noqwBpkHI0Yr7w0uFP1C8kNRoH9GcPu27SJSz1bSGyVXUzEITAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+fXvG2RjM5BZGgtYOneCpKiZ3hEAw60cnYED1pZHb0825JbpumdV/EaasdeQO91Ur
+C/JEp+/Qc1kfDR7Okp0oH6UKznK0vQBZE5ACSc3oWsITA9/EYM2kbvJmL2c09VXp
+CcYDPqntlRIvA2iZnqIIC2stZS183fA4nA/kNHsFoyY=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAT/fmzHcAn0XNekFkeJVAtd9sPyZiNj5Lr3uqPMTPJpZAB0Q1pa6aBzl
+ZFeLOmxNcz7BmnqRdg9VGMsUflwhxfkFh0F+mU8+sBN3yMlwapFZ+uY3aQ+2gWg5
+Nbjz2RGYMQM=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key gyERwhxhFXVYxQtlfxakrgRKqEgk+tDCld2rDNrzilE
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 lrqyEDpghM5AGEbJv6yDe6xDqGoJNlLqKfnrtznqJN6P1zYSl6bhcQbk9DSqKj3T+wqlqQ+dBtzaDwehP00VBQ
+router-signature
+-----BEGIN SIGNATURE-----
+j4x90F8EU6/grAn2LL40zU0HcaNeT4jTAPUT3YWIpe3qIJsKiBnzEvqg4+aYNgaF
+OfnWZrYH57OmXXjd+hX4/kgDQ01kehxVUPATb1PvLvhz3Vk1WVKlEGhP08+9U8Xt
+OwL66AIKiQQYActN1IMnThNtaTs+Ypiq8CAdTIcXAfU=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay4exitguard 35.0.127.52 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzATPewETRokeBa9ppMfMo0xUWVOGPgcoMUYjOSMAFCxJ8AQAgBAAxuQXX
+O1FQB4Ito51IjD30WubEzbiDt61hKKR/VYz0A8ykkKRfMRR6aWjN/+uOUSxF2Q5b
+p1pMAu2gCDiNWAHcLK2vCzhn+eB9EMOqCoewYvG00Q9GLB4q1+5F39ieYAI=
+-----END ED25519 CERT-----
+master-key-ed25519 MbkF1ztRUAeCLaOdSIw99FrmxM24g7etYSikf1WM9AM
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:06:32
+fingerprint 0D63 7801 622F 484E E18A 0D94 9665 E7CF F1B7 C730
+uptime 389
+bandwidth 1073741824 1073741824 52603
+extra-info-digest A724626C0CFEDE1F2286EBED36EA37616130CC82 LgZVWwdgW+mFneAXpvNPdeFvfpPgw0QCYtrpTvZUUlc
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAKAwfY6jReOdyCm6uRPitYvz8ZToPH9NitvBt7+iAUcGvQCCGk1nenXA
+lTbLgwb4VN/zU6Rhblx/qj164HtuC4FF17vc6XQeC/eTwJFh2Gwwj4N9+r1bQnIG
+Ttm5xoKgMyAw7pM7LXw3LAjx2fKmNSKh3smnK1/xs3+/ZfSvaUDtAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBANCsnUGnY5hJcINYQJyl1qRGEU2uyeZV4XxX4lwJ+ZpKOt+1G0rJcu0B
+O6dKLg7UYX4h5NbAq1/OST78RIigJXEtGeP1ps3KPh+V7+gs+C/9l+7CR06MwbEJ
++51rZL1Qh7AGkazAJXQNhGs+5GFLfH7eVaGaVf5OsBUJJfZ3Vno/AgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+XlJ+CRadg3lCJ8zuat1INir1ILjwgKWdQFfAjHSamWaMkfarDSzQAsXxOq0L8hbO
+n3sim2McS23IT80DKH3nzV0ik0UT/7vogfklCUOTF5cF/LyAQK9E9CnqGen3WrNj
+Ny+UMQDOdWxIwXWj8HwFDZcGLpA2r5yv9QUajBIKAKY=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZATG5Bdc7UVAHgi2jnUiMPfRa5sTNuIO3rWEopH9VjPQDAN+MT5lqHozK
+NpR/lgbZAmIlnKY9uPxq5mSLhusIBdTz6SzDqKga4GZ5I2BpSEg6ZEJv6bP+ixww
+ZFpx2FUVGgg=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key aOvcqDorWQYeL1KNWr/PYFS+Fr1SZuIBidHYHxVIYhQ
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 u+W7Q5m2gZNgSv3IKPmjuMwA9vHFEoUVtrAr1cE2ucdb/CKJzw7oLkhkXvbIFLBW4tkmdsFyO0jPP7mAoq5QDw
+router-signature
+-----BEGIN SIGNATURE-----
+zBZfXus8Rb0DIPqobcWuxDa3UDMG6DGPX18HiP8LhZGFF1drtR9wfUeAOT412/pZ
+Jv+OqRxz6dr7PS74rbYv4BF5hO0MF2nxqXwT1A/e3vJy2Y/Ob2tUM/Ne5DZoSMn+
+xufU/rWFw9B1osc/ZZ6WF7l+5cERUmYJsB3GncnjtGk=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay29guard 193.11.166.196 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAR5JWgIHKaKFy2bDpapKfbsz418QrZT13AuBiGuhxFi4AQAgBACETMf7
+2azp63GzIoxIYdCfn05MJ/T66VEuac7DmVtSLtxZu1j1+KCCDmNYKdz4TdSRiRXY
+DCX9XJ6S/tUq91B3/HOrTsDMPxPNZWr0Dzdz6hh1HrXpcAINBG67OYm95Aw=
+-----END ED25519 CERT-----
+master-key-ed25519 hEzH+9ms6etxsyKMSGHQn59OTCf0+ulRLmnOw5lbUi4
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:04:31
+fingerprint 1A46 164C 9844 8792 219C 3BE2 AC41 BB71 D1E0 2559
+uptime 266
+bandwidth 7340032 8388608 103511
+extra-info-digest 4AA21BF9DCDB6F9D2347C105A2A5BA1F63F11668 mpg8MeUEgAG1bY5dSIPrGKlABeHhpq84oj6sk5VD3ms
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAJZ9DJtWpT8PuXe9QCfiSdFczw3caH1Kh5W59IzLdcAubXEJC9JMu7sY
+e35xbJZFhPMGuzlwffAaNRFX+vzm1w3P3C4TUoESbNmPq4Gs5zOD+RSTHuReOfYc
+9+CS0SrplacR0zZbrpU3f/4mm3Pcni+SWuqzGk9Z3ksfTwuUHtVpAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALUUPLqBJL8hgl/OHMa/hTd2bUmVuSA1ptlUegWMNpkcKzhcKzdUo529
+u7vWb4jzS63c17kqbvahARNt1/YHuGsSdmewnoqe5M3dN6i2rIngfv5UGTvoG1rI
+9q3ogfTnu4TrZwMW59oNPHV65pphwzbMJ48kc9rwJkN4MvMD2e5PAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+H3ycxQhuBZ2r29HpvdL4PoV0/LWJFtbTe35QbihEExQnaX96V4zJuvYe9IA4IKLr
+vfZfcmkie0171iYFcAlU4JWOjiCIKA4reQ3+7G7c7hhy3gb2872hn4vQzxKG7+XQ
+DhWbSkrpHb6FdGe886vx8SqtM7eui68qRwS9C/AQohc=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAYRMx/vZrOnrcbMijEhh0J+fTkwn9PrpUS5pzsOZW1IuADjtp1Ql0+Iz
+5XxyqSku+hsKUzpPwTMXsEyL+glB1wzmCGio+bf/IcU6kEBU6VMGvfQcpNuXeOjK
+HAWAd1bYaQo=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key ZBvQAPnGMnAeXW8f1RGFOlA8ZKaz/4iOcTU08ipqYT4
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 24NUjYWuPuVVmrY998uqx/YdG3pR8N1qpx17IsQqQyWb8Vt0SdGSW92Ej3MhSXdQPFO6M4V6ZUaS15ABRLFyCw
+router-signature
+-----BEGIN SIGNATURE-----
+GLGpbRfJ/HLnp3ot1iz7fWSuGxphV8zK5YLNl7dSP3DSJkuTTIjC4IEuD6OztPKH
+GLPL/pg8iY1thD3tBUuA0WPncITdpTAmt+8P6RNIMUFGgmu3jgStTD4WKItgdB7o
+m9uQgtKrRKIYhscEZ5mqMdCDgXIr41GVR0n/THZYhc8=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay5exitguard 144.168.164.26 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAU8nbk5fQ/cXPb5rtmAEZdX4u+3if93I0n6VSTqG6+hjAQAgBADxhe/Y
+hZtbG/UyC9mghitDtaHtbBISNBv1Fm9Il89KZDzqeXInl0dBK9nW+FzQ7CzO/PLK
+uwTrG1tPvWiEdR84v0VtJ2QTxNq3Esbx9H8GE2QlyDV2CRVUYEvtIlusvQM=
+-----END ED25519 CERT-----
+master-key-ed25519 8YXv2IWbWxv1MgvZoIYrQ7Wh7WwSEjQb9RZvSJfPSmQ
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:04:47
+fingerprint 2C52 D578 21C8 CAD8 6137 ABDC F1C9 4D84 40E5 C39D
+uptime 284
+bandwidth 1073741824 1073741824 56258
+extra-info-digest CD1E20BF7A7F8F037CC7654415B79DE940D821B3 G9luz/BA82MzQdOmmmyHuJ3zqdfoQkGvf4gQfSmuPoc
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAO68lUXaOlOASUm6Jm43ZggJhiV3hmH79GTU+05blSCKEKjUEhRrZM8t
+Fbi+Viwi2QKPNBExhXEDatLrzEWmYSuFBaY+J5r/SEFL03F1j2jgsYfzIO5/Buje
+AaSjid9qMmXexfuG5mTtw0VIgt3KRCmZoCt5m4ItOOwUrTyyXZU5AgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALziRtUT4HP9V/4cKXTLFBPU1Z/gyyyam7sFDhNUtAJQfQ49UkTNCwKh
+DsIdnYq4iOJ56N/deRTYRqUo2Ei7+IIrkfWX82CCbXIHlhsUaFj6aDQCfBNhBW64
+AqD4mcVHFcrtkVMAPh09nj4RGS3NYCfV9iwTy+m2WtzJ1vxjsXXJAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+V4typA3/I+gZTPpZQ5ql4fwSMabBQZUPgEZzaqwevlZWfXA9yzdaaxxW99RWBSmT
+MqvjstZuppHUqudlkiBvGZXUHZ6JzJEmNxiMPi64mlPC0p7JEqwHnnj+kYTrWS4A
+D+GGYNOtWgZ0PpMMsVJWpUJ3hZAqTQn5Na0E8oKqnrs=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAfGF79iFm1sb9TIL2aCGK0O1oe1sEhI0G/UWb0iXz0pkAMxyOetf3Qzp
+Q3aj0e787g8qXL2yZLe5b97AEOtSdZ6KUM4qCd6zoCN5yrZTtru1yqlUAvsdwNGR
+qLfPGouCzgc=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key GCPy0LPm4ZdGssXwQffL2/6OjArKnZEqI7ZfKfP9EXw
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 q+IXV2/waBFeS+ag+7qb2p0m7+81enZVxtNGC5cpk4TYavCFxVbJrEqHl5GD26abvbqAWb7XO+5KFPz1yTYuAw
+router-signature
+-----BEGIN SIGNATURE-----
+Zs6007p/0xw8gRubFNzoCFkI2yYnmyOQShzAEpkebt8LyofR+KWXuemVXTS93As4
+vfDzHTp/rBpAT5WudtxsLmCShOWpSWAjOzncUme35uTyZTP3Q3t1bqsOIgZXTsfN
+cgQbWm4h69ZvCrkU538mpo3WqE+mI4q+CKmeip5PBPo=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay9exitguard 204.85.191.9 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzASiC5i/gSh4yHd2C6+E1mViL4j2BRVS2DmUAC/byd4cLAQAgBAAbl++u
+a+KQI3l5ewcssoXX9VsjsFVcvrOwgFtnMXv8puXEvkARMqzIGFZrm14C0dAN3FR2
+5oKLwLPsOa3mV+wXiqyYuSy+A7QtLVWbo/Z4WPgQyRuD0oNvIRYQWxCZvQs=
+-----END ED25519 CERT-----
+master-key-ed25519 G5fvrmvikCN5eXsHLLKF1/VbI7BVXL6zsIBbZzF7/KY
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:49
+fingerprint 3699 AC2D 8EE9 965B E1A6 B9EA 65DA F971 E615 A2EB
+uptime 346
+bandwidth 83886080 125829120 53975
+extra-info-digest 10BE4D58669B3EC4DD3DD8783984003DC37F4AF5 l0Dboy690kDYfTnEYVUbO1IlbzvU6wbO6zTyb1DKYKg
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALlfMMtEtZahKbzZxPPwjzYPBq4LgkwHwIsxvyiYuFV272vFk4EDU7Wg
+OA+bgMud9e3xPMjF9/ljyTjinAJC/Yu8BZZazIY6mV0aORdaKA0ijnU7JgNQxUb+
+BJ7p61bvcdsFnrF7B/JvxdjBIpXuHJpzw8/YHI4vc/iXSdigMR9xAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAPZAnSeXavOh7fNzS94ErfOIIPDNH0FfrLOqrNTq2iPUXfduOAVTG1Mg
+32c4oTAMpbaCxqUFut1JISCM3YBaYFvz69nZMBLv2nkl4Xk3quFD7mgQpRmHJtJQ
+y0cq4x5GDgnoNTgOa3baxmFVTKcyV9GYlb177+6wgAS3HHrHo1VrAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+RAnSnnPoB+OEds9ngfX0Uji8B+cDOUx5qpLiIXhm76kfK0d54+wyskk4BdzKFuKZ
+z9Mp0wuz++71q6nW+xlg4sBZEebqpqJQJNnwrDTzHJ+FlCDAUT9CwuAmzu2EnsIz
+Fh/WnaDFFcTopP9og5qDcq5/u9T+L8XhV+WTuHeOaS0=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZARuX765r4pAjeXl7Byyyhdf1WyOwVVy+s7CAW2cxe/ymANdGbjZb43Nw
+PcrbFVCbCqIHifHGokA4wXyKr9P5oCkQj4pfbP9FcL+w2LXmx6DUrbvgL6ARn10a
+cZKRZzoJOAs=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key 2nkHdaxUKmOTzHAaWenff0ulyl1ZMsJ93e5DBWg22nw
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 tPs+v4T5LGCSmycbrv4n4phPp4XqgA1Ga+rXZtAqjruyxnRShcY+FHsBLO6fWXj2ZwFYQ/vC/cw7nx9Vc5kRAA
+router-signature
+-----BEGIN SIGNATURE-----
+C86jg6MLjUgouMXSl3j+EdnJmCp8/kQOL0Qhb00nwPXSlApgZtJHD3eea8L+BlVv
+EFR5iEekcVImnTKdXvubI69jb9V1/GJNU6VE3J1acCrUlD1R9scs9edNCFYh/MGc
+ghkxIn2SEfGkj9LHp6t++T/GAGu0blddw1codWX2B+A=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay7exitguard 178.20.55.18 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAZYelct0PMQAlOkLAhc9ns+JdVE+8aXaz53NbO901m0zAQAgBAALjFv9
+kJDHjkklIK8TVk9o0smsEBr9445srx3jF4pT+/f0CQ3gWIfPFSL4rpyUDiiTT6Gv
+HI6VVn6YQbSdniPC6dy/+U8YOoSFuWDxuISswRXs8ur9k3PdC1XhAby1GQs=
+-----END ED25519 CERT-----
+master-key-ed25519 C4xb/ZCQx45JJSCvE1ZPaNLJrBAa/eOObK8d4xeKU/s
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:04:31
+fingerprint 423E F4E9 76B7 01D9 605F D986 9675 8B7F 4C5A 6BB8
+uptime 268
+bandwidth 7372800 7680000 55359
+extra-info-digest C91D439475565203F0BAAA23384B8F080FB38D89 D0nvvfRZqonWwJ98WZKSXnOVd91A9XhzDJqQyR8buSo
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAJ4k98TzirJ2n6eVKbeEJ3oUZ+wqxdqw7AzzOVbxDdCcgvdDca99bMij
+uYcuQtw4zNmP5XuQHaQXzjXFDgvR/hFg+WZqVT4CUHfp+RvLMWB5TUzOlZHdOYGf
+zNUh3UrFWgwEZIaHe1XOBcXNFEXwuQe1vMTGeMrzh7wfygslT/b5AgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAK1HYwRidcqiPnQTvGxJZGiV+k1mPITmv6fg+oJVNo4vmBz9kpyqfZOX
+y2IYIJwtWSk/2P29uPuB9FN8AHhDHyP1AFS9fmPd4lX+A6lSwxBOi4ChBctSOqR4
+Lw2W0qacJ1RV75sH75+m5VJo0MJaTW0gVViMZ+P0WBe3mXDILlnRAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+m0ibiOwP59UTsH3/y4t9nA0UEV/sgJQfrmZxTLIPqUdyIXvzqCLHq6/DNxaAjSFM
+ZFvck5MXtuVPbL7Jv0RCKSLp5XD24h8YHUh+rTJYpDLfpMGBqtWIrSTlpZ7zbbUd
+DdYLIdRmqt9Fp3reOc+7eAi/WiIsEvCvZJZgSld2wPE=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAQuMW/2QkMeOSSUgrxNWT2jSyawQGv3jjmyvHeMXilP7AGXEHRIKAbe6
+2HfofwTqwfOjUdyhDkqws6+Ko2PZR1ElenwwVG4tAuG1NiniOWu/4Hv7oMTRYTR1
+t2VK5nfaDQw=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key KoNnCCWFRZ/vu5nvFH8MSwusmEbuKT1UlkZJmqvaWyY
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 LfrTfqD6fZtfogYrKW8n2QQa3Z3Y0GjGS5oL5S0C7mCnQZtelHPo5sfrCcWdHaJ5Xm6WC15VzpIz0me2PpN9AQ
+router-signature
+-----BEGIN SIGNATURE-----
+NPm2HAGy5t4k22Nm3lN5/q4GdHVTmYb5RSqGcgmJz3RkkFsOtxAkMvJBtNOGIfDV
+hN8Dg7olGWgmz3wFIchIfHae6ARSuiPX//868o4yvJpuk7xooSPX5o88+DXQIh2V
+5oktMGFKTe0cTNZGDFSxkmXF7882j9+DQJLxwmxlcG4=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay67middle 94.130.129.15 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAa8Q1FbwKCYCf/1/xIfUovi6UIb585Z9PzdMpzBGWvyrAQAgBAB+ayhz
+HwJ7cFj6elAqHB4iUJvdGju9YjpZi2wQLirKAUc/TSWNCgS3v/dLhJZV3cZ3wWZg
+6p2iuEe91+g9MiGzZYYE6IGcvPac+RGryI5K9leGUy/PLxzx24aeWhjBRAk=
+-----END ED25519 CERT-----
+master-key-ed25519 fmsocx8Ce3BY+npQKhweIlCb3Ro7vWI6WYtsEC4qygE
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:06:07
+fingerprint 44D2 6830 D488 F2B1 B601 9015 7090 19AA 5CB6 B2B3
+uptime 361
+bandwidth 102400 204800 54986
+extra-info-digest F75F07227FFBF6D63BBBF6310A5BFEEEA3B7F464 r+BDT7sjvIS/damjgQc7riRqRyw4YSLFkrWbLSMlyrk
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBANHV/RZN7WkKpHP61Q5OkF/OZQJ+yk2acM/Rxvu1gT7auSVGa9/Qq/CD
+pvUoqtv5hb1i/AALbSrX0+qVdxg9jI8X3Zy+4ngr9yJ6C4mMVeH2kIf1TToYLSZ8
+fkWdbNNzk5UMmcd5Rf2BHnHTn4hIShRhNe26ZXXycqxct5EaQPztAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMVAKXyOjX0wBnuXE97D6Mc/5XAgrE/ml/N/FqQKC4wrkoiJbO32Y6aC
+0puw4vCr5bZSl8EZF9DgIrOOdxtz45rHETsLgnzIK+S5EC52gOY2psdiS2snHwB+
+lXT9dQeJK3vlYRwyeXRZQcMPhKBq9vjyvIOIjFmDKccdx9BC+ThzAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+Jc097RQ22mUHchOEtFeSqsFa4jyPYoy/IEP3p/GvJnLryEUvre3vnvojWwdQS/6S
+syf4ZxTcX8WYe/BrY/4xssq/sEYguVGK9EMnt/e7E6LBKOUS86n7WmzbivwcCD8O
+t/UcNxq2M9i1mDtPMk7yyjOPSBuU7dPH2oiHon5TQZo=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAX5rKHMfAntwWPp6UCocHiJQm90aO71iOlmLbBAuKsoBAH4XtQChraCx
+8hBjSxhL/nmF7UjL5dpmeb8rwJjFhBc26fKWPotDqovI5+X3+PEqagrS5AA2v2Yj
+e7VUS6RA1wU=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key GzS6llp4rPi5dBospTQZ7283TBxP8bke3rLeomXi+xA
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 QavQ9yFSvRkJnIOP2/VVHlf6ekbsbF1+xxF4ETutzqtFBCoG1o/fkQZ7SukxFbu65OTWJnIAwj5DqWZybJryAA
+router-signature
+-----BEGIN SIGNATURE-----
+DZyyqMF6Y72OzVZfvRtokVwsTlETOSp3CQr0r762XugBWFEs7laj7xSHTkXJwm6n
+rEeEtGDKVbe/XHaFnEXVsou5sPatUn39Y7NCm0q/XVGZzbqIZ8aRqAnzF9iDvRAO
+joAtyXnFVr+nGsD2gfhIn2ruT5hIKW5SS2nN3CvRtEE=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay14exit 45.142.215.104 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAXWtyuqWEvGA/bGXgWTSGhRggCVZGidCQdN+uQnFWM+NAQAgBACg0gCh
+jBEVNiHkW2wC6WcYYNoULs0myeWu632e5XrjkPVJQ71E9C5c4yvGoWVVwdIXnosU
+iuEQREI4ZhnPGVJ9RLRILL0+NcSsx9I6QWjK7ppmupyHNFckjc/YdK92GQo=
+-----END ED25519 CERT-----
+master-key-ed25519 oNIAoYwRFTYh5FtsAulnGGDaFC7NJsnlrut9nuV645A
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:07:06
+fingerprint 45E5 AB2A 7882 D8A3 0978 562F 6543 AA28 7455 A6A7
+uptime 422
+bandwidth 614400 716800 57800
+extra-info-digest 308FB26DB265722454BC6F497E146909BB0A11B5 saNeDRpqzBNrU3hZC0J4Sh02eWx1ABZjR7VCSZe4494
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMXksW8bVi2e0mvYviVkOc7v9IVRnMgMgBi2XmEGZfVQlmcHaZMU+u1S
+Kz7kUXov2ACbkMZnSGsl7olgrPGJ5w/+vOkOZc7E5gTRcAW1T6lVsY8n27a51ECA
+sbvFI5ucAsku9dRQ+B+qOuIK27PWekX+LroFoqoHsD0rSST+vMchAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMLbAdepLadD8DlbX2TUw9kO6Yn4UHfItIWAnz50Se6thJPumqGfu/bh
+ObphyKGZ5AXXofR01DEleXBlQzSJ4Q8Mxa3VgLJWYlXeij4lBUqQgjIu4ssW6whp
+BLPPKvGqfAZFrfwcGlV9Nt6M24kwtFuibZOKQ9kDQlIJRNTWRzbJAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+scfdNJj/sJAtxbi+73EdQbqxh5xoJjbJBQRy+syUtPgVJFss/Cj4na2huLief/Hc
+H7VFPz6k6kIajssUuq9xtsf27iz0hrT/cYxcxAcflsz+yluGNPVXnpCCTab1G5Bi
+qHsmCRrRj9IplQj5sXLO/dqodS+oMELOSm9CHWlGmvI=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAaDSAKGMERU2IeRbbALpZxhg2hQuzSbJ5a7rfZ7leuOQAAHaRJVOL5Pe
+OqqWNG4lWhPhNlbs5+Jy2WmTkfsqrJ1dER4R34SARJlMOdHhs1fIwf0JAjc48W5y
+cltm/NmTiQM=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key 8XnIcc957YEqwBNpAqpoWwsQWUxsMtCNbOCF7bc92Vc
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 iu4NfpAR88puPUuU5nnvo1FXWI/9D5JwFbbrA7fxdrgPlSpOFMcKiUAITYKl7qWksGqYbNAwlZEqUDsLjco8Cw
+router-signature
+-----BEGIN SIGNATURE-----
+tPvRPez9gyTTu/E7UI9tBdqW1VePfuQkzrjoSWkmGrfKgmZEVTwlEpvFQ/ucpO2t
+KdTU8KrJNuaDW/UQHX2+5m4Mt7RONeKA1/gxKBmchK2QvkQw7TKeBuKK5iL1yRum
+RRnGG3eEKAMLwqS5Ow06QFje0gjcZQJGzks2+BWhGiI=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay62middle 78.47.14.99 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzATHmsSCV2oA3JNNJdUNPWrqZSVEhJgkH1Xxpq3ROg6FkAQAgBADxY30V
+s+kk9htIa7opAfEIVz5ZstqRsW7qlv7DLyxfKJBfdkJlC2DZd4rfDJqAYgoRcVtB
+PNrzacde6QcoCld3IjBK22nxZcjKfFlNKo+DU2jKWV6fpoCbO0WdxhWebgE=
+-----END ED25519 CERT-----
+master-key-ed25519 8WN9FbPpJPYbSGu6KQHxCFc+WbLakbFu6pb+wy8sXyg
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:07
+fingerprint 517A CB00 3DC1 4354 3D9D 27BF 3DD1 E200 B7C5 BC45
+uptime 301
+bandwidth 409600 614400 54540
+extra-info-digest A8BAB819A1A96736CBD7052EAE80258D09168D7C gggmjMt/Vmygh9u9MAu+1oEbgmnl4PwsM2JYLSxHle4
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAJmRrLBF3DFLneOqf7lgv8ld76xL3GEuwuoACP5IVsTQ5Ru03DvzGZS9
+pt1DJrzS1OVTs9XbdE3WtWxDrD34oqZVIdXq7mcp/yI4fBBWb8M/BCLLt7olCX4+
+pbBEc+1ew++vwKvvM/i7iwlKxIZVns2GmSGCHhbF8UAQRxt4BNW5AgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAPmK2zgiAHgX1n5XNzcxTzA5vbeMt205xihSTaO18L/D8YafTXdUbaXM
+CLL9i1PNMC7d7N3GsOptXKY4eErHx9V7qnROOuIi1uYjvg5JqeCUebk5+yDQwnTO
+EmzYJNIJdxAUVa9tKvGTK2+aDvaPLBG+z5s52GVnIvAAi3ugGcTpAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+bAiTwQdXkJihhKE1ZPfW/s74BKJ0Q0/EQH2KIP9JBRoFhwE8J8k7vrmWL8Px47Qy
+XsVNTDMVgSZrl1MZM7XUFukDwIkOJXIrSa5wSWN5OsILfXtRxz/15iaXNMmFpnrB
+A35l0izyDYcuXD1siWD8LpXYNGdTlKyJGQVR/6Vq7A8=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAfFjfRWz6ST2G0hruikB8QhXPlmy2pGxbuqW/sMvLF8oAP1wqvuf12jZ
+RE+dDR2OhTKoXtTY8eK9iYaez/qyWxw9gErlR4JJzqjHGubdzGKRJ9UY4BbbsmkS
+vd6QWE0APQ8=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key bLFeqViGUCRc2/7T7AmgDSPy74qIUvTtSgfQP63GfX0
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 PQEsolFsD6dekeOHxs+g7zwjcJbyZLpamWNX+0J97WSGSI4fYl5XhZshFBo5iiYX0mma2gHAA9F/FuP23UvMDw
+router-signature
+-----BEGIN SIGNATURE-----
+6HwuL6dL+cq0PKNZiXG0dPljDvKak8BuqoEOEtx41fcscTcHh0ma2a991Syw9ca/
+MxSKnqSt1LOg6twxwRcH5gpDI+MFfsUgesXQr/8491EkdjUpJFm6nBkWpOYShwFz
+cjiV/9uTh8Q+OkDvqf0MAqQLRRwMcwlO0AgUgYtQyEs=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay58middle 46.183.119.58 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAeD+37m00m/YTrXbe1hAa1A3HLIgDc0Ran0n0CDkazImAQAgBADvrT6l
+LcyVUcHZ8EEEmbX9GoUt9Ow6o9VAyodS2CZjna7pP7l8AT9MYLflvQMhorY6JeIt
+o6vqg9pErjYmiI2D1DkmHhvrAALM+c1j0I11qB6IUqYS3yEh2GAhLKA8YAI=
+-----END ED25519 CERT-----
+master-key-ed25519 760+pS3MlVHB2fBBBJm1/RqFLfTsOqPVQMqHUtgmY50
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:07:03
+fingerprint 58AE F6C5 8896 029B 8F55 21DA 3771 FF35 A554 E37C
+uptime 417
+bandwidth 716800 1048576 55065
+extra-info-digest C4FB9C65E6A7A939DEF670FA576F8EDD24683C4B cf7hwO1BcJeetLDqQZy2wVYoLhKOjOShg38kpVkbVWQ
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALRJdc/booTA6vX2yGtxNsT+nM/e0VtZGEFRIHQNq14KAqbWqnT3UTPc
+RnVl556vlLp8Ph0Idbenc33oOPRMxfuR06mV54V8ydRxZOLc2jxgTPsVWxctLi1p
+RUQbz9K40nQVg2w/d1i6FWOAG7T2O+nO/x3ZJGMEIKlwvmFPZ5IvAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAM1Xg24MiJU4RLgHnZLGGFTvzjNvufbbmrhA/uFJAlJ4BYEuYCMTIT5s
+1A+UJQxon73a5Ki/+hIS9LCKwp7is3mJo6/o0SH44A4Prysq9VaWHzgmPUs8/Dim
+/KCMW+2lJupiOkXTbCtX0+KCkenPQYnHHCA3tdKpshLSQdZei5oFAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+MSr+XlgaHNQ/Pcx64Nic7hB7IE5V4WjYiVeUstg83xNiwRJWCWmPKXZF7U/UChgq
+viVd9T4MdLQBjFaQT+3hZDt8rhrbVOnUN03WaOUP0THYqiG3xQtIxfP0AQUout6K
+wpg0zwVcoVaD2XHOAxFH/Z8ogYeIoW1i9Cy9l9TlCOc=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAe+tPqUtzJVRwdnwQQSZtf0ahS307Dqj1UDKh1LYJmOdAB9dnpEGKYje
+TlELsxjRdng8ZT5B191D77SHLVvTqo2Ax67pGsBYR8Xl3dhTBM7oP87Is0p3k0Vy
+CP1H2EXWmQw=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key AvQsmeaPaRacyOUUL9fkqXjAiwKpwMUTYRgzw7hGQiQ
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 5BjHkiQsnOQERCrbzNDgKZAKAHIjIl8gVNNywdVWir1OdcmqVgcYlxTSRGmoQr0ErjSFBPNkoQIFTkMAucvCBQ
+router-signature
+-----BEGIN SIGNATURE-----
+yqZAqF9Jao/s9W7tnPGpNQ83PS/eDKg6NI+nsJrUwBFdeAMjDfF5M6WAHX54UjBH
+KyGYEBs6BESYmF7yaa0l6pqL+lQQp4uDeprTbf3lQ6mCVYIZhdHW86Ori8C2C1jN
+0e/z831lBxkjyhc5ohZtH6py5Hd+EoigF5+UFYlI7sQ=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay54middle 51.158.154.122 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAeLZKc7HvFwp1zqCBzpIgirajPitqsgTPd51zMBPK0CGAQAgBABLgMc0
+aqGl4avg494aX41U9DHqCeP3EaU8rDmJD7sLszojfx4nuoiEpMUeYCrh4THDNiYL
+YPTpMA1H6/b2BBZGHQyLcpu+aUuBTDLq86XtmJDMBltYUa8aS9N0m9cihgg=
+-----END ED25519 CERT-----
+master-key-ed25519 S4DHNGqhpeGr4OPeGl+NVPQx6gnj9xGlPKw5iQ+7C7M
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:19
+fingerprint 5E5F 1EC1 FB44 3D29 38E7 EB46 8363 6C5D 952B 2E37
+uptime 313
+bandwidth 1048576 2097152 55129
+extra-info-digest 062C5A9EBC790010119B4BDC6A30A179EF51CE9A 0ksQR1oM14o6YZjf3qUJb/Cv/Wiije+xaFbOTUAWt98
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAL7ugJJOoJrMAssjLKEADGtV6uTZrUmYBJ4gUxw+QghWNrf+mCBPq4bz
+2bH80ThJVTpuhjGf5TrhYd38d4WcSCf/Sya8m3uvP7Lh8m4U6B0srxCMsup8MnDE
+9fojtdEWppopbvphfMbsgmu8GHy+crYryvwlbjjJKTZPhw2Ey4stAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALZVfxt0j+jtVHTEJyQWWI9SX9wGbIBuarBnG1Hblpa7diC8Sf8gd33V
+ezF06GBzT/3xPAoysy2wUXrsZL4hlcClytdidgeFxdSoocK6eCOyDGH8WOrbk6dk
+6iagSw/uXZH3YAm8qi6eXvIXadlJLivhskCDY9OfGCU/QasJgn9xAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+jy0WmcdtX9w1MLmhJyMp5lpKhvlVw4kJqXbyuasIahrGL8DuuxVttNX1ea25Z9bl
+Z13AqSnbeKl54k2Vq8tcT1F+KkHX8D/R2IfR7cAMWP5YTZ+8iLmYaYM20AdQNxZl
+Bss2VsoQ2eRjYb11vJOED2MSf/n+rfomDPQ+woFQwjs=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAUuAxzRqoaXhq+Dj3hpfjVT0MeoJ4/cRpTysOYkPuwuzAF9C8dSqVUqg
+ZpZ0Rb4p6bxwguKy28i0yRKa52VyZS6o24nyUROyf8pfO0hdbcz0ecvg+8d1ah80
+ozJuC1KPwQA=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key ZO+zlvNsU0Et2pCjQiM3F1mws8RVYKTV1m9uaILBl3w
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 Omwg+2azfW4PctZp3oz7zpDLcCzMwpoZlUxW+9oQuKh1Sr1/hyDGTQu19eqg9UKr6NXf4O1ifaBuRa9aDlkZBg
+router-signature
+-----BEGIN SIGNATURE-----
+m9jcDGgUEESrOdrSLDKtlMLo3fBK+KNNt1eRcpXS8U5WlZmMqWnSRBo1nX6BXMG+
+2C3BzZlgR1HtlQ5bprawfu6Fr3YUQn+VbmN2JYz75cDxbijXWMMbTsDEk+kCinfI
+unwD5TNkyK3Rg+3nC1b8jyD3Ud+aoKM8Bgg1impIrkI=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay50middle 87.193.208.14 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzARR4KVRedZ5w4gW7FS4XjeI/fIK/OXZQwiQW5Ox+VQHNAQAgBABLMK2G
+H6bB6xXdAvx/on66nNIjV9rq0ejgu20MsZnUDpzttTgBiruo2OpyVOZwKvn5a/qL
+io+VUjw5ToBErt60HqqAjz2moRI76DrUqyqhd4/4gkY+FAVE5k9VRHE8QgY=
+-----END ED25519 CERT-----
+master-key-ed25519 SzCthh+mwesV3QL8f6J+upzSI1fa6tHo4LttDLGZ1A4
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:04:27
+fingerprint 7244 F4B4 C396 D426 403B 6092 2C5C 9B63 83E1 74B1
+uptime 261
+bandwidth 1572864 2097152 69935
+extra-info-digest A72196FDCF60D10B0ADEAD7F168F4D55CDFC6126 8wwODAhVOkwe1KAXozsKHDOEK3qWJrFZXcIVTSln4cU
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAK9zgpTC/1hNIcZgHh5mVkvtTCmRCwFp/dw40t1+suH/CVrLsmORY7T9
+hbaqAXFlxHqGB59P2fhcYW4Ppn0te01EBDothQPE+5i8cy5J/ari+UECEVseaXZw
+AhX3m4QaxelDKpKOymLgGpWFfKgYp301GIVQCJ4w/XXLm/RtJIdvAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALqZXrLj1FEQ/s1nDcW4ZJgiXs/tHtEthnwUDpty5LX3Hw8ZoJebL4nJ
+u4/wDukEH2pt5XaipNPyqYA1irShvXSXJuyKrSNFD70q+SACQYPO01gOLZNJwu4j
+u5zosabutSz1AR0Fu3C7uIEvdE4DHIknvGBh5L2aVAu7xEnmCBQlAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+rOXcyVvRMvjhXXMj6swnc7iW0/9Ub4RZCJsSCS2mwWIVbatjpfFMk7a3I6IZSoBB
+WA5e5Bu8+U2eazLOeIhEzqwfqgY/saIsR9e1LfJoTAb320iKgQgNe2jfUjWS+t/j
+cRCRsgJsHmVpguTGh1apRliya5IFuXeBEHfgUV5BI0k=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAUswrYYfpsHrFd0C/H+ifrqc0iNX2urR6OC7bQyxmdQOAMutD+O+oHMs
+mt60kWuq2RCnANctU9Tc0ygboSGL9arLVOqVcpKPHGwHrN1RWMwrw8kgOHOGHNZI
+iZ1kkpg+YAg=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key +PJbTIFanEItT9UdnvNk9TCltw7i+tkQmrDgsM6efAI
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 2HYCcrpP1Z6GTNZrKxSW+1/4fSs/ue3866okuPJyf7FJRMmLxJyqHF3fzTgvrbb/tgpW6x20qzHR/8NgPP7eBg
+router-signature
+-----BEGIN SIGNATURE-----
+Qoiey5+aeD+Rm5kcVIAjVygfTrutN/KyNhXhP6slHJ4zg9mLd6VDC15PhFkjFwuD
+RRrZZe0DaCf3nZ7S10kAab4QxdqzS6ATTVUZ/oR69ktW58OAYUeXqWHcppy0K78T
+t/DCA6jG2CXoJGBJs4Fke2il2bBouLJz92qq7ICtHgU=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay49middle 91.233.116.119 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAWtG0/8+yctucYoLoeeLRvqeEzvKYVKg0Kz9frT/4RhMAQAgBAApQ8yB
+yivfIA5GgKVsfWsYoPlB66Oz927fg10OSRWpRX515vfCczfEQvrhiqXwuzLgCjFR
+V+cATliCy0d7SfN4cpvtu+Ud0bHVmzyijmgQyP80987MPjcbJmxCaheNSA8=
+-----END ED25519 CERT-----
+master-key-ed25519 KUPMgcor3yAORoClbH1rGKD5Qeujs/du34NdDkkVqUU
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:01
+fingerprint 739D C70B E097 EF6A C1E7 3781 20E9 FB21 EB53 1BD0
+uptime 295
+bandwidth 1073741824 1073741824 58689
+extra-info-digest 2C7DECD6EF27234E135A1BE82BF3452BA10A5ED4 wam8ghYNiFbTlIIgMDbVJthaKXUmbtticfIOa6F46AU
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMXCmf3viLrvbkHbKLxvSlRtunNIhEG6hgJUFj8vZYzEiG+oO5PkcP5v
+8UUEutmAHDITpW1r4yrIVkL3XZkm7RuXrOKYHgMBH0H0ENMDSGOXCzXLXMcCPtqB
+nmWIPZk4lcm5jCUGdccRJXQ2ZGIWuzQnjr0x8so/5SmiqGtojlTbAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALBxp3KqI8LhdB0+HyyzwLFitWyZw4gaGiYF3g6+k4fB0NF9T04s+yqw
+arCsHf5tntwBMSp4etG3fOwC0h6vGrMLtINmE0F3FBy7KGI7Pr7NG8nJu54pz6/V
+YQP5IpNaX5UtoEQaWpbj9iTK1f5/XQKl1hdNgh6IuCB7wu2yWkOtAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+LRfwkN2UJSUlZoJiHJAg1S4FfhDEkd3VzD5U26D6mtZhSPbV/pduB01HZx0g5hqj
+yiQnMgW1YiETk6VDDV9/ApYw4REd3VTahbW31N2pAb8rGB01Nu3D9CL14nBfQorR
+y1ZGgV8TAPXO/3jKcUhj98Bl2FSmI5CRDkoDzN0XF4g=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZASlDzIHKK98gDkaApWx9axig+UHro7P3bt+DXQ5JFalFAIfdyPIlYMKc
+cnzg9kzYSuoyWPhiulS9XxnNfVpDua2R8ht35kQ6VnYb7aWV2EWCY0cNNz7lwVwA
+tjW5qZnpNgE=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key 8ouWLlUOCuXea+hNkerjPc1eariazNyFIDTQlNQYUQ4
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 dJUkYmVVHl3q7V0UVf3y9JXYEaJdiQyL0dxHHsfJsx3EdPOkVG0gn82dBIGgh6rSNPmbNMOXQKhv/tu1m4/TDA
+router-signature
+-----BEGIN SIGNATURE-----
+J1JVgcokdPR52oeccrVjMFBP7cs+bTES0O4ZzcNdMT2NmHqXL/KJlLr0tKupnlI/
+oeRxuGMggJSAcUUoUaYTe0ald78yIaMHKF6dl+Txn5taCDPpNn4Mf88m8CpWjFfk
+HR1lA2yROzHK9xjwaNR/56NOG/0/cKaieribqBJ5xuY=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay2exitguard 109.70.100.3 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAQdPitBPG6noGKcKYPRYYQb0IhOgs5pGFLXocL4T9ccqAQAgBADYpm00
+qCab/ofDw11PdWKTk9gWr/6S7fA3uDSg30kpZeTZXlsSx5asRnp/S88zdwXk5IzN
+8LFrscpSmWm3Vkpj2uTPbkQiHmmd9wMJte0DuAq90uW+auc5JPHVbM3eOAA=
+-----END ED25519 CERT-----
+master-key-ed25519 2KZtNKgmm/6Hw8NdT3Vik5PYFq/+ku3wN7g0oN9JKWU
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:32
+fingerprint 7CBD 9720 C3FA 51DF BD3D E05C 3FF1 30F9 BA97 DB63
+uptime 329
+bandwidth 65536000 131072000 53536
+extra-info-digest 045F4C3C2C601E991D4F402CD50C3FF78202F51F Mo5PAQtgTIzvUpzQQ0Qh87RncRhz0KxtXkFy9Ny7P50
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAL9tilgMKtpIizyseQYqE6zgGd1HGm+xh0/jV5k5l15I7j0NiodDh5/S
+dcAy5Su7iuq53yXQdZWLc0/s6hFPZP3AiWXcmfqWJZu+jGyLhUjXXImlf4fngXNO
+law06kTb8bDr6E+8NQijCTQDc1PyCBPEzQRLMc+I5FSAfOq+sBALAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMXHrPPxTKkyPvJZrZ4k1b0xdx5o64WQ/90xf7Y6nsPHnOzt+n0vLCx9
+1Rho4SpoFa+K7T0rVhjQFTRlDiuZMCYLA6GuxBrw/2OpYppGnhfN/98Kx3Y2Qw5M
+xgw1odPULPANQmcSux1nknCoYqHCJSxQHsX3Zk9oTdee76eqp9N1AgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+WAj32TKxvUJjHk747wdePy2+qiHItzfe5EyHvYVmv2G/SJWyIN0bSGYuIDUgIHEy
+/WDT2wOIFgjzW2ua0rs8ndH0Q1jiuCOHHQ+ZwbeUZD+cg2AutntZoMe/KLu8psW6
+M8IF1eNE9MEjrXlhirNwOp72sM7H19+/ZWhOfA3Y8H4=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAdimbTSoJpv+h8PDXU91YpOT2Bav/pLt8De4NKDfSSllAHegc+BKBkuE
+nuovpqBHc2b53Ypw8UdQQUfdHDARcxtQa67jjAqaKthPr78PjjvjWwnG/K1ZF4g4
+bwoVNTd51g4=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key WirNtY/i43a59qImhBYOj/bOBcpZAFPxCpAnv+0gX2s
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 lrOgS8OwQVzmMYkghkFvP44aKYfeINxndO1TEfRMtuk9YAi1OVWyJ3Xnraeo/sxYYmJvVVTWfU4k06p4JVe5Bg
+router-signature
+-----BEGIN SIGNATURE-----
+h6dRfVLRUDTG76mpJib3kljbGC/dYNZtKYTrjClHdhUZj5eP6Bo3oCu6Mv+uA5t3
+P6AIRxFt/ngsJx+he+zIys8BpJm16b0RO2QSguJGH6TDFdPJXLAs452XxvOYSFcU
+rYjTiR8adxIPfb1iyN79Q2DeCDEesKyQNKOlIhkmu1s=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay56middle 192.144.37.127 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAcMvTM5NNV5xcsTD7nCb+OM8oNI02fhOt3X5RbDKeyOmAQAgBABBKXvF
+sFq+oQzpuG/IUp6X6HaRTpMhu74k6WWwQsV1SqCRNOCJPyUUPe99nHGLl2HlscVu
+du4nXsMf7EbQ6Kn0MNYtGCPekbZT4zrYmZDCkUuI8cC0ejI87MlUMRZeqwg=
+-----END ED25519 CERT-----
+master-key-ed25519 QSl7xbBavqEM6bhvyFKel+h2kU6TIbu+JOllsELFdUo
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:07
+fingerprint 8465 7554 0E31 F995 362C 6E28 137C 57EC 722D 52FE
+uptime 301
+bandwidth 983040 1024000 56700
+extra-info-digest 2004AB43B83C969923FF09D83EA42734DAAE5900 UPI6Smx7S5/rruvzCdvIvctpLPtDXDj0AgR2mg22Byk
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMaX72RnCxOvlDDzUvnNgLbnC9ATZv8rTuL6BR1aH7uW3kk8KPPxJGe3
+aksWHci0npWVki3jZPNceAuIqWVxlmV5DRQ9gSErxo6DMvE5gj/V/ZYEHYEyFtD0
+D+okuXM/zax4QOcGRwqnt6/kpCARr+M/bDcwKlgUUurw8/HIDZT5AgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAK0uUSDDh9W65quVj7QdBBpN/lMFElazs8TXMyVPrRZaqNzskh6fKzFZ
+KVixbcCpc6N0ir+kLmogYzEyod/wJ3klusKk4HdYoKgbKbavW0RqsTx1a8PcYWKS
+aYQXR9oFyW5NKSMFSeaia2dTKLhIBTPC/5hRglvjr5RihxKe4MJhAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+Vr72bjlZOvprQbNR+jhkDvIv6q2ae/0xQg3m6223wp/4pfDindhQZXANhENeZ73u
+VZI445bzURvUsF/noHYQLUVb6FItlEQu/4QyE4ER1P6vY7WRJ3riRmYfGQrq6/0S
+zBVZDBbtGVwDFlNKd/ViU4g7PNxbafzF3oxpxCD/suc=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAUEpe8WwWr6hDOm4b8hSnpfodpFOkyG7viTpZbBCxXVKANEJnlI0pPnJ
+flcvkE6efC2jMcbtDpUuX69k/jDN0+oArMk6nx1axZatNPOy37KT4XOotD9h5KNH
+LpfG/7VDZwA=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key /29ITxo9DLVoMNU3+0KheCejijEaRPuBMp2sUob9ZjM
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 d/MGIgaXYju3u74Qj4bKSld5CNdqXyHNve4cCgM6NAwF++Mii25+lIWcJUtra+kcu2C0B59rx45658Kn8l+BDw
+router-signature
+-----BEGIN SIGNATURE-----
+lKj7el415dMHw/EOvfrlKK7p3paF7XQU5ViPBlgtNf0XPC/Hr/0DnDnPTjPxHV3y
+AH5PhxSHImpxDOOkxSm8+INIKBS0d+YO8m1FcSdGK7XsaEoYFF54b/X+lXcBgz0e
+XyQHvsxE79lm66Awa3JN/wWtTY+en/SgrZIuhFp3r6c=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay57middle 191.92.117.68 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAaRsdTOh3+DTuM/ZFsp263kZGDEucmLXvk9YOf1uj3MQAQAgBAA+yLWI
+Lk+muABv6AKTLEc9OLheIvXGE1X/9hls/aKlfLNrlKHRI86xWiEPprLNJLXZIS6A
++/ByKK970AT7NaEReKv5v06IUQFcFEMNnzRIH+5v+TFyhVcX3B4/xL1dIwg=
+-----END ED25519 CERT-----
+master-key-ed25519 Psi1iC5PprgAb+gCkyxHPTi4XiL1xhNV//YZbP2ipXw
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:22
+fingerprint 86C0 752B 59B3 9FD3 2F1F 0181 9D95 D457 39A9 F024
+uptime 316
+bandwidth 1073741824 1073741824 49320
+extra-info-digest 34BD0EB975F8670946E3EB75949E362F417AB01B eahNJ6G07/A1tA4uGuy60kcfPTplI9mWMdeui5AOqcw
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBANYZbLvcHy2F/cxmjYv7c65Mkj5sWXzlJLZLOlSIymhj1F90oG7ci/IH
+hRUAjg5pkWZsqAiONOmRltGii8ho7BN30eKP9s1iUj1h/Uj1/NHq3HIpFzV+aIv4
+T0bieyzSe7UI/Lk+YOV7msKQxWjcopXLP/m+Hd0Y5qZ7Mge+WOIfAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMmeRf7iZQXAgll130wdbn8Y2JmwgcwICDfRJ26fnePjUXGS1z+v3S9V
++1oeWzs1G7zebFhyVBp87YsMH1eyOq9t0ceUbEPOLllRunPRuJJZiQRszc/5PXO1
+gfICJkHhttVE+0lOx1vciOJfC4BvJg+e60lENFnvoDW8YdX+xNsrAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+ZJiyAQbiGvrsoPfleqphMCi2MV93nLi9sKVdpr3GLmm8gIiOi0PtT9KD+FVteZLO
+wOlh8pg2FrITkAGiYnKH4kGvWnKiRQ6PhnEqzVQo3OoWWDTk+GGtY91Im08KVyy7
+Mt78lATXitNKQ/risz0X/1xcKsSNDbsB3mHvL8FTyGM=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAT7ItYguT6a4AG/oApMsRz04uF4i9cYTVf/2GWz9oqV8AAE6HXlkxT64
+kicbxhGZmQBs3xR++bHSzXYSaVezU1Lf+9KsxuZRjTxd+NbW+K5+Fcctfl/3/NyT
+2kHSXAKFWQU=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key 2o1G8su+tZSqZu5MBcwN8BUUlK3A9Tav3FZQ7mW11Uw
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 F3WlENJEo+kHVbhPT7Ln4oVr5Sk6uXZCQZHtJ0yL0GscIDX/tx3l9EptIzxH0y7atxBEHzm96v18RbEPqyQqDQ
+router-signature
+-----BEGIN SIGNATURE-----
+B9oQZm12Abnhr0A271cfccxyQFHl9wg8vX88il039I3nt7jHtpiexAJQR6VTDOK3
+ifaXakx1T1q9q3A3LZWJ7sdZUQCS++3GZR4igubgYPFIRcxEffOQhHFBe8NLmWBl
+xBAr0fn4Q18GXWpNJMv4ilxQZmMJ9ns97uKhwz2h5Ts=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router 4uthority2 100.0.0.2 9001 0 8080
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAV5P2PQa0eQ0YN6RM7F73oH1IGhHViwCZ9dy6+3UidRMAQAgBAA86nUc
+ZBwHOA+ULIJL3GVYY1IopKYMRc6MSrDufDk6rGt++u3KqRtPymEXmtjwuS2yq0+g
+HPZ5ec6mvYNzDxqRfmDBpyHIKpUJJgErY3g1ywCauTwSmJjVrkTO6LEHVA4=
+-----END ED25519 CERT-----
+master-key-ed25519 POp1HGQcBzgPlCyCS9xlWGNSKKSmDEXOjEqw7nw5Oqw
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:03:03
+fingerprint 973F AF79 B416 831D 7EF2 6B5F 155E 2F5A AECD 7E02
+uptime 181
+bandwidth 1073741824 1073741824 48721
+extra-info-digest 87C79F092155884E2C7234B9D6AE2311C3F98C76 T3jl+R7vmjb9z2UcVDPDvpjLzjknaUj2/foPR4oI3OI
+caches-extra-info
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAN/0IPagDroRqCI46VzrFwCS2eaAKUfj3YAUcOBX+LaiGT9OOw6aou8b
+f8aD7XrWn7GfPqobvdVrRW2f/i1tnCNs3DLXdVe8Kvmk+ttbWoMjeKMxG84SnmVv
+2y8RHScgqJU/TmVRthYazbrj94YQyY9wR4luCFYyY3Tq8bGThg5lAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALYVX0tWJyph/XxGyIgEA6gV8EzFTJOWFQF6BSrNIK3yef9KC6r58XVp
+u9BgZ6fBq63AI0QRwV9C2IHnLUSrDdYnERLNOdix+gqAZTHo1A2C7pJ4Zht+ag5v
+9dLzHRWF6SByDPuMA/zi/1WeuRMz5AdUVqfRet3KwndIbFi4Kh6NAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+q6MTa+wLWcFx0TTqYJXRhi5zLAln7+S/HiR+Sj1x/Mga6W2kv6rbzlPiGP1Sx8w0
+a0uy7Gae++SCVadI7cGVVwrr1+6dXL14ZfFIl+MaK9U1/pzvKb0OLM9ucTASIAjq
+/puuRhojhoCo8reQC5HKrBgja5Y+d+1+Gpf59B0aBxY=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZATzqdRxkHAc4D5QsgkvcZVhjUiikpgxFzoxKsO58OTqsAHishZe/JfN+
+0x9UD5bXQ35+O2LSZR6HunYeTtsSTG2L01GFZk/RGrhG4+A4CkE4Ou2QQS2ij4G7
+GXg3V0yWlw8=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key Vl6Q+u/txDUuXWU7kQZKYAD2pWptktvZp+59mS7uHQc
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 zc5KbGeDhHAHzqkXmGvx6QJ+b8pYOeU0slcsrcgtppgsmWaVwcTjXbybOdtfCUTLdbMp+LZfQb6zPn6NEkz5DQ
+router-signature
+-----BEGIN SIGNATURE-----
+VGfdF+gjH7njRTt/PJH1vto/11f5rM8ZL7A7ottYOIi6gQCuuid7XsKDr6itGWsa
+xD4IEOTNihmd1JQvH1kg8ZNUDh4i8tD0q5W6FsPiS6yEjVO43gbjpYkbNohfTb2i
+MphHnUki2JetKV6zuUlupXy3qsnl7vgTRy7FrSDSWxc=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay12exit 83.97.20.101 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAa8O/Y9mvCHABgRkZg6kPYIPo1s9RQLM+35O1eBIGGZqAQAgBAAmHUjp
+JM2/wSixUcqC1YsyU49mJkWPYpw0Hp4g+hhRIYKaYkTLcc0zCu/BiyQTk0kg01XR
+MC8gSJDXi96NMm9gTH3FCdCES/cL17yBcJ0HeTbiEwvOS84AYb5KwIOMPwI=
+-----END ED25519 CERT-----
+master-key-ed25519 Jh1I6STNv8EosVHKgtWLMlOPZiZFj2KcNB6eIPoYUSE
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:04:33
+fingerprint 98E2 307E E982 C132 DF43 CCDF 3863 6712 4808 F78E
+uptime 269
+bandwidth 1073741824 1073741824 55217
+extra-info-digest F8D4E2935B613526BC2391056AB1ECF5E440E6BF 6VENpBQfQJgyBa6v0XBnKZ420Py6TQ7aKiLip0rF+xs
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAKKwWgSO6Tar3S8jvfCtj6qeCot6SODELF2vDQQ+KWDDrohUkxs7rZKy
+tVksxweVTe1Z160rspvzE9yzAoSbpbxCUteXSbdeY6vitL4PHeweWxKJNgA5K9+H
+XgO/sWG6J/kdaEv90xQTFj1obucb8l9G89MSMvHJhIu9Xe4bGVTLAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAKhUGGaKltiCP48TtaGuxjUDPeCdoug+KPovUqTtsJ1+2nfpC8ftdF91
+S/cBr4gltdwd+P0zzxcgIHf9BYSwvKndrlrb4ToXHSvpgKqHyA5YRbgrDVTGCak4
+Asfy7c+61EUDRCKjPWZkhuGnixldhKC556NAZLw0g2WX0ZND4zGVAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+i/GL4995V132rgjH0/W4NWO0ZFRCc7xEq8PY7rzlBOI/6IUeCsVqA1ATbFsBNPJM
+lerkaElRgTFwv68Pbv3Byq34gTwPqG2kfJcXAhnR2ztaR+bhxuchooaaqAwqycgr
+fTKqdJMPU9NL7E8KisFTOi3l7M0IBQeQp2Ja0ChYHRw=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZASYdSOkkzb/BKLFRyoLVizJTj2YmRY9inDQeniD6GFEhAH7XPUVbf0zf
+82BOWz9FChvFH0oZjinloGuBhf/Bps8pFLeG5dKDQnTu8c+zwTA1XevZ29QgP2TG
+3EoMOw3vjw4=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key HF9NHmRf7/sssSja43eXl09/KbFdLKEBBxT/FuBbzXs
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 8XhinehNkJZJP6OYRp/fzxR+Va5p3yu5b+m6BsbI02/mlmivOKS5gOIDGmZIYFnreNA+qFMdKI06LJOAth8CAA
+router-signature
+-----BEGIN SIGNATURE-----
+a01Cv2PxTR3rPPUL2GV+gkLSRFppP9suRbTfm4obDTVqhAKeTKfObmJqIMLhfo4L
+zjLD2dLlQHKyuuQ5UkAUTJiPo/oeNb53AAZow/AMldWu0gaxE3FmunbX1kweYoC0
+lMWHF8eNsmBKfkF9S/+jdpWcq7GVaDDB2A36ldvaBiE=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay1exitguard 185.220.102.251 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAZ8NwkXPAovHIp5kPMNUXf6S0b5lv9chVkeE1qiVKc5TAQAgBABfUGGf
+kOm+pteKfIY9SrFk+KkKi2Kt5tvg/NO0hs4n1tpwLa0QCQer6TduuueTVQDBLh/K
+L6f+eahOYnj0Q//9UMNh/QgM8mP3jACBKok69boEEqY4JjkdXEcJRIqHYgk=
+-----END ED25519 CERT-----
+master-key-ed25519 X1Bhn5DpvqbXinyGPUqxZPipCotirebb4PzTtIbOJ9Y
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:31
+fingerprint B112 9527 0BA2 6D6F 0B60 BB8C B46A 234D A97D E7FE
+uptime 328
+bandwidth 1073741824 1073741824 54359
+extra-info-digest 982A3D6E447E2DDF5852B1D68AA8D17D0135721D WUoKleHV/v8iX0AwAfb1h/ravRxeGdO5Z9vsv/K/hJY
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAL8CpPJuxvKa/D27f4+FssMeOSqMmpYh6fcbcUzbJTXg+FRSndHwQdPc
+25BQfEAa2rRzJ3F4Z8sv+q9gc+1wVNvZGj82eE0Z71RnZEzUpha1Pa3VGdG3+wW9
+aj24CTCLwuyuFORZ7j60DWB64xxLHLc3QSzTG1/2azEWyj8ubojHAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMp1VDp1cTZstxjdJijqHgdzP6m7ZSt19077udJP+FT7FDkrtj+7BSJA
+XHUxkiofJidABXEXURGL21paYHwS1W+IMaylpXwTyzNI3bPhWzD/gNMNXaIPO7/7
+gritFUi8kGFThasHkNcelxQH45Bc4pHIddf4gWnxSGuCuXU1+Be9AgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+sNzO8po+nC8LOdWIW1GlJ6ooYzRcFWtOrVL5/BHfsMV/+TA1eTj2qc18vW7bS4Vl
+954yBTZVQoK+PL7xZBShgl3+YkVnR4w1VOAJHsZgdWl0WHh1PCAu8si/CMU/ELnJ
+hvb9rWePI/9j133bXCcfn4oU4Et7Y0kjGChSbsc7w8I=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAV9QYZ+Q6b6m14p8hj1KsWT4qQqLYq3m2+D807SGzifWAMLyGaFT8JxZ
+NyoKucTLTrQGiigXdiqlHTCEhBvpo5YQnh8YmzCCowGElDoPPIGt2dqvqmsqOrqW
+Sns/TTThdQw=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key u9bjmv+x63mH/zKRfnrQUwH7mXKzxgt0SXPd++Rn5Qw
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 0O0AUX1U28XZRyLk53C/QHcLnt/AyW53nyoRALNE/8a9U58Dzt7BSLLZhMrk34y4iZXYhBXB3GboAaXWKMCaCQ
+router-signature
+-----BEGIN SIGNATURE-----
+w1lKYIi4T81Lem5k0rrS1rHINfR26w0CYUrCYIO6JvaJiZjTO8KJc6jfd7SC/nSf
++5JEcRhHgQpoMuiKCQ1CM2zYRsrDkSsrHiV+pDS6Y3LCuuCxU13QiOqDeJvTQR7I
+yBGDczP60Q51tgslqyJZRXRgyrqNRL8t7V3uHK/DlvU=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay59middle 165.22.236.251 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAcG8f7gk+MwCmQcKza8xvqRi7iW0T5Ic8VfOT+kOeMkkAQAgBADZJQR8
+TTAH5vktKFWa6h66mVmV2O7XuNqRfp0iXoJTYwhHlW9YVdcAMofOV8hTbO/RoYMN
+yMEyXuCEEIZV7iCet4kVmrqxv832/ZNSdUeOL5nBC2znp6kWdGD5TppjHwY=
+-----END ED25519 CERT-----
+master-key-ed25519 2SUEfE0wB+b5LShVmuoeuplZldju17jakX6dIl6CU2M
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:48
+fingerprint BDD6 9EA8 33CC 25A6 399A 9697 7C68 A93B 743D B894
+uptime 342
+bandwidth 614400 1024000 59345
+extra-info-digest CA73453430649053F13B0FEFFD8682AED3D9E58A FW/01ekMnqExlRWSen/VhU/efQbmf2W/75GDuwCvETU
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAN6umj7g3uFoEIHByJYLlvfmZnxp9W1HsAHQ5dEyC3pG/lxgb1XoyyNu
+GopW67XPY5oWLFPk+aFm8mUMInTBkSEE9koD0QZ0jQRSSVOkNqwybXJ5VyUa6SS2
+q5DUOirc/gg+hy0hBaKIEqdeYB41oVl73a2vdOswhrW8XW+ugy7HAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAL4Hta4Y0Iw45fkqfsunFxQCwXrRRud6nv3juZNyEk5wXkRWYhDUTSv5
+yPjh4MxbZ8Bp3PV/efO08VgBPsJvwHu2Ut3XTPC3k+mP2jAg3tJyxFAvNggt3T+e
+s+TMDivgCxk89wD9cdoEewUVfXwVSFbvpvru6EHe96aAOC+LgG3DAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+at0xBxjkVntY0Cg4Upm3r3ca2+TNbZ4Y8Y5mt5tAyfOmOUbuqLlTU4xRyyXpEJaS
+Xp+VWLe5iL+5DOgYREZDA34dhLyI3gVfPa6/0vnl3WV7lJdyxvZluYk2/HHV3AgR
+3Cqj47i7spoAabkT5SXFdB/CkQ8NVTEjxgpPxntwZeU=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAdklBHxNMAfm+S0oVZrqHrqZWZXY7te42pF+nSJeglNjAHj5O30FLqaO
+Q92N2aB5xK5M1Jogcxb46nIEDD3bdRD9d7s4BFgCejGOFr9hXICsvnNu8O7rcvUc
+FcFkwfDhWws=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key CvLHkrLZe1b2XqcBWZYoOAzulRyHzk6QE9RR+AXA8TE
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 OZuUqwPSE9uRut2lGYdYPAhZekY4zt1FChSxvzX0YoxaF+MY/DLGGMPG2TSaqsWD474HGe+alHV/4p44GutEBw
+router-signature
+-----BEGIN SIGNATURE-----
+KqVFl+5NTiIruh1ZaQAdwOnjvk+Z8q3YzbD1L/D6CuiekXs9TvHHntw48/lI6L0u
+++Ejr/3aY+XqtVMgaFvyr2koutuULYAC+wZH1wAwD3hAwXiEIls50jq8DZrtdmvq
+yQpInZ9vAM5zvyFpEKseICT5kJuS70fIylHBGz+BmIs=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay27guard 81.169.167.88 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAXLbI/Yy7M1EOtZdlqLB/703VVcA0KQbXl/Ncku7qHmTAQAgBACIJVNo
+3PBBM5AYoZTsZY518FY3ISsciEy3+NS6uCKIlUb7J6m87bN+V8vGPdDjPfZ0QW4t
+ilo5eVObcUGHT56gSX0OKMxB2QKZFP7w0XBz6pY3yOmRh/AnhspRTiGwFwo=
+-----END ED25519 CERT-----
+master-key-ed25519 iCVTaNzwQTOQGKGU7GWOdfBWNyErHIhMt/jUurgiiJU
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:04:31
+fingerprint C881 EF22 E3B2 3E4C 5C48 E8A5 01F9 1C65 DE90 4FB1
+uptime 266
+bandwidth 1073741824 1073741824 66890
+extra-info-digest C97669E14948542D03F06470F6EFB40179E433FC ihhZ0HsCRgVNeAcDiL56BeKARFvF+LraYVPUEZR0TwA
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAM7l4fDwNUaSK88QddOt6wYaXDuBQmgAuhggLQDVXrzSyvxvV9T1ko3d
+ORgJgOIRW7b1rNXoejEm4zBvqcUnVbPTeaEptaCmRYZD+TZTH8XOgjRUT68DzKIT
+SKalGMDpVlEpqtc6Ht8PGmsAiZfmIWQ3IDlvghcDMFpM5QNVq6LTAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBANJtBbNymDSqtfK/BwScyTiZQI7DxMKEXx52G3JLywaJU66LwyiZbt57
+4ef+ibzKpgeup9RU9gD88oRtzhZUVyFMAnb40PMSjoHdwM+UdSwQ3p6Ln2wlyS0V
+y535SgucCSFV87AW8goUD4RyIQyNYqActF6WaxyALt5pcFX2p3rpAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+TNRBnH9N80x2Y/wCw2wIrEeua/ANc+aJ+lu+Zeh72ugg1UDWyvp1lZ93QkzbyqpV
+Eq+/lmXe2ipVAZX4SFlCp2ZNys8T/NXI18xTEJLkc727WmziDT6n7PuQ7H6gv3O0
+FLwz7yPMLAPCuGyLJ6BN0apVn2SD0mbJQ5JlxGfaobs=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAYglU2jc8EEzkBihlOxljnXwVjchKxyITLf41Lq4IoiVAMCJiSDxl3Te
+Sb8VFJ+dxtJhut41uVay/lDaUdn9Px5eGbwbAKVITY9jn6vml4P81pAPx/q/WyC8
++X+2MZWwbww=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key kaLSF6CySXxotcObcQRL0F/TRS/bihR/oaJHEbOPNG0
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 jcph4aPxv8Sl+IvgsYBhajIkL3kIG15+dAB3XRFQqW5VQWuZe9Ao8Utta34gfql2IA9tuTEmvR8Hocz3dbsLDg
+router-signature
+-----BEGIN SIGNATURE-----
+Y/x43i7JmkjLlUvGYuklOwKQlF714GFuDBra9r7hGuYlnJ8w162o51fGx3uLXzJE
+zsq4zX4dZlnMOqKJ2G2N9N4S6QQufB0eZt4XfrWyGjR96k8IZvPzglKHFEIhwW2B
+E9wxqMJy2qfgTmUwBffsL2w6j54LYBaZ110UUVgqe28=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay8exitguard 37.187.2.76 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAYm67/d0AMTN9V3EMmlqaUNrBrpS/ff8fWfNWAbANTeDAQAgBAC+YCGc
+Ap5dxK/O3MJk1BIrgN19XYQW0PXJCeJBPcMdRCgdoXyXE5HKurhqmLXhMyLlk7+P
+TN+gSklyUZnNxeWZr3kFfTMHz5/IlzzitIarFDHo7yZWCli2I1tAOC+xUQ8=
+-----END ED25519 CERT-----
+master-key-ed25519 vmAhnAKeXcSvztzCZNQSK4DdfV2EFtD1yQniQT3DHUQ
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:08:32
+fingerprint CF6B 4042 26FE 8F18 4B56 8371 1C98 8A37 2A6C EA84
+uptime 509
+bandwidth 7864320 9175040 54326
+extra-info-digest 50D6F5A038F231DD6102D4A4AAC3C29EFA781F8B u7v/jgArQ+ni/2+ibhXX4M/NbMfNVZgkdZ9TyK9S4a0
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMg7MGwgniI0jciujzUJ/SvrFGNFV/iZER8TzhOif6V3UdCm2SakL3XT
+TNl1ATXXdVieRPawUb/8D77oh6xCUT8p++Fsrmf2BLMRmNyMzghr4aB1RhXtQtYw
+M7cDbNPwp6/a1rl9PkYKZwkfrwZajC6+9WivHYBVHX+9CQrZDIb7AgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAKaro6EopOxBlFknb6OsCbY9zkq2K+JZsgoycMgFpJunLSUuRBBX18Bn
+zez/EdexoFyFxweM+tttS4qNlyoIrAyJVo0tbIZpenie4iaNu5zW1yS9s1d5PFwo
+yjLYy3gKyDdKFcGVp9kloY2dW7Nr+inVPBte2io0N7c5MLnWF2MZAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+tllzRneSulIl+YjkUqUTRiNT3W0hMm6F+QC5rn2UvnzBKm2nW6QaP5fYk0SnREn4
+0FWDO3HlIbGHJ+TjzBNwPLsYwu5eG+ApcraZDFHS6luKZ43TpJGR3zPcyphHSvFX
+Fkg0i9lEoRsgzRRL/IWkOV+GApXqnzroV6d6Pc0KND0=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAb5gIZwCnl3Er87cwmTUEiuA3X1dhBbQ9ckJ4kE9wx1EABVDB7ntUTlb
+DwFbq6CdGazaA/X109wGAfmdEIfTS36m/pXQPcVXA5WlR1hc4KBgO23iaznobPqe
+MJF2FMkSYA8=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key LilyVAIMGK37blA0cBLMOw2qpZHQSfvdpgfoe4ENkAY
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 4rxXF4x8kV9F8rQ6xhzVC71evvbE6XSw6mrZj85BPrBJIC8zF9L58AnMCbZ4z+JntgxN5BcjKhtQJ/cU99z0AQ
+router-signature
+-----BEGIN SIGNATURE-----
+bciyYuOalGInx8Vl9/N3Qoe0cQUeN5BKrZKYL4OOnQa3yWbrES8zJx4QnSxzT/EO
+RdM1faydwtShpivopOpzs/HWWDiTK4M07CK20rj4DPGndbhXhvJHivqTLwA5CZ56
+/3ivUzzSPcEMYXDNfsmkfODN8mELpdofwuYUOwe6jI8=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay3exitguard 195.176.3.24 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAbpa9fApEK3Lfv/VgYQQiRMwLwbZrjpwECgALUh4mVbhAQAgBAA+3Mxz
+2axFCESkzCKjUkD3qCaABQffrXzA8zTpcg4lK4T0Hdo9nsGdpeXU2v/LmXjA8WmE
+pW3/NJeRBYq0Xv/ysPzIGscy6NEJ4nR35llwUnJ2MYAw5kyfrajR/ZD0JAc=
+-----END ED25519 CERT-----
+master-key-ed25519 PtzMc9msRQhEpMwio1JA96gmgAUH3618wPM06XIOJSs
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:06:41
+fingerprint D455 2747 A88D EDAB DFFF 6D5F D0D4 99F8 007A 0D10
+uptime 398
+bandwidth 1073741824 1073741824 54550
+extra-info-digest 40B4D0E4383FACB6774EFA1D01A6B7F666942EEB 4wppkulw8DJYDIuN97xLuEQ/H7isViBa8F739oddWRY
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAMsZs2EoJIESDLC7RLhYnWgMGh6q5K/30b7mFjcOQtpYhXSozLrfsW4p
+o7QIrc8E/wSVMMjJEn02M20N57akG0dVh+TJLjfdwmGvD4fS0G2Zw+AaFupeX7jd
+MQl48u0ZNkh/fLe1x+sbC4wFtdWnt/T1G7s49kgA0ZK9LnD8XmCpAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALrYbiugnWqBDyVEzoOcYWlmM81VjV8UjDRBUsRMJ9yW6iu7UZYNdRN+
+z1FJxlDKmaSUK4GY7GFXObEXHQF+KDBFoReczSFixah/fzwV22iUcIhfm/KsXfAE
+8rlF3ix20EugO5eRCyvXxsvcFi0TPVkrlHitTGKopcYaYeR0ECpXAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+tp5wIj4MnX2kBSnmLSH56PWcrmjhPFpM2aYRRItCNM/B7YJJDXsBguaqiEOCQAdz
+uuwu7rurqwRXIhSQTAmvpMVNSsTGM9NrArGftDug6iaItQbQqw51THDjuNE7ixYL
+alEJkMhpjZus1hHWZnEvZJmR5gWYwm4Tv+jXQgGwZOs=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAT7czHPZrEUIRKTMIqNSQPeoJoAFB9+tfMDzNOlyDiUrAPXSJKRe3DKf
+aoCCJnPAW54rLXgokXeOKgdkpnnYAMoMESEOt+Lwk43PYtpMR4c8YuG2C3x/USNB
+Dnd6L0qBJAs=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key sV6ObIoRDDmtZ37LuvoRqGIqA9XI1X2oGBzEHDA+WHo
+accept *:*
+tunnelled-dir-server
+router-sig-ed25519 Ht4O33JCjtAKErlieSEvvhZ+3jpGRXaePGq3EtCzhFXJYjBp4ExMpHmpNznHMJn0BMNfOY3+qUVtl+VmyxNDDw
+router-signature
+-----BEGIN SIGNATURE-----
+aGYIkSgrV4DQIP45ymqw/9f+dxLnDEK2fxYNlwlXJ93DsiePt35XKhRKutLXsg0/
+0mvhozT/dnmY2M5bPApXSC4c9dEf+VINR88PFl0/InMIeRSd8vGowoLeqry4FpNj
+uXKsM7QzmxymOzLWyxFUfQkG0TUMu7MmDYBRDwb4Sro=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router 4uthority3 100.0.0.3 9001 0 8080
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAUrYdKzac4fyyWmNA6YKVAWiL0OCvahZv6vCeofr1z0jAQAgBABmh1rp
+27eleupotXawoUpWTy/B6pHLwwBK90Pkl42FyW5uDegS0mXOvP11wqW0Q+UBe5sq
+q5bGHhQrmxXbWvlDXMdbzACXMd6TqZTTTLdznrtI6pG2jIhbnW3NB2jGCwo=
+-----END ED25519 CERT-----
+master-key-ed25519 Zoda6du3pXrqaLV2sKFKVk8vweqRy8MASvdD5JeNhck
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:03:03
+fingerprint D987 F0EF 70D4 AAE8 B961 59AB 48B1 2ACA 3E9F 58BC
+uptime 181
+bandwidth 1073741824 1073741824 40332
+extra-info-digest 77B42771C464BB747B095C4B3AB149922070EDDC eoMDnV9yJkoX8bOkOKJpKgWF8WQE+QD65tO6DQ9yVRU
+caches-extra-info
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBANgglFDo5hV2gHpaeOAHDAkh57oJar1El8tW2pYv6a0ZVyREflWQieMw
+fUct0vKJjTIrGqB26SmEcU7a78dIB7YhvUip7fgwMKg+LBS+WE6CGJeOXArwPNLj
+8+NIuH9Nt0+0h6mqlkPo/4R5N5h4p7H2aaLzUzPbQe6jyesju1rXAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALx+gi9GLLaIg4IkpKlXjbmmlzKCMXDuF4GaL/XJSAl72ITxOZN3Hmqw
+zjfFQcq9l0YVG5g2vrR15xZCF3A8WjfL8KtgrKAe0IxcgoCI644TVrhe1RsflmLj
+n6cKfjY8nAvix2XBwQCnkpXOHPvfX8uFvEWk6QHvv2cp/LtDUf5PAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+Fu/dewMKdwn4jmh0WOGHP2p26RIFwvIAtV0kZwe0AHszGJw6bCxlB3i6oOH3ZuAn
+nOEPq0yNILaQJ9Q5JZc2H0vUrkptv75L0/M6p9bi4zdLk5VsG7/z6w8UbVeCY2fO
++8vrdv9FAT0mmu08FZrJGeOB+1I4EX866kUNIyLgjZA=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAWaHWunbt6V66mi1drChSlZPL8HqkcvDAEr3Q+SXjYXJAJP5T3aV62RQ
+JOJKwbg29is71MU+3VnwgGzbiepCS66RMJdaE75qot0CB2zYEgeVwEJQWBde3kM3
+1s5bldqzSQM=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key 9j5QzygnUdsvNLHXNFdAov03kYJCpQpx7QfvqyE+YiI
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 kWL0Gcaa4AIh/eBcO3JiR1xCykfeexE3W3qBp983epdgwloVLXqUmI8PA3JEseuv8E5PkaZ73Q9Ad2JuAoUXBA
+router-signature
+-----BEGIN SIGNATURE-----
+HlXVlNy5Kybeg/W7EwJbYxpQlzmyWBtzL3h4T/ExQEwRNBstRyo9lMA4LUe7o+nD
+ia7Fz00GJ4G96jX31yNMmCY6yx5je7T8cJxoSf3uIlHX7LUOTFBwa8LabZS/eqbI
+9Kc4fMGhE6aGXMtO3xxIQL3ToO+oRhHDoQ+IrZDABS0=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay30guard 173.212.239.78 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAY/h0Cw5UA5zgL01RAHidmSz/KqfXIagRbJ23T9jQ6duAQAgBADoE9vW
+ZWu6JfYFT3yRiszGLdzn9AqMXOkKiL8NHlo5q93nhZxnEDBpk2TCgViG7BppdPcO
+CTCBx7byjRw4G8i7AEFhrQ373ExN1OkQYB7uo78v+ma92jEHhJbk7OgeYws=
+-----END ED25519 CERT-----
+master-key-ed25519 6BPb1mVruiX2BU98kYrMxi3c5/QKjFzpCoi/DR5aOas
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:04:38
+fingerprint EB79 02BC 9862 67D1 5BF1 33A7 350F B81C 9704 6096
+uptime 273
+bandwidth 6291456 12582912 61547
+extra-info-digest C5E8D2B0F760518183AD17978CE9666E50B28AE6 ZuitX/lDunJUaNaZsTcc78AKb6iY6dRrHOvhGa9ouGc
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBALNGK8X4lhaol8warZusHU4ZqrRW6bxL5dHE9b3a42tLPLLAwAnRl+F6
+Mh/+v9eNufsw3rbX+bBg1f2xbws+qvXFVFPEn/NGQ1pJzbauYMVtyZFYPdNPcTBJ
+kMNZQ4FdVxLdBmHotk0lcTgkeqQJcgezGps6dOCTrIGZhzWgWwNLAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBANxqAqlP4aMyLbpcA2Jk3tSUePj4eU7NocDD+havImZPorIZTzNBM/ky
+57BQTpGYjlEF8fG17/kbh17AdOq0vJmcp65W2ZU7X8IoBOMpP7xaxDwqr41EN6Y9
+bIVpjqZyd7QYzT5PNHXLHdA3o0ocgrQRLrmS4Gr6IWDqzC3NXKITAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+RbiPP5fae6A1R5xoJ6AjdYR/LzRzXeTCG/OkV0n+a7b/jYKQIWxDZQt4nvP3hsgh
+9JHuxMMqpb1BcWf9Zd/R79cxJp6VdN4DohkaB5fzkbyDSloZMQWzSDhAoiHaa+w/
+7+ql5YWui9jRB8e7FwuQYIiqmVjO0Gyes+jmtVHn6iQ=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 0
+-----BEGIN ED25519 CERT-----
+AQoABAXZAegT29Zla7ol9gVPfJGKzMYt3Of0Coxc6QqIvw0eWjmrAJ01wrErvryS
+Kwbd1W724NqoJf351eAIzJT/bgYk4Cf59evZTKHIRHBXJ4kIpHPZyNEC++8iPEyX
+kbaAdoMolA0=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key 7Bdh+jJ8hDAaN2JHffnZpWmwbIOk4xMtLP5RXmqxvmw
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 mBeiixCDLeBK8FI0Xgw6fB+c4FShQGfngHcpcbvdTChiyy2J8SF/nFNEqcGXh3C7e8mlvQOfuImeT62w1VobBA
+router-signature
+-----BEGIN SIGNATURE-----
+dMbRvaHu1SYnHgGfwcsW+cn9Z3kcp9chU0TQCW+FWuxW4eN9TjMwmR0MvPQqo0ZP
+0Ce+IVRyMeLyfuRMnQkvLK0Mq0ZIFRLOHo0tyIhEBkjdXnxS3/te5hPLAbaMrFvV
+hjH3WPfFG8EKqrd5eiJPivlvqze51QAcPby+h1uOMc0=
+-----END SIGNATURE-----
+@downloaded-at 2000-01-01 00:10:02
+@source "100.0.0.2"
+router relay53middle 213.35.191.39 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQAByZzAcBxaHrHQKng7iTfXHyuVBYjpBfE+/0P9OFhNI4p9lY1AQAgBAArTp0S
+M24/iSGJ2vSWPZ6TxbU2Tv3mn+u01DxkQyJVh3WPk+2DoNA7smxvT3mEkvaSA5ut
+3YiS+6V4YMWZUc0CeZgGlOYVS8FwvoVKRnBEtwIQpaDSuu6XnmXyvmPfxgM=
+-----END ED25519 CERT-----
+master-key-ed25519 K06dEjNuP4khidr0lj2ek8W1Nk795p/rtNQ8ZEMiVYc
+platform Tor 0.4.8.0-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:05:06
+fingerprint F09F 5941 E127 0E34 8865 B882 3086 B6B8 F3DF 3D7B
+uptime 300
+bandwidth 1048576 2097152 54146
+extra-info-digest 6F00D25B518AC9CC6143AF5E3927F09CD2E32CF3 Fxa6pfbIhhObLXgg0ca+heMjw2E5poSVZxbYoJkTHJA
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBANXHwX9jQDPovy3gXwEfkinZHfe+qDY+P1ZtRcFT8UaqzEGi710n6/qm
+QIT7hjS8viVnAN/KlXeOv6EB/awS1eSM42fAmPG0T6Th3TbA/yYChjvTzTenNUhW
+lPW8NP2Ehy5LSQ42YaojS1UZJxt+gUDY3d7ZNMyVvBic/9jRGPMnAgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAN096HVdrn1upcqVL/hQeAFrni0BPFNZIt4t5isSIAOlmVnc9gMi+EZ1
+GSWJXVNG9zzVW9Nj+Tgfx7RwLWE6VVPo1dydGh495/iMt2jwLFw4VlyuZVsH+dsK
+QLmrK2/cMTMoWPlUy6GY26GOfPvXqshkgOtMHF7tto4rH4WbaSrzAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+zN6MYL5o55BQWUHt12Q23KPUbiiUWWZRjixjqLEkTkBZ2KQqs8iRKWjhhpMMU0WL
+EnewaZlFcL6FEwdjMZbEM/q6t2xhcFQuy+Xg31qJeL9+oMSs23yu8BlcS797QiAV
+gj4TI7I6zewF8n/zeZUV53qns1aHI1nPpop9ytz8S9w=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAStOnRIzbj+JIYna9JY9npPFtTZO/eaf67TUPGRDIlWHAOTtvaqMbnsy
+7Ss3tYjhcLQXFvJ44Lglnv26J5hEUUJGPRSJyABPyViPe4FgalnEAPIWpuTcsLiO
+rfG4GHuYuwI=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key Arh2AlTAgts0N6J0KpgDrS72TUfrTOrAZXzRMJlftWE
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 75jgUnNKnjJsDs/dX60DqZLZ1qz/TGvjf7jMX6CRFFdJjEk+WbMXdHBqVrYSssvTUWmBaxcSTXSZE5Mwh2cJCg
+router-signature
+-----BEGIN SIGNATURE-----
+rrzlrzmFSTVhjqeIgoJm0VXARoHC2OlP0QdDe5Q8dW04n5zG63sv65brc00pOcUa
+0E8wLgfqh1G6BZG3PHi9UOyEdusxdRF6X0TD1xrCruMOWqYBw5QbKwbeohjCvg9L
+buYm07+ugzC9GQQDpMH/4oraCMnTMtwon4zWcZL8HF0=
+-----END SIGNATURE-----
