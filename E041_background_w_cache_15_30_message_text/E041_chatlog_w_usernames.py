@@ -929,9 +929,9 @@ for output_size in range(1, len(dst_df)+1):
         for ip in dst_df:
             dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features], params=tda_config))
         assert dst_arr[single_user].ndim == 1
-        for n in range(1, 2):
+        for n in range(2, 4):
             best_features = iterate_features(src_df, dst_arr, n, tda_config,
-                                             "chatlog_dtw_dns_all_" + str(n) +
+                                             "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
