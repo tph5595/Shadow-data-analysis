@@ -927,22 +927,20 @@ def evaluate_tda(src_df, dst_df, tda_params):
 
 filename = "tdaSweep_match.tsv"
 num_cpus = os.cpu_count()
-features = ['count']
 skip = 1
 dim = 0
 window = 3
 k = 9
 thresh = float("inf")
 tda_config = TDA_Parameters(dim, window, skip, k, thresh)
-# results.append(pool.apply_async(evaluate_tda, args=(src_df, dst_df, TDA_Parameters(dim, window, skip, k, thresh))))
 
 for output_size in range(1, len(dst_df)+1):
-    for features in findsubsets(dst_df[single_user], output_size):
-        dst_arr = {}
-        for ip in dst_df:
-            dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features], params=tda_config))
-        assert dst_arr[single_user].ndim == 1
-        for n in range(2, 4):
+    for n in range(2, 4):
+        for features in findsubsets(dst_df[single_user], output_size):
+            dst_arr = {}
+            for ip in dst_df:
+                dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features], params=tda_config))
+            assert dst_arr[single_user].ndim == 1
             best_features = iterate_features(src_df, dst_arr, n, tda_config,
                                              "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
