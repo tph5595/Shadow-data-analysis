@@ -42,7 +42,7 @@ pcappath = "data/csv/"
 pcapCSVs = getFilenames(pcappath)
 
 # Get server logs
-logpath = "data/experiment0-0.0001/shadow.data/hosts/mymarkovservice0/"
+logpath = "data/experiment0-0.01/shadow.data/hosts/mymarkovservice0/"
 logs = getFilenames(logpath)
 
 # Combine all locations
@@ -67,6 +67,9 @@ class PrivacyScope:
 
     def __str__(self):
         return "PrivacyScope(" + self.name + ")"
+
+    def __repr(self):
+        return str(self)
 
     def set_offset(self, timeoffset):
         self.timeoffset = timeoffset
@@ -169,6 +172,11 @@ class PrivacyScope:
                                                     .tolist()
         df_filtered = df.drop(cols_to_drop, axis=1)
         self.df = df_filtered
+        
+    def remove_features(self, bad_features):
+        df = self.as_df()
+        df.drop(bad_features, inplace=True, axis=1)
+        self.df = df
 
 # Basic Scopes
 
@@ -301,16 +309,18 @@ def scope_label(df, scope_name):
 
 # Setup filters for different scopes
 evil_domain = 'evil.dne'
-DNS_PROTO = 17.0
+DNS_PORT = 17.0
+DOT_PORT = 853
 
 
 def dns_filter(df, ip):
-    if ('dns.qry.name' in df.columns and 'ip.proto' in df.columns):
+    if ('dns.qry.name' in df.columns and 'tcp.dstport' in df.columns):
         return df[(df['dns.qry.name'] == evil_domain)
-              | (df['dns.qry.name'] == "") & (df['ip.proto'] == DNS_PROTO)]
+                  | (df['dns.qry.name'].isna())
+                  & (df['tcp.dstport'] == DOT_PORT)]
     else:
         return df[(df['dns.qry.name'] == evil_domain)
-                  | (df['dns.qry.name'] == "")]
+                  | (df['dns.qry.name'].isna())]
 
 
 resolver.set_filter(dns_filter)
@@ -346,12 +356,13 @@ Access_tor.cache_search_enabled = True
 # Cluster DNS
 # Create ts for each IP
 resolv_df = resolver.pcap_df()
-resolv_df_filtered = resolv_df[resolv_df['ip.proto'] == DNS_PROTO]
-IPs = resolv_df_filtered['ip.src'].unique()
+resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
+infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
+ips_seen = resolv_df_filtered['ip.src'].unique()
+IPs = list(set(ips_seen) - set(infra_ip))
 flows_ip = {}
 flows_ts_ip_scoped = {}
 flows_ts_ip_total = {}
-infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
 first_pass = resolv_df_filtered[((~resolv_df_filtered['ip.src'].isin(infra_ip)))
                                 & (resolv_df_filtered['dns.qry.name'] == evil_domain)]
 solo = solo_pipeline(first_pass)
@@ -360,7 +371,9 @@ solo = solo_pipeline(first_pass)
 # This should be a valid topo sorted list
 # of the scopes (it will be proccessed in order)
 scopes = [resolver, root, tld, sld]  # , Access_tor]
+bad_features = ['tcp.dstport', 'tcp.srcport', 'udp.port', 'tcp.seq']
 for scope in scopes:
+    scope.remove_features(bad_features)
     scope.remove_zero_var()
 cache_window = window  # see above
 print("scopes: " + str(scopes))
@@ -443,7 +456,7 @@ plt.legend()
 
 
 def ip_to_group(ip):
-    if ip.split(".")[0] != '102':
+    if ip.split(".")[0] != '101':
         return -1
     return math.floor((int(ip.split(".")[-1])-2) / 5)
 
