@@ -826,27 +826,13 @@ def evaluate(src_df_dict, dst_df_dict, features, display=False, params=TDA_Param
     for user in dst_df_dict:
         best = None
         best_ip = None
-        best_lag = None
         for ip in src_data:
-            # print(user + "\t" + ip)
             score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user])
             if best is None or score < best:
                 best = score
                 best_ip = ip
-                best_lag = lag
-        # times_talked = len(dst_df_dict[user].loc[~(dst_df_dict[user]==0).all(axis=1)])
-        # print(str(user) +
-              # "\tfound: " + str(best_ip) +
-              # "\t" + str(ip_to_user(best_ip)) +
-              # "\t" + str(best) +
-              # "\t" + str(best_lag) +
-              # "\t" + str(times_talked),
-              # end='')
-
         if user == ip_to_user(best_ip):
             num_correct += 1
-            # print("\tcorrect", end='')
-        # print("")
     return float(num_correct)/len(dst_df_dict)
 
 # Find best features
@@ -925,7 +911,6 @@ def evaluate_tda(src_df, dst_df, tda_params):
     return result, tda_params.thresh
 
 
-filename = "tdaSweep_match.tsv"
 num_cpus = os.cpu_count()
 skip = 1
 dim = 0
@@ -936,7 +921,7 @@ tda_config = TDA_Parameters(dim, window, skip, k, thresh)
 
 for output_size in range(1, len(dst_df)+1):
     for n in range(2, 4):
-        for features in findsubsets(dst_df[single_user], output_size):
+        for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
             dst_arr = {}
             for ip in dst_df:
                 dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features], params=tda_config))
