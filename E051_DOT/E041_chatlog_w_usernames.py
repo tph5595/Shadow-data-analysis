@@ -550,13 +550,17 @@ class TDA_Parameters:
         self.thresh = thresh
 
 
-def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False):
+def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False, range=True):
+    if range:
+        rang = (min(data.index.values), max(data.index.values))
+    else:
+        rang = (0, 0)
     data = data.astype(float)
 
     # compute birth death pairs
     rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
     new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
-    return new_ts
+    return new_ts, rang
 
 
 def my_pl_ts(ts1, ts2, ip1, ip2):
@@ -732,21 +736,20 @@ def normalize_ts(ts):
     return ts.fillna(0)
 
 
-def compare_ts_reshape(ts1, ts2):
+def compare_ts_reshape(ts1, ts2, range, params, features):
+    buffer_room = 120  # in seconds
+    ts1 = ts1[(ts1['frame.time'] >= int(range[0])) & (ts1['frame.time'] <= int(range[1]))]
+    ts1 = df.loc[:, features]
+
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
 
-    # buffer_room = 120  # in seconds
     # delay = 0
 
     # ts1_norm.index = ts1_norm.index + pd.DateOffset(seconds=delay)
 
     # lock to same range with buffer room
     # on each side to account for network (or PPT) delay
-#     start = min(ts1.index.values) - (buffer_room * 1000000000)
-#     end = max(ts1.index.values) + (buffer_room * 1000000000)
-
-#     ts2_norm = ts2_norm[start:end]
 
     # detect if no overlap
     if len(ts1_norm) < 2 or len(ts2_norm) < 2:
@@ -763,6 +766,7 @@ def compare_ts_reshape(ts1, ts2):
     #     ts1_norm = ts1_norm.tolist()
     #     ts2_norm = ts2_norm.tolist()
 
+    ts1_norm = ts_to_tda(ts1_norm, params=params, range=False)[0]
     score, lag = compare_ts(ts1_norm, ts2_norm)
 
     return score, lag
@@ -817,17 +821,21 @@ from scipy.spatial.distance import squareform
 
 
 def evaluate(src_df_dict, dst_df_dict, features, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
-    src_data = {key: df.loc[:, features] for key, df in src_df_dict.items()}
-    for ip in src_data:
-        src_data[ip] = src_data[ip][list(features)]
-        # if len(features) > 1:
-        src_data[ip] = ts_to_tda(src_data[ip], params=params)
+    index_col_name = 'frame.time'
+    src_data = {key: df.loc[:, list(features)+ [index_col_name]] for key, df in src_df_dict.items()}
+    # print("1")
+    # for ip in src_data:
+    #     print(src_data[ip].columns)
+    #     src_data[ip] = src_data[ip][list(features)]
+    #     print("2")
+    #     print(src_data[ip].columns)
+    #     exit(1)
     num_correct = 0
     for user in dst_df_dict:
         best = None
         best_ip = None
         for ip in src_data:
-            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user])
+            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user][0], dst_df_dict[user][1], params, features)
             if best is None or score < best:
                 best = score
                 best_ip = ip
@@ -920,7 +928,7 @@ thresh = float("inf")
 tda_config = TDA_Parameters(dim, window, skip, k, thresh)
 
 for output_size in range(1, len(dst_df)+1):
-    for n in range(2, 4):
+    for n in range(1, 4):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
             dst_arr = {}
             for ip in dst_df:
