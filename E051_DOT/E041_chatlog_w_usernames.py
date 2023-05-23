@@ -65,8 +65,11 @@ class PrivacyScope:
         self.cache_search_enabled = False
         self.cache_timing = pd.Timedelta("300 seconds")
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
-        return "PrivacyScope(" + self.name + ")"
+        return self.name
 
     def __repr(self):
         return str(self)
@@ -232,7 +235,7 @@ resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
 
 def df_to_ts(df, time_col='frame.time'):
-    df['count'] = 1
+    df.loc[:, 'count'] = 1
     tmp = df.set_index(time_col).infer_objects()
     tmp = tmp.resample('1S').sum(numeric_only=True).infer_objects()
     return tmp.reset_index()
@@ -297,7 +300,7 @@ def scopesToTS(dfs):
 
 
 def scopeToTS(df):
-    return df_to_ts(df.copy()).set_index('frame.time')
+    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
 
 
 def scope_label(df, scope_name):
@@ -557,7 +560,7 @@ def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), 
     # compute birth death pairs
     rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
     new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
-    return new_ts
+    return pd.DataFrame({'tda_pl': new_ts}, index=data.index[:len(new_ts)])
 
 
 def my_pl_ts(ts1, ts2, ip1, ip2):
@@ -733,10 +736,13 @@ def normalize_ts(ts):
     return ts.fillna(0)
 
 
-def compare_ts_reshape(ts1, ts2, range, params, features):
-    buffer_room = 120  # in seconds
-    ts1 = ts1[(ts1['frame.time'] >= int(range[0])) & (ts1['frame.time'] <= int(range[1]))]
-    ts1 = df.loc[:, features]
+def compare_ts_reshape(ts1, ts2, params, features):
+    # buffer_room = 120  # in seconds
+    range = min(ts2.index.values), max(ts2.index.values)
+    ts1 = ts1.loc[(ts1.index >= range[0]) & (ts1.index <= range[1])]
+    # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
+    #           (ts1['frame.time'] <= int(range[1]))]
+    ts1 = ts1.loc[:, 'tda_pl']
 
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
@@ -763,7 +769,6 @@ def compare_ts_reshape(ts1, ts2, range, params, features):
     #     ts1_norm = ts1_norm.tolist()
     #     ts2_norm = ts2_norm.tolist()
 
-    ts1_norm = ts_to_tda(ts1_norm, params=params, range=False)[0]
     score, lag = compare_ts(ts1_norm, ts2_norm)
 
     return score, lag
@@ -819,20 +824,15 @@ from scipy.spatial.distance import squareform
 
 def evaluate(src_df_dict, dst_df_dict, features, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
     index_col_name = 'frame.time'
-    src_data = {key: df.loc[:, list(features)+ [index_col_name]] for key, df in src_df_dict.items()}
-    # print("1")
-    # for ip in src_data:
-    #     print(src_data[ip].columns)
-    #     src_data[ip] = src_data[ip][list(features)]
-    #     print("2")
-    #     print(src_data[ip].columns)
-    #     exit(1)
+    src_data = {key: df.loc[:, list(features) + [index_col_name]] for key, df in src_df_dict.items()}
+    for ip in src_data:
+        src_data[ip] = ts_to_tda(src_data[ip], params=params)
     num_correct = 0
     for user in dst_df_dict:
         best = None
         best_ip = None
         for ip in src_data:
-            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user][0], dst_df_dict[user][1], params, features)
+            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user], params, features)
             if best is None or score < best:
                 best = score
                 best_ip = ip
@@ -916,7 +916,7 @@ def evaluate_tda(src_df, dst_df, tda_params):
     return result, tda_params.thresh
 
 
-num_cpus = os.cpu_count()
+num_cpus = os.cpu_count()/2
 skip = 1
 dim = 0
 window = 3
@@ -929,8 +929,8 @@ for output_size in range(1, len(dst_df)+1):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
             dst_arr = {}
             for ip in dst_df:
-                dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features], params=tda_config))
-            assert dst_arr[single_user].ndim == 1
+                dst_arr[ip] = ts_to_tda(dst_df[ip].loc[:, features], params=tda_config)
+            assert dst_arr[single_user].ndim == 2
             best_features = iterate_features(src_df, dst_arr, n, tda_config,
                                              "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
