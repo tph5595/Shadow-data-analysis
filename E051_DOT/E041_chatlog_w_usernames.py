@@ -21,7 +21,7 @@ from sklearn.metrics import (adjusted_rand_score,
 from ripser import ripser
 # from sklearn import preprocessing
 from fastdtw import fastdtw
-import rpls_py
+import fast_pl_py
 # from scipy.spatial.distance import pdist
 import statsmodels.api as sm
 # from pyts.metrics import dtw, itakura_parallelogram, sakoe_chiba_band
@@ -418,14 +418,15 @@ for ip in IPs:
         flows_ip[ip]['frame.time'] = flows_ip[ip].index
         flows_ts_ip_total[ip]['frame.time'] = flows_ts_ip_total[ip].index
 
-        # label scope col as category
-        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
-        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
-
         # remove nans with 0
         flows_ip[ip].fillna(0, inplace=True)
         flows_ts_ip_scoped[ip].fillna(0, inplace=True)
         flows_ts_ip_total[ip].fillna(0, inplace=True)
+
+        # label scope col as category
+        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
+        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
+
 
 
 # Viz
@@ -538,7 +539,7 @@ def rip_ts(window, dim, skip, data, thresh=float("inf")):
 
 def tda_trans(pairs, k=2, debug=False):
     pairs = [(x[0], x[1]) for x in pairs]
-    return rpls_py.pairs_to_l2_norm(pairs, k, debug)
+    return fast_pl_py.pairs_to_l2_norm(pairs, k, debug)
 
 
 class TDA_Parameters:
@@ -550,17 +551,13 @@ class TDA_Parameters:
         self.thresh = thresh
 
 
-def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False, range=True):
-    if range:
-        rang = (min(data.index.values), max(data.index.values))
-    else:
-        rang = (0, 0)
+def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False):
     data = data.astype(float)
 
     # compute birth death pairs
     rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
     new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
-    return new_ts, rang
+    return new_ts
 
 
 def my_pl_ts(ts1, ts2, ip1, ip2):
