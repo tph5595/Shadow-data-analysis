@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[1]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 from os.path import isfile, join
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -431,6 +437,8 @@ for ip in IPs:
         flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
 
 
+# In[22]:
+
 
 # Viz
 # importing Libraries
@@ -717,14 +725,14 @@ def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
     return best_cor, best_lag
 
 
-def compare_ts(ts1, ts2):
+def compare_ts(ts1, ts2, debug=False):
     # dtw_classic, path_classic = dtw(ts1, ts2, dist='square',
     #                             method='classic', return_path=True)
     # return dtw_classic
     # print(ts1)
     # print(ts2)
     # dist, lag = cross_cor(pd.Series(ts1), pd.Series(ts2))
-    dist, lag = cross_cor(ts1, ts2)
+    dist, lag = cross_cor(ts1, ts2, debug=debug)
     # assert dist >= -1 and dist <= 1
     dist = dist * -1  # flip for use as distance metric
     # assert dist >= -1 and dist <= 1
@@ -736,7 +744,7 @@ def normalize_ts(ts):
     return ts.fillna(0)
 
 
-def compare_ts_reshape(ts1, ts2, params, features):
+def compare_ts_reshape(ts1, ts2, debug=False):
     # buffer_room = 120  # in seconds
     range = min(ts2.index.values), max(ts2.index.values)
     ts1 = ts1.loc[(ts1.index >= range[0]) & (ts1.index <= range[1])]
@@ -769,7 +777,7 @@ def compare_ts_reshape(ts1, ts2, params, features):
     #     ts1_norm = ts1_norm.tolist()
     #     ts2_norm = ts2_norm.tolist()
 
-    score, lag = compare_ts(ts1_norm, ts2_norm)
+    score, lag = compare_ts(ts1_norm, ts2_norm, debug=debug)
 
     return score, lag
 
@@ -832,7 +840,7 @@ def evaluate(src_df_dict, dst_df_dict, features, display=False, params=TDA_Param
         best = None
         best_ip = None
         for ip in src_data:
-            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user], params, features)
+            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user])
             if best is None or score < best:
                 best = score
                 best_ip = ip
@@ -916,6 +924,11 @@ def evaluate_tda(src_df, dst_df, tda_params):
     return result, tda_params.thresh
 
 
+
+
+# In[23]:
+
+
 num_cpus = os.cpu_count()/2
 skip = 1
 dim = 0
@@ -923,6 +936,9 @@ window = 3
 k = 9
 thresh = float("inf")
 tda_config = TDA_Parameters(dim, window, skip, k, thresh)
+
+src_df = flows_ts_ip_total
+dst_df = client_chat_logs
 
 for output_size in range(1, len(dst_df)+1):
     for n in range(1, 4):
@@ -936,3 +952,51 @@ for output_size in range(1, len(dst_df)+1):
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
+
+
+# In[24]:
+
+
+# for n in range(2,3):
+#     best_features = iterate_features(src_df, dst_df, n,
+#                                      "chatlog_dtw_dns_all_" + str(n) +
+#                                      "_" + str(datetime.now()) + ".output")
+
+
+# In[29]:
+
+
+ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
+ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
+ts1 = ts_to_tda(ts1, params=tda_config)
+ts2 = ts_to_tda(ts2, params=tda_config)
+compare_ts_reshape(ts1, ts2, debug=True)
+
+
+# In[30]:
+
+
+for ip in flows_ts_ip_total:
+    score = compare_ts_reshape(ts_to_tda(flows_ts_ip_total[ip][['count']], params=tda_config), ts_to_tda(client_chat_logs['/tordata/config/group_19_user_1'][['count']], params=tda_config))
+    print(ip + "\t" + str(score))
+# plot_ts(client_chat_logs['/tordata/config/group_15_user_3'], flows_ts_ip_total['102.0.0.68'])
+# print(len(client_chat_logs['/tordata/config/group_15_user_3'][client_chat_logs['/tordata/config/group_15_user_3']['count']> 0]))
+
+
+# In[ ]:
+
+
+plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
+
+
+# In[ ]:
+
+
+client_chat_logs['/tordata/config/group_0_user_2']
+
+
+# In[ ]:
+
+
+
+
