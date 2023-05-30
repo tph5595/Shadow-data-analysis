@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[18]:
 
 
 #!/usr/bin/env python
@@ -437,7 +437,7 @@ for ip in IPs:
         flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
 
 
-# In[22]:
+# In[28]:
 
 
 # Viz
@@ -830,24 +830,26 @@ from scipy.spatial.distance import squareform
 #     return labels
 
 
-def evaluate(src_df_dict, dst_df_dict, features, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
-    index_col_name = 'frame.time'
-    src_data = {key: df.loc[:, list(features) + [index_col_name]] for key, df in src_df_dict.items()}
-    for ip in src_data:
-        src_data[ip] = ts_to_tda(src_data[ip], params=params)
-    num_correct = 0
-    for user in dst_df_dict:
-        best = None
-        best_ip = None
-        for ip in src_data:
-            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user])
-            if best is None or score < best:
-                best = score
+def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
+    src = {}
+    dst = {}
+    for ip in src_raw:
+        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+    for user in dst_raw:
+        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+    correct = 0.0
+    for user in dst:
+        best_score = 0
+        best_ip = 0
+        for ip in src:
+            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            if score < best_score:
+                best_score = score
                 best_ip = ip
         if user == ip_to_user(best_ip):
-            num_correct += 1
-    return float(num_correct)/len(dst_df_dict)
-
+            correct += 1
+    accuracy = correct / len(src)
+    return accuracy
 # Find best features
 import itertools
 from tqdm import tqdm
@@ -860,21 +862,24 @@ def findsubsets(s, n):
     return list(itertools.combinations(s, n))
 
 
-def evaluate_subset(src_df, dst_df, subset, tda_config=None):
-    score = evaluate(src_df, dst_df, subset, params=tda_config)
-    return score, subset
+def evaluate_subset(src_df, dst_df, src_features, dst_feaures, tda_config=None):
+    try:
+        score = evaluate(src_df, dst_df, list(src_features), list(dst_feaures), params=tda_config)
+    except: 
+        score = -1
+    return score, src_features
 
 
-def iterate_features(src_df, dst_df, n, tda_config, filename):
+def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
     features = src_df[next(iter(src_df))].columns
     subsets = findsubsets(features, n)
     results = []
-    num_cpus = os.cpu_count()
+    num_cpus = int(os.cpu_count())
     print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
     with mp.Pool(processes=num_cpus) as pool:
         results = []
         for subset in subsets:
-            results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset, tda_config)))
+            results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset, dst_features, tda_config)))
         with open(filename, 'a') as f:
             for result in tqdm(results, total=len(subsets)):
                 score, subset = result.get()
@@ -926,10 +931,35 @@ def evaluate_tda(src_df, dst_df, tda_params):
 
 
 
-# In[23]:
+# In[29]:
 
 
-num_cpus = os.cpu_count()/2
+def eval_model(src_raw, dst_raw, src_features, dst_feaures):
+    src = {}
+    dst = {}
+    for ip in src_raw:
+        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+    for user in dst_raw:
+        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+    correct = 0.0
+    for user in tqdm(dst):
+        best_score = 0
+        best_ip = 0
+        for ip in src:
+            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            if score < best_score:
+                best_score = score
+                best_ip = ip
+        if user == ip_to_user(best_ip):
+            correct += 1
+    accuracy = correct / len(src)
+    return accuracy
+
+
+# In[ ]:
+
+
+num_cpus = os.cpu_count()
 skip = 1
 dim = 0
 window = 3
@@ -941,20 +971,20 @@ src_df = flows_ts_ip_total
 dst_df = client_chat_logs
 
 for output_size in range(1, len(dst_df)+1):
-    for n in range(1, 4):
+    for n in range(3, 4):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
-            dst_arr = {}
-            for ip in dst_df:
-                dst_arr[ip] = ts_to_tda(dst_df[ip].loc[:, features], params=tda_config)
-            assert dst_arr[single_user].ndim == 2
-            best_features = iterate_features(src_df, dst_arr, n, tda_config,
+#             dst_arr = {}
+#             for ip in dst_df:
+#                 dst_arr[ip] = ts_to_tda(dst_df[ip].loc[:, features], params=tda_config)
+#             assert dst_arr[single_user].ndim == 2
+            best_features = iterate_features(src_df, dst_df, n, features, tda_config,
                                              "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
 
 
-# In[24]:
+# In[4]:
 
 
 # for n in range(2,3):
@@ -963,7 +993,7 @@ for output_size in range(1, len(dst_df)+1):
 #                                      "_" + str(datetime.now()) + ".output")
 
 
-# In[29]:
+# In[5]:
 
 
 ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
@@ -973,26 +1003,28 @@ ts2 = ts_to_tda(ts2, params=tda_config)
 compare_ts_reshape(ts1, ts2, debug=True)
 
 
-# In[30]:
+# In[17]:
 
 
-for ip in flows_ts_ip_total:
-    score = compare_ts_reshape(ts_to_tda(flows_ts_ip_total[ip][['count']], params=tda_config), ts_to_tda(client_chat_logs['/tordata/config/group_19_user_1'][['count']], params=tda_config))
-    print(ip + "\t" + str(score))
-# plot_ts(client_chat_logs['/tordata/config/group_15_user_3'], flows_ts_ip_total['102.0.0.68'])
-# print(len(client_chat_logs['/tordata/config/group_15_user_3'][client_chat_logs['/tordata/config/group_15_user_3']['count']> 0]))
+eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
 
 
-# In[ ]:
+# In[7]:
 
 
-plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
+ip_to_user(best_ip)
 
 
-# In[ ]:
+# In[8]:
 
 
-client_chat_logs['/tordata/config/group_0_user_2']
+# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
+
+
+# In[9]:
+
+
+# client_chat_logs['/tordata/config/group_0_user_2']
 
 
 # In[ ]:
