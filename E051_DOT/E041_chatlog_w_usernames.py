@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[1]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 from os.path import isfile, join
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -21,7 +27,7 @@ from sklearn.metrics import (adjusted_rand_score,
 from ripser import ripser
 # from sklearn import preprocessing
 from fastdtw import fastdtw
-import rpls_py
+import fast_pl_py
 # from scipy.spatial.distance import pdist
 import statsmodels.api as sm
 # from pyts.metrics import dtw, itakura_parallelogram, sakoe_chiba_band
@@ -65,8 +71,11 @@ class PrivacyScope:
         self.cache_search_enabled = False
         self.cache_timing = pd.Timedelta("300 seconds")
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
-        return "PrivacyScope(" + self.name + ")"
+        return self.name
 
     def __repr(self):
         return str(self)
@@ -232,7 +241,7 @@ resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
 
 def df_to_ts(df, time_col='frame.time'):
-    df['count'] = 1
+    df.loc[:, 'count'] = 1
     tmp = df.set_index(time_col).infer_objects()
     tmp = tmp.resample('1S').sum(numeric_only=True).infer_objects()
     return tmp.reset_index()
@@ -297,7 +306,7 @@ def scopesToTS(dfs):
 
 
 def scopeToTS(df):
-    return df_to_ts(df.copy()).set_index('frame.time')
+    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
 
 
 def scope_label(df, scope_name):
@@ -418,14 +427,17 @@ for ip in IPs:
         flows_ip[ip]['frame.time'] = flows_ip[ip].index
         flows_ts_ip_total[ip]['frame.time'] = flows_ts_ip_total[ip].index
 
-        # label scope col as category
-        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
-        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
-
         # remove nans with 0
         flows_ip[ip].fillna(0, inplace=True)
         flows_ts_ip_scoped[ip].fillna(0, inplace=True)
         flows_ts_ip_total[ip].fillna(0, inplace=True)
+
+        # label scope col as category
+        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
+        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
+
+
+# In[22]:
 
 
 # Viz
@@ -538,7 +550,7 @@ def rip_ts(window, dim, skip, data, thresh=float("inf")):
 
 def tda_trans(pairs, k=2, debug=False):
     pairs = [(x[0], x[1]) for x in pairs]
-    return rpls_py.pairs_to_l2_norm(pairs, k, debug)
+    return fast_pl_py.pairs_to_l2_norm(pairs, k, debug)
 
 
 class TDA_Parameters:
@@ -550,17 +562,13 @@ class TDA_Parameters:
         self.thresh = thresh
 
 
-def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False, range=True):
-    if range:
-        rang = (min(data.index.values), max(data.index.values))
-    else:
-        rang = (0, 0)
+def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False):
     data = data.astype(float)
 
     # compute birth death pairs
     rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
     new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
-    return new_ts, rang
+    return pd.DataFrame({'tda_pl': new_ts}, index=data.index[:len(new_ts)])
 
 
 def my_pl_ts(ts1, ts2, ip1, ip2):
@@ -717,14 +725,14 @@ def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
     return best_cor, best_lag
 
 
-def compare_ts(ts1, ts2):
+def compare_ts(ts1, ts2, debug=False):
     # dtw_classic, path_classic = dtw(ts1, ts2, dist='square',
     #                             method='classic', return_path=True)
     # return dtw_classic
     # print(ts1)
     # print(ts2)
     # dist, lag = cross_cor(pd.Series(ts1), pd.Series(ts2))
-    dist, lag = cross_cor(ts1, ts2)
+    dist, lag = cross_cor(ts1, ts2, debug=debug)
     # assert dist >= -1 and dist <= 1
     dist = dist * -1  # flip for use as distance metric
     # assert dist >= -1 and dist <= 1
@@ -736,10 +744,13 @@ def normalize_ts(ts):
     return ts.fillna(0)
 
 
-def compare_ts_reshape(ts1, ts2, range, params, features):
-    buffer_room = 120  # in seconds
-    ts1 = ts1[(ts1['frame.time'] >= int(range[0])) & (ts1['frame.time'] <= int(range[1]))]
-    ts1 = df.loc[:, features]
+def compare_ts_reshape(ts1, ts2, debug=False):
+    # buffer_room = 120  # in seconds
+    range = min(ts2.index.values), max(ts2.index.values)
+    ts1 = ts1.loc[(ts1.index >= range[0]) & (ts1.index <= range[1])]
+    # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
+    #           (ts1['frame.time'] <= int(range[1]))]
+    ts1 = ts1.loc[:, 'tda_pl']
 
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
@@ -766,8 +777,7 @@ def compare_ts_reshape(ts1, ts2, range, params, features):
     #     ts1_norm = ts1_norm.tolist()
     #     ts2_norm = ts2_norm.tolist()
 
-    ts1_norm = ts_to_tda(ts1_norm, params=params, range=False)[0]
-    score, lag = compare_ts(ts1_norm, ts2_norm)
+    score, lag = compare_ts(ts1_norm, ts2_norm, debug=debug)
 
     return score, lag
 
@@ -822,20 +832,15 @@ from scipy.spatial.distance import squareform
 
 def evaluate(src_df_dict, dst_df_dict, features, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
     index_col_name = 'frame.time'
-    src_data = {key: df.loc[:, list(features)+ [index_col_name]] for key, df in src_df_dict.items()}
-    # print("1")
-    # for ip in src_data:
-    #     print(src_data[ip].columns)
-    #     src_data[ip] = src_data[ip][list(features)]
-    #     print("2")
-    #     print(src_data[ip].columns)
-    #     exit(1)
+    src_data = {key: df.loc[:, list(features) + [index_col_name]] for key, df in src_df_dict.items()}
+    for ip in src_data:
+        src_data[ip] = ts_to_tda(src_data[ip], params=params)
     num_correct = 0
     for user in dst_df_dict:
         best = None
         best_ip = None
         for ip in src_data:
-            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user][0], dst_df_dict[user][1], params, features)
+            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user])
             if best is None or score < best:
                 best = score
                 best_ip = ip
@@ -919,7 +924,12 @@ def evaluate_tda(src_df, dst_df, tda_params):
     return result, tda_params.thresh
 
 
-num_cpus = os.cpu_count()
+
+
+# In[23]:
+
+
+num_cpus = os.cpu_count()/2
 skip = 1
 dim = 0
 window = 3
@@ -927,15 +937,66 @@ k = 9
 thresh = float("inf")
 tda_config = TDA_Parameters(dim, window, skip, k, thresh)
 
+src_df = flows_ts_ip_total
+dst_df = client_chat_logs
+
 for output_size in range(1, len(dst_df)+1):
     for n in range(1, 4):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
             dst_arr = {}
             for ip in dst_df:
-                dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features], params=tda_config))
-            assert dst_arr[single_user].ndim == 1
+                dst_arr[ip] = ts_to_tda(dst_df[ip].loc[:, features], params=tda_config)
+            assert dst_arr[single_user].ndim == 2
             best_features = iterate_features(src_df, dst_arr, n, tda_config,
                                              "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
+
+
+# In[24]:
+
+
+# for n in range(2,3):
+#     best_features = iterate_features(src_df, dst_df, n,
+#                                      "chatlog_dtw_dns_all_" + str(n) +
+#                                      "_" + str(datetime.now()) + ".output")
+
+
+# In[29]:
+
+
+ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
+ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
+ts1 = ts_to_tda(ts1, params=tda_config)
+ts2 = ts_to_tda(ts2, params=tda_config)
+compare_ts_reshape(ts1, ts2, debug=True)
+
+
+# In[30]:
+
+
+for ip in flows_ts_ip_total:
+    score = compare_ts_reshape(ts_to_tda(flows_ts_ip_total[ip][['count']], params=tda_config), ts_to_tda(client_chat_logs['/tordata/config/group_19_user_1'][['count']], params=tda_config))
+    print(ip + "\t" + str(score))
+# plot_ts(client_chat_logs['/tordata/config/group_15_user_3'], flows_ts_ip_total['102.0.0.68'])
+# print(len(client_chat_logs['/tordata/config/group_15_user_3'][client_chat_logs['/tordata/config/group_15_user_3']['count']> 0]))
+
+
+# In[ ]:
+
+
+plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
+
+
+# In[ ]:
+
+
+client_chat_logs['/tordata/config/group_0_user_2']
+
+
+# In[ ]:
+
+
+
+
