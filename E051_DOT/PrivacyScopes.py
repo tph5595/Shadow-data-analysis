@@ -1,4 +1,5 @@
 import pandas as pd
+from typing import List
 import numpy as np
 import os
 from datetime import datetime
@@ -8,7 +9,7 @@ import json
 
 class PrivacyScope:
 
-    def __init__(self, filenames, name):
+    def __init__(self, filenames: List[str], name: str):
         self.name = name
         self.filenames = filenames
         self.time_format = '%b %d, %Y %X.%f'
@@ -148,81 +149,10 @@ class PrivacyScope:
 
 def getFilenames(path):
     filenames = []
-    for root, dirs, files in os.walk(path):
+    for root, _, files in os.walk(path):
         for file in files:
             filenames.append(os.path.join(root, file))
     return filenames
-
-
-# Get argus data
-arguspath = "data/argus/csv/"
-argusCSVs = getFilenames(arguspath)
-
-# Get pcap data
-pcappath = "data/csv/"
-pcapCSVs = getFilenames(pcappath)
-
-# Get server logs
-logpath = "data/experiment0-0.01/shadow.data/hosts/mymarkovservice0/"
-logs = getFilenames(logpath)
-
-# Combine all locations
-data = argusCSVs + pcapCSVs + logs
-
-df = pd.read_csv(pcapCSVs[0])
-
-
-# Basic Scopes
-
-# Get all clients and ISP dns scope
-r = re.compile(r".*isp.csv|.*group[0-9]*user[0-9]*-(?!127\.0\.0\.1)[0-9]*.[0-9]*.[0-9]*.[0-9]*..csv")
-ISP_scope = PrivacyScope(list(filter(r.match, data)), "ISP")
-
-
-# Access to public resolver scope
-r = re.compile(r".*isp.*.csv")
-Access_resolver = PrivacyScope(list(filter(r.match, data)), "Access_resolver")
-
-r = re.compile(r"(.*tld).*.csv")
-tld = PrivacyScope(list(filter(r.match, data)), "TLD")
-
-r = re.compile(r"(.*root).*.csv")
-root = PrivacyScope(list(filter(r.match, data)), "root")
-
-r = re.compile(r"(.*sld).*.csv")
-sld = PrivacyScope(list(filter(r.match, data)), "SLD")
-
-# Access Tor Scope
-r = re.compile(r".*group[0-9]*user[0-9]*-(?!127\.0\.0\.1)[0-9]*.[0-9]*.[0-9]*.[0-9]*..csv")
-Access_tor = PrivacyScope(list(filter(r.match, data)), "Access_tor")
-
-# Server Public Scope
-r = re.compile(r".*myMarkovServer0*-(?!127\.0\.0\.1)[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.csv")
-Server_scope = PrivacyScope(list(filter(r.match, data)), "Server_of_interest")
-
-# tor Exit scope
-r = re.compile(r".*exit.*")
-Tor_exit_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_exit")
-
-# tor Guard scope
-r = re.compile(r".*guard.*")
-Tor_guard_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_guard")
-
-# tor Relay scope
-r = re.compile(r".*relay.*")
-Tor_relay_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_relay")
-
-# tor Middle scope
-r = re.compile(r".*middle.*")
-Tor_middle_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_middle")
-
-# tor 4uthority scope
-r = re.compile(r".*4uthority.*")
-Tor_4uthority_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_4uthority")
-
-# resolver scope
-r = re.compile(r".*resolver.*")
-resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
 
 def df_to_ts(df, time_col='frame.time'):
@@ -232,23 +162,58 @@ def df_to_ts(df, time_col='frame.time'):
     return tmp.reset_index()
 
 
-# get start time for GNS3
-GNS3_scopes = [Access_resolver,
-               sld,
-               tld,
-               root]
-GNS3_data = pd.concat([x.pcap_df() for x in GNS3_scopes])
+def align_times(GNS3_scopes):
+    # get start time for GNS3
+    GNS3_data = pd.concat([x.pcap_df() for x in GNS3_scopes])
 
-GNS3_starttime = GNS3_data.head(1)['frame.time'].tolist()[0]
-Shadow_starttime = datetime.strptime('Dec 31, 1999 19:26:00', '%b %d, %Y %X')
-Shadow_offset = GNS3_starttime - Shadow_starttime
+    GNS3_start = GNS3_data.head(1)['frame.time'].tolist()[0]
+    Shadow_start = datetime.strptime('Dec 31, 1999 19:26:00', '%b %d, %Y %X')
+    return GNS3_start - Shadow_start
 
-# service log scope
-r = re.compile(".*mymarkovservice.*py.*stdout")
-chatlog = PrivacyScope(list(filter(r.match, data)), "chatlogs")
-chatlog.time_col = "time"
-chatlog.time_cut_tail = 0
-chatlog.time_format = 'epoch'
-chatlog.set_offset(Shadow_offset)
 
-window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
+# detect and remove solo quries
+# these can easily be handled on their own
+# as only 1 device is accessing the network at that moment
+def detect_solo(df_list, window):
+    new_df = df_list[df_list['ip.src'].ne(df_list['ip.src'].shift())]
+    new_df['diff'] = new_df['frame.time'].diff()
+    new_df = new_df[new_df['diff'] > window]
+    solo_ips = new_df['ip.src'].unique()
+    return solo_ips
+
+
+def handle_solo(solo):
+    print("IPs that must trigger a cache miss: " + str(solo))
+
+
+def solo_pipeline(df_list, window):
+    fil = df_list[['ip.src', 'frame.time']]
+    solo = detect_solo(fil, window)
+    handle_solo(solo)
+    return solo
+
+
+def combineScopes(dfs):
+    if len(dfs) < 1:
+        return dfs
+    return pd.concat(dfs)
+
+
+def scopesToTS(dfs):
+    output = []
+    for df in dfs:
+        if len(df) < 2:
+            continue
+        output += scopeToTS(df)
+    return output
+
+
+def scopeToTS(df):
+    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
+
+
+def scope_label(df, scope_name):
+    for col in df.columns:
+        df[col + "_" + scope_name] = df[col]
+    df["scope_name"] = scope_name
+    return df
