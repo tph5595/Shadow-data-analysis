@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[18]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 from os.path import isfile, join
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -21,7 +27,7 @@ from sklearn.metrics import (adjusted_rand_score,
 from ripser import ripser
 # from sklearn import preprocessing
 from fastdtw import fastdtw
-import rpls_py
+import fast_pl_py
 # from scipy.spatial.distance import pdist
 import statsmodels.api as sm
 # from pyts.metrics import dtw, itakura_parallelogram, sakoe_chiba_band
@@ -42,7 +48,7 @@ pcappath = "data/csv/"
 pcapCSVs = getFilenames(pcappath)
 
 # Get server logs
-logpath = "data/experiment0-0.0001/shadow.data/hosts/mymarkovservice0/"
+logpath = "data/experiment0-0.01/shadow.data/hosts/mymarkovservice0/"
 logs = getFilenames(logpath)
 
 # Combine all locations
@@ -65,8 +71,14 @@ class PrivacyScope:
         self.cache_search_enabled = False
         self.cache_timing = pd.Timedelta("300 seconds")
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
-        return "PrivacyScope(" + self.name + ")"
+        return self.name
+
+    def __repr(self):
+        return str(self)
 
     def set_offset(self, timeoffset):
         self.timeoffset = timeoffset
@@ -169,6 +181,11 @@ class PrivacyScope:
                                                     .tolist()
         df_filtered = df.drop(cols_to_drop, axis=1)
         self.df = df_filtered
+        
+    def remove_features(self, bad_features):
+        df = self.as_df()
+        df.drop(bad_features, inplace=True, axis=1)
+        self.df = df
 
 # Basic Scopes
 
@@ -224,7 +241,7 @@ resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
 
 def df_to_ts(df, time_col='frame.time'):
-    df['count'] = 1
+    df.loc[:, 'count'] = 1
     tmp = df.set_index(time_col).infer_objects()
     tmp = tmp.resample('1S').sum(numeric_only=True).infer_objects()
     return tmp.reset_index()
@@ -289,7 +306,7 @@ def scopesToTS(dfs):
 
 
 def scopeToTS(df):
-    return df_to_ts(df.copy()).set_index('frame.time')
+    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
 
 
 def scope_label(df, scope_name):
@@ -301,16 +318,18 @@ def scope_label(df, scope_name):
 
 # Setup filters for different scopes
 evil_domain = 'evil.dne'
-DNS_PROTO = 17.0
+DNS_PORT = 17.0
+DOT_PORT = 443
 
 
 def dns_filter(df, ip):
-    if ('dns.qry.name' in df.columns and 'ip.proto' in df.columns):
+    if ('dns.qry.name' in df.columns and 'tcp.dstport' in df.columns):
         return df[(df['dns.qry.name'] == evil_domain)
-              | (df['dns.qry.name'] == "") & (df['ip.proto'] == DNS_PROTO)]
+                  | (df['dns.qry.name'].isna())
+                  & (df['tcp.dstport'] == DOT_PORT)]
     else:
         return df[(df['dns.qry.name'] == evil_domain)
-                  | (df['dns.qry.name'] == "")]
+                  | (df['dns.qry.name'].isna())]
 
 
 resolver.set_filter(dns_filter)
@@ -346,12 +365,13 @@ Access_tor.cache_search_enabled = True
 # Cluster DNS
 # Create ts for each IP
 resolv_df = resolver.pcap_df()
-resolv_df_filtered = resolv_df[resolv_df['ip.proto'] == DNS_PROTO]
-IPs = resolv_df_filtered['ip.src'].unique()
+resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
+infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
+ips_seen = resolv_df_filtered['ip.src'].unique()
+IPs = list(set(ips_seen) - set(infra_ip))
 flows_ip = {}
 flows_ts_ip_scoped = {}
 flows_ts_ip_total = {}
-infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
 first_pass = resolv_df_filtered[((~resolv_df_filtered['ip.src'].isin(infra_ip)))
                                 & (resolv_df_filtered['dns.qry.name'] == evil_domain)]
 solo = solo_pipeline(first_pass)
@@ -360,7 +380,9 @@ solo = solo_pipeline(first_pass)
 # This should be a valid topo sorted list
 # of the scopes (it will be proccessed in order)
 scopes = [resolver, root, tld, sld]  # , Access_tor]
+bad_features = ['tcp.dstport', 'tcp.srcport', 'udp.port', 'tcp.seq']
 for scope in scopes:
+    scope.remove_features(bad_features)
     scope.remove_zero_var()
 cache_window = window  # see above
 print("scopes: " + str(scopes))
@@ -405,14 +427,17 @@ for ip in IPs:
         flows_ip[ip]['frame.time'] = flows_ip[ip].index
         flows_ts_ip_total[ip]['frame.time'] = flows_ts_ip_total[ip].index
 
-        # label scope col as category
-        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
-        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
-
         # remove nans with 0
         flows_ip[ip].fillna(0, inplace=True)
         flows_ts_ip_scoped[ip].fillna(0, inplace=True)
         flows_ts_ip_total[ip].fillna(0, inplace=True)
+
+        # label scope col as category
+        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
+        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
+
+
+# In[28]:
 
 
 # Viz
@@ -443,7 +468,7 @@ plt.legend()
 
 
 def ip_to_group(ip):
-    if ip.split(".")[0] != '102':
+    if ip.split(".")[0] != '101':
         return -1
     return math.floor((int(ip.split(".")[-1])-2) / 5)
 
@@ -525,7 +550,7 @@ def rip_ts(window, dim, skip, data, thresh=float("inf")):
 
 def tda_trans(pairs, k=2, debug=False):
     pairs = [(x[0], x[1]) for x in pairs]
-    return rpls_py.pairs_to_l2_norm(pairs, k, debug)
+    return fast_pl_py.pairs_to_l2_norm(pairs, k, debug)
 
 
 class TDA_Parameters:
@@ -543,7 +568,7 @@ def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), 
     # compute birth death pairs
     rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
     new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
-    return new_ts
+    return pd.DataFrame({'tda_pl': new_ts}, index=data.index[:len(new_ts)])
 
 
 def my_pl_ts(ts1, ts2, ip1, ip2):
@@ -700,14 +725,14 @@ def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
     return best_cor, best_lag
 
 
-def compare_ts(ts1, ts2):
+def compare_ts(ts1, ts2, debug=False):
     # dtw_classic, path_classic = dtw(ts1, ts2, dist='square',
     #                             method='classic', return_path=True)
     # return dtw_classic
     # print(ts1)
     # print(ts2)
     # dist, lag = cross_cor(pd.Series(ts1), pd.Series(ts2))
-    dist, lag = cross_cor(ts1, ts2)
+    dist, lag = cross_cor(ts1, ts2, debug=debug)
     # assert dist >= -1 and dist <= 1
     dist = dist * -1  # flip for use as distance metric
     # assert dist >= -1 and dist <= 1
@@ -719,21 +744,23 @@ def normalize_ts(ts):
     return ts.fillna(0)
 
 
-def compare_ts_reshape(ts1, ts2):
+def compare_ts_reshape(ts1, ts2, debug=False):
+    # buffer_room = 120  # in seconds
+    range = min(ts2.index.values), max(ts2.index.values)
+    ts1 = ts1.loc[(ts1.index >= range[0]) & (ts1.index <= range[1])]
+    # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
+    #           (ts1['frame.time'] <= int(range[1]))]
+    ts1 = ts1.loc[:, 'tda_pl']
+
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
 
-    # buffer_room = 120  # in seconds
     # delay = 0
 
     # ts1_norm.index = ts1_norm.index + pd.DateOffset(seconds=delay)
 
     # lock to same range with buffer room
     # on each side to account for network (or PPT) delay
-#     start = min(ts1.index.values) - (buffer_room * 1000000000)
-#     end = max(ts1.index.values) + (buffer_room * 1000000000)
-
-#     ts2_norm = ts2_norm[start:end]
 
     # detect if no overlap
     if len(ts1_norm) < 2 or len(ts2_norm) < 2:
@@ -750,7 +777,7 @@ def compare_ts_reshape(ts1, ts2):
     #     ts1_norm = ts1_norm.tolist()
     #     ts2_norm = ts2_norm.tolist()
 
-    score, lag = compare_ts(ts1_norm, ts2_norm)
+    score, lag = compare_ts(ts1_norm, ts2_norm, debug=debug)
 
     return score, lag
 
@@ -803,39 +830,26 @@ from scipy.spatial.distance import squareform
 #     return labels
 
 
-def evaluate(src_df_dict, dst_df_dict, features, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
-    src_data = {key: df.loc[:, features] for key, df in src_df_dict.items()}
-    for ip in src_data:
-        src_data[ip] = src_data[ip][list(features)]
-        # if len(features) > 1:
-        src_data[ip] = ts_to_tda(src_data[ip], params=params)
-    num_correct = 0
-    for user in dst_df_dict:
-        best = None
-        best_ip = None
-        best_lag = None
-        for ip in src_data:
-            # print(user + "\t" + ip)
-            score, lag = compare_ts_reshape(src_data[ip], dst_df_dict[user])
-            if best is None or score < best:
-                best = score
+def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
+    src = {}
+    dst = {}
+    for ip in src_raw:
+        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+    for user in dst_raw:
+        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+    correct = 0.0
+    for user in dst:
+        best_score = 0
+        best_ip = 0
+        for ip in src:
+            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            if score < best_score:
+                best_score = score
                 best_ip = ip
-                best_lag = lag
-        # times_talked = len(dst_df_dict[user].loc[~(dst_df_dict[user]==0).all(axis=1)])
-        # print(str(user) +
-              # "\tfound: " + str(best_ip) +
-              # "\t" + str(ip_to_user(best_ip)) +
-              # "\t" + str(best) +
-              # "\t" + str(best_lag) +
-              # "\t" + str(times_talked),
-              # end='')
-
         if user == ip_to_user(best_ip):
-            num_correct += 1
-            # print("\tcorrect", end='')
-        # print("")
-    return float(num_correct)/len(dst_df_dict)
-
+            correct += 1
+    accuracy = correct / len(src)
+    return accuracy
 # Find best features
 import itertools
 from tqdm import tqdm
@@ -848,21 +862,24 @@ def findsubsets(s, n):
     return list(itertools.combinations(s, n))
 
 
-def evaluate_subset(src_df, dst_df, subset, tda_config=None):
-    score = evaluate(src_df, dst_df, subset, params=tda_config)
-    return score, subset
+def evaluate_subset(src_df, dst_df, src_features, dst_feaures, tda_config=None):
+    try:
+        score = evaluate(src_df, dst_df, list(src_features), list(dst_feaures), params=tda_config)
+    except: 
+        score = -1
+    return score, src_features
 
 
-def iterate_features(src_df, dst_df, n, tda_config, filename):
+def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
     features = src_df[next(iter(src_df))].columns
     subsets = findsubsets(features, n)
     results = []
-    num_cpus = os.cpu_count()
+    num_cpus = int(os.cpu_count())
     print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
     with mp.Pool(processes=num_cpus) as pool:
         results = []
         for subset in subsets:
-            results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset, tda_config)))
+            results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset, dst_features, tda_config)))
         with open(filename, 'a') as f:
             for result in tqdm(results, total=len(subsets)):
                 score, subset = result.get()
@@ -912,26 +929,106 @@ def evaluate_tda(src_df, dst_df, tda_params):
     return result, tda_params.thresh
 
 
-filename = "tdaSweep_match.tsv"
+
+
+# In[29]:
+
+
+def eval_model(src_raw, dst_raw, src_features, dst_feaures):
+    src = {}
+    dst = {}
+    for ip in src_raw:
+        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+    for user in dst_raw:
+        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+    correct = 0.0
+    for user in tqdm(dst):
+        best_score = 0
+        best_ip = 0
+        for ip in src:
+            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            if score < best_score:
+                best_score = score
+                best_ip = ip
+        if user == ip_to_user(best_ip):
+            correct += 1
+    accuracy = correct / len(src)
+    return accuracy
+
+
+# In[ ]:
+
+
 num_cpus = os.cpu_count()
-features = ['count']
 skip = 1
 dim = 0
 window = 3
 k = 9
 thresh = float("inf")
 tda_config = TDA_Parameters(dim, window, skip, k, thresh)
-# results.append(pool.apply_async(evaluate_tda, args=(src_df, dst_df, TDA_Parameters(dim, window, skip, k, thresh))))
+
+src_df = flows_ts_ip_total
+dst_df = client_chat_logs
 
 for output_size in range(1, len(dst_df)+1):
-    for features in findsubsets(dst_df[single_user], output_size):
-        dst_arr = {}
-        for ip in dst_df:
-            dst_arr[ip] = np.array(ts_to_tda(dst_df[ip].loc[:, features], params=tda_config))
-        assert dst_arr[single_user].ndim == 1
-        for n in range(2, 4):
-            best_features = iterate_features(src_df, dst_arr, n, tda_config,
+    for n in range(1, 3):
+        for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
+#             dst_arr = {}
+#             for ip in dst_df:
+#                 dst_arr[ip] = ts_to_tda(dst_df[ip].loc[:, features], params=tda_config)
+#             assert dst_arr[single_user].ndim == 2
+            best_features = iterate_features(src_df, dst_df, n, features, tda_config,
                                              "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
+
+
+# In[4]:
+
+
+# for n in range(2,3):
+#     best_features = iterate_features(src_df, dst_df, n,
+#                                      "chatlog_dtw_dns_all_" + str(n) +
+#                                      "_" + str(datetime.now()) + ".output")
+
+
+# In[5]:
+
+
+ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
+ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
+ts1 = ts_to_tda(ts1, params=tda_config)
+ts2 = ts_to_tda(ts2, params=tda_config)
+compare_ts_reshape(ts1, ts2, debug=True)
+
+
+# In[17]:
+
+
+eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
+
+
+# In[7]:
+
+
+ip_to_user(best_ip)
+
+
+# In[8]:
+
+
+# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
+
+
+# In[9]:
+
+
+# client_chat_logs['/tordata/config/group_0_user_2']
+
+
+# In[ ]:
+
+
+
+
