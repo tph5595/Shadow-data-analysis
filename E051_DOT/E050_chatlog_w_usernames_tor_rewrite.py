@@ -1,0 +1,948 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[95]:
+
+
+from os.path import isfile, join
+import matplotlib.pyplot as plt
+from datetime import datetime
+from os import listdir
+import pandas as pd
+import json
+import re
+import os
+
+import numpy as np
+import math
+from sklearn import metrics
+# from statistics import mean
+# from sklearn.metrics import confusion_matrix
+from sklearn.metrics import (adjusted_rand_score,
+                             normalized_mutual_info_score,
+                             fowlkes_mallows_score,
+                             homogeneity_completeness_v_measure)
+from ripser import ripser
+# from sklearn import preprocessing
+from fastdtw import fastdtw
+import fast_pl_py
+# from scipy.spatial.distance import pdist
+import statsmodels.api as sm
+# from pyts.metrics import dtw, itakura_parallelogram, sakoe_chiba_band
+# rom pyts.metrics.dtw import (cost_matrix, accumulated_cost_matrix,
+#                             _return_path, _blurred_path_region)
+
+
+from collections import defaultdict
+import bisect
+
+class TimestampedDict:
+    def __init__(self):
+        self.dict = {}
+        self.timestamps = {}
+
+    def add(self, key, timestamp, value):
+        if key in self.dict:
+            self.dict[key][timestamp] = value
+        else:
+            self.dict[key] = {}
+            self.dict[key][timestamp] = value
+        if key in self.timestamps:
+            bisect.insort(self.timestamps[key], timestamp)
+        else:
+            self.timestamps[key] = [timestamp]
+        return self
+
+    def get(self, key, timestamp):
+        if key not in self.dict or key not in self.timestamps:
+            return None
+        values = self.dict[key]
+        timestamps = self.timestamps[key]
+        if values and timestamps:
+            index = bisect.bisect_right(timestamps, timestamp)
+            if index > 0:
+                return values[self.timestamps[key][index - 1]]
+            else:
+                return None
+        else:
+            return None
+    
+    def latest(self, key):
+        if key not in self.timestamps:
+            return None
+        timestamps = self.timestamps[key]
+        if timestamps:
+            return timestamps[-1]
+        else:
+            return None
+    
+    def latest_value(self, key):
+        timestamp = self.latest(key)
+        if timestamp is None:
+            return None
+        return self.get(key, timestamp)
+
+    def add_if_new(self, key, timestamp, value):
+        latest = self.latest_value(key)
+        if latest != value:
+            self.add(key, timestamp, value)
+
+
+# In[201]:
+
+
+def read_oniontraces():
+    onion_path = "data/experiment0-0.01/shadow.data/hosts"
+    onion_files = getFilenames(onion_path)
+
+    r = re.compile(r".*group\d+user\d+\.oniontrace\.\d+\.stdout")
+    onion_files = list(filter(r.match, onion_files))
+    logs = {}
+    for f in onion_files:
+        hostname = f.split('/')[-1].split('.')[0]
+        with open(f, 'r') as file:
+            logs[hostname] = file.readlines()
+    return logs
+    
+def filter_log(user_logs, circ_regex):
+    output = {}
+    pattern = re.compile(circ_regex)  # Compile the regular expression pattern
+    for user in user_logs:
+        filtered_lines = [line for line in user_logs[user] if pattern.match(line)]  # Use the compiled pattern
+        output[user] = filtered_lines
+    return output
+
+def parse_onion_trace(line):
+    pattern = r"CIRC \d+ EXTENDED \$[0-9A-Z]+~([a-zA-Z0-9]+),.*,\$[0-9A-Z]+~([0-9A-Za-z]+).*TIME_CREATED=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+)"
+
+    match = re.search(pattern, line)
+    if match:
+        entry = match.group(1)
+        exit = match.group(2)
+        timestamp = match.group(3)
+        timestamp_parsed = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f")
+        return timestamp_parsed, entry, exit
+    else:
+        print(line)
+        print("bad line!!!!")
+        exit(1)
+
+import yaml
+def onion_map_maker():
+    # Read the file
+    with open('data/experiment0-0.01/shadow.data/processed-config.yaml', 'r') as file:
+        data = yaml.safe_load(file)
+
+    hosts_dict = {}
+
+    # Extract the name and IP address of each host
+    for host_name, host_data in data['hosts'].items():
+        ip_addr = host_data['ip_addr']
+        hosts_dict[host_name] = ip_addr
+    return hosts_dict
+
+onion_lut = onion_map_maker()
+
+def convert_to_map(logs, offset):
+    tor_ip_map_src = TimestampedDict()
+    tor_ip_map_dst = TimestampedDict()
+    for user in logs:
+        for line in logs[user]:
+            timestamp, entry, exit = parse_onion_trace(line)
+            timestamp += offset
+            entry_ip = onion_lut[entry]
+            exit_ip = onion_lut[exit]
+            tor_ip_map_src.add_if_new(user, timestamp, entry_ip)
+            tor_ip_map_dst.add_if_new(user, timestamp, exit_ip)
+    return tor_ip_map_src, tor_ip_map_dst
+
+
+# In[202]:
+
+
+# Rewrite tor ips into GNS3 data
+# Create map of client to (tor entry, tor exit) with time stamps
+def generate_tor_maps():
+    circ_regex = r".*CIRC \d+ EXTENDED \$([0-9A-Za-z~]+),.*,\$([0-9A-Za-z~]+).*TIME_CREATED=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+)"
+    user_logs = read_oniontraces()
+    filtered_logs = filter_log(user_logs, circ_regex)
+    
+    return convert_to_map(filtered_logs, Shadow_offset)
+
+
+# In[204]:
+
+
+src_map, dst_map = generate_tor_maps()
+
+
+# In[205]:
+
+
+# go through GNS3 data and rewrite based on map
+for scope in GNS3_scopes:
+    print(scope)
+    scope.ip_map(tor_ip_map_src, tor_ip_map_dst)
+
+
+# In[ ]:
+
+
+# detect and remove solo quries
+# these can easily be handled on their own
+# as only 1 device is accessing the network at that moment
+def detect_solo(df_list):
+    new_df = df_list[df_list['ip.src'].ne(df_list['ip.src'].shift())]
+    new_df['diff'] = new_df['frame.time'].diff()
+    new_df = new_df[new_df['diff'] > window]
+    solo_ips = new_df['ip.src'].unique()
+    return solo_ips
+
+
+def handle_solo(solo):
+    print("IPs that must trigger a cache miss: " + str(solo))
+
+
+def solo_pipeline(df_list):
+    fil = df_list[['ip.src', 'frame.time']]
+    solo = detect_solo(fil)
+    handle_solo(solo)
+    return solo
+
+
+def combineScopes(dfs):
+    if len(dfs) < 1:
+        return dfs
+    return pd.concat(dfs)
+
+
+def scopesToTS(dfs):
+    output = []
+    for df in dfs:
+        if len(df) < 2:
+            continue
+        output += scopeToTS(df)
+    return output
+
+
+def scopeToTS(df):
+    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
+
+
+def scope_label(df, scope_name):
+    for col in df.columns:
+        df[col + "_" + scope_name] = df[col]
+    df["scope_name"] = scope_name
+    return df
+
+
+# Setup filters for different scopes
+evil_domain = 'evil.dne'
+DNS_PORT = 17.0
+DOT_PORT = 853
+
+
+def dns_filter(df, ip):
+    if ('dns.qry.name' in df.columns and 'tcp.dstport' in df.columns):
+        return df[(df['dns.qry.name'] == evil_domain)
+                  | (df['dns.qry.name'].isna())
+                  & (df['tcp.dstport'] == DOT_PORT)]
+    else:
+        return df[(df['dns.qry.name'] == evil_domain)
+                  | (df['dns.qry.name'].isna())]
+
+
+resolver.set_filter(dns_filter)
+root.set_filter(dns_filter)
+tld.set_filter(dns_filter)
+sld.set_filter(dns_filter)
+
+resolver.ip_search_enabled = True
+resolver.cache_search_enabled = False
+
+root.ip_search_enabled = True
+root.cache_search_enabled = True
+
+sld.ip_search_enabled = True
+sld.cache_search_enabled = True
+
+tld.ip_search_enabled = True
+tld.cache_search_enabled = True
+
+TCP_PROTO = 6
+
+
+def tor_filter(df, ip):
+    return df[(df['tcp.len'] > 500) & (df['ip.proto'] == TCP_PROTO)]
+
+
+Access_tor.set_filter(tor_filter)
+
+Access_tor.ip_search_enabled = True
+Access_tor.cache_search_enabled = True
+
+
+# Cluster DNS
+# Create ts for each IP
+resolv_df = resolver.pcap_df()
+resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
+infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
+ips_seen = resolv_df_filtered['ip.src'].unique()
+IPs = list(set(ips_seen) - set(infra_ip))
+flows_ip = {}
+flows_ts_ip_scoped = {}
+flows_ts_ip_total = {}
+first_pass = resolv_df_filtered[((~resolv_df_filtered['ip.src'].isin(infra_ip)))
+                                & (resolv_df_filtered['dns.qry.name'] == evil_domain)]
+solo = solo_pipeline(first_pass)
+
+# Add all scope data to IPs found in resolver address space
+# This should be a valid topo sorted list
+# of the scopes (it will be proccessed in order)
+scopes = [resolver, root, tld, sld]  # , Access_tor]
+bad_features = ['tcp.dstport', 'tcp.srcport', 'udp.port', 'tcp.seq']
+for scope in scopes:
+    scope.remove_features(bad_features)
+    scope.remove_zero_var()
+cache_window = window  # see above
+print("scopes: " + str(scopes))
+print("cache window: " + str(cache_window))
+
+for ip in IPs:
+    # Don't add known infra IPs or users that can are solo communicaters
+    if ip in infra_ip or ip in solo:
+        continue
+    flows_ip[ip] = pd.DataFrame()
+    flows_ts_ip_scoped[ip] = pd.DataFrame()
+    flows_ts_ip_total[ip] = pd.DataFrame()
+    for scope in scopes:
+        # Find matches
+        matches = scope.search(ip, flows_ip[ip])
+
+        # Update df for ip
+        combined_scope = combineScopes(matches)
+        combined_scope = scope_label(combined_scope, scope.name)
+        combined_scope["scope_name"] = scope.name
+        flows_ip[ip] = combineScopes([flows_ip[ip], combined_scope])
+
+        # update ts for ip
+        new_ts_matches = scopeToTS(combined_scope)
+        if len(new_ts_matches) == 0:
+            continue
+        new_ts_matches["scope_name"] = scope.name
+        flows_ts_ip_scoped[ip] = combineScopes([flows_ts_ip_scoped[ip],
+                                                new_ts_matches])
+    if len(flows_ip[ip]) > 0:
+        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip])
+
+        # order df by time
+        flows_ip[ip] = flows_ip[ip].set_index('frame.time')
+
+        # sort combined df by timestamp
+        flows_ip[ip].sort_index(inplace=True)
+        flows_ts_ip_scoped[ip].sort_index(inplace=True)
+        flows_ts_ip_total[ip].sort_index(inplace=True)
+
+        # Preserve time col to be used for automated feautre engineering
+        flows_ip[ip]['frame.time'] = flows_ip[ip].index
+        flows_ts_ip_total[ip]['frame.time'] = flows_ts_ip_total[ip].index
+
+        # remove nans with 0
+        flows_ip[ip].fillna(0, inplace=True)
+        flows_ts_ip_scoped[ip].fillna(0, inplace=True)
+        flows_ts_ip_total[ip].fillna(0, inplace=True)
+
+        # label scope col as category
+        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
+        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
+
+
+# In[28]:
+
+
+# Viz
+# importing Libraries
+plt.style.use('default')
+# code
+# Visualizing The Open Price of all the stocks
+# to set the plot size
+plt.figure(figsize=(16, 8), dpi=150)
+# using plot method to plot open prices.
+# in plot method we set the label and color of the curve.
+
+total = 0
+for f in flows_ts_ip_total:
+    if total > 10:
+        break
+    total += 1
+    flows_ts_ip_total[f]['count'].plot(label=f)
+
+plt.title('Requests per second')
+
+# adding Label to the x-axis
+plt.xlabel('Time')
+plt.ylabel('Requests (seconds)')
+
+# adding legend to the curve
+plt.legend()
+
+
+def ip_to_group(ip):
+    if ip.split(".")[0] != '101':
+        return -1
+    return math.floor((int(ip.split(".")[-1])-2) / 5)
+
+
+def get_real_label(dic):
+    data = dic.keys()
+    result = np.array([ip_to_group(xi) for xi in data])
+    return result
+
+
+# compute cluster purity
+def purity_score(y_true, y_pred):
+    # compute contingency matrix (also called confusion matrix)
+    contingency_matrix = metrics.cluster.contingency_matrix(y_true, y_pred)
+    # return purity
+    return np.sum(np.amax(contingency_matrix, axis=0)) / np.sum(contingency_matrix)
+
+
+def weighted_purity(true_labels, found_labels):
+    s = 0
+    total = 0
+    for c in true_labels.unique():
+        selection = df[df['cluster'] == c]
+        p = purity_score(selection['real_label'], selection['cluster'])
+        total += len(selection)
+        s += p * len(selection)
+    return s/total
+
+
+answers = get_real_label(flows_ts_ip_total)
+
+
+def gpt_cluster_metrics(true_labels, found_labels):
+    # Calculate the Adjusted Rand Index
+    ari = adjusted_rand_score(true_labels, found_labels)
+    ari_range = (-1, 1)
+    ari_ideal = 1
+
+    # Calculate the Normalized Mutual Information
+    nmi = normalized_mutual_info_score(true_labels, found_labels)
+    nmi_range = (0, 1)
+    nmi_ideal = 1
+
+    # Calculate the Fowlkes-Mallows Index
+    fmi = fowlkes_mallows_score(true_labels, found_labels)
+    fmi_range = (0, 1)
+    fmi_ideal = 1
+
+    # Calculate homogeneity, completeness, and V-measure
+    homogeneity, completeness, v_measure = homogeneity_completeness_v_measure(true_labels, found_labels)
+    hcv_range = (0, 1)
+    hcv_ideal = 1
+
+    # Print the results
+    print(f"Adjusted Rand Index: {ari:.4f} [range: {ari_range}, ideal: {ari_ideal}]")
+    print(f"Normalized Mutual Information: {nmi:.4f} [range: {nmi_range}, ideal: {nmi_ideal}]")
+    print(f"Fowlkes-Mallows Index: {fmi:.4f} [range: {fmi_range}, ideal: {fmi_ideal}]")
+    print(f"Homogeneity: {homogeneity:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
+    print(f"Completeness: {completeness:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
+    print(f"V-measure: {v_measure:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
+
+
+def my_dtw(ts1, ts2):
+    distance, path = fastdtw(ts1, ts2)
+    return distance
+
+
+def my_dist(ts1, ts2, ip1="", ip2=""):
+    return my_pl_ts(ts1, ts2, ip1, ip2)
+
+
+def rip_ts(window, dim, skip, data, thresh=float("inf")):
+    for_pl = {}
+    for i in range(0, len(data)-window+1, skip):
+        diagrams = ripser(data[i:i+window], maxdim=dim, thresh=thresh)['dgms']
+        for_pl[i] = diagrams[dim]
+    return for_pl
+
+
+def tda_trans(pairs, k=2, debug=False):
+    pairs = [(x[0], x[1]) for x in pairs]
+    return fast_pl_py.pairs_to_l2_norm(pairs, k, debug)
+
+
+class TDA_Parameters:
+    def __init__(self, dim, window, skip, k, thresh):
+        self.dim = dim
+        self.window = window
+        self.skip = skip
+        self.k = k
+        self.thresh = thresh
+
+
+def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False):
+    data = data.astype(float)
+
+    # compute birth death pairs
+    rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
+    new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
+    return pd.DataFrame({'tda_pl': new_ts}, index=data.index[:len(new_ts)])
+
+
+def my_pl_ts(ts1, ts2, ip1, ip2):
+    return my_dtw(ts1, ts2)
+
+
+def calc_dist_matrix(samples, my_dist, multi_to_single=lambda x: x):
+    # create a list of dataframe values
+    X = [multi_to_single(df.to_numpy(), ip) for ip, df in samples.items()]
+    n_samples = len(X)
+    dist_mat = np.zeros((n_samples, n_samples))
+    for i in range(n_samples):
+        for j in range(i+1, n_samples):
+            d = my_dist(X[i], X[j], i, j)
+            dist_mat[i, j] = d
+            dist_mat[j, i] = d
+    return squareform(dist_mat)
+
+
+def cast_col(col: pd.Series) -> pd.Series:
+    if col.dtype == 'object':
+        if all([is_float(x) for x in col]):
+            return col.astype(float)
+        elif all([is_int(x) for x in col]):
+            return col.astype(float)
+        elif all([is_date(x) for x in col]):
+            return pd.Series(pd.to_datetime(col)).astype(float)
+        else:
+            return col.astype(str)
+    elif np.issubdtype(col.dtype, np.datetime64):
+        return col.astype(np.int64)
+    else:
+        return col.astype(float)
+
+
+def is_float(s: str) -> bool:
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+
+def is_int(s: str) -> bool:
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+
+def is_date(s: str) -> bool:
+    try:
+        pd.to_datetime(s)
+        return True
+    except ValueError:
+        return False
+
+
+def cast_columns(df):
+    for col in df.columns:
+        df[col] = cast_col(df[col])
+    return df
+
+
+def get_chat_logs(scope):
+    df = scope.as_df()
+    df["text_len"] = df["text"].apply(len)
+    users = df["username"].unique()
+    client_log = {}
+    for user in users:
+        client_log[user] = df_to_ts(df[df["username"] == user], time_col='time').set_index('time')
+    return client_log
+
+
+client_chat_logs = get_chat_logs(chatlog)
+
+
+def ip_to_user(ip, group_size=5, starting=10):
+    local_net = int(ip.split(".")[-1]) - starting
+    user = local_net % group_size
+    group = math.floor(local_net/group_size)
+    return '/tordata/config/group_' + str(group) + "_user_" + str(user)
+
+
+# https://www.datainsightonline.com/post/cross-correlation-with-two-time-series-in-python
+# from scipy import signal
+
+def ccf_values(series1, series2):
+    p = series1
+    q = series2
+    p = (p - np.mean(p)) / (np.std(p) * len(p))
+    q = (q - np.mean(q)) / (np.std(q))
+    c = np.correlate(p, q, 'full')
+    return c
+
+
+def ccf_plot(lags, ccf):
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.plot(lags, ccf)
+    ax.axhline(-2/np.sqrt(23), color='red', label='5% \
+    confidence interval')
+    ax.axhline(2/np.sqrt(23), color='red')
+    ax.axvline(x=0, color='black', lw=1)
+    ax.axhline(y=0, color='black', lw=1)
+    ax.axhline(y=np.max(ccf), color='blue', lw=1,
+               linestyle='--', label='highest +/- correlation')
+    ax.axhline(y=np.min(ccf), color='blue', lw=1,
+               linestyle='--')
+    ax.set(ylim=[-1, 1])
+    ax.set_title('Cross Correlation', weight='bold', fontsize=15)
+    ax.set_ylabel('Correlation Coefficients', weight='bold',
+                  fontsize=12)
+    ax.set_xlabel('Time Lags', weight='bold', fontsize=12)
+    plt.legend()
+
+
+def ccf_calc(sig1, sig2):
+    corr = sm.tsa.stattools.ccf(sig2, sig1, adjusted=False)
+
+    # Remove padding and reverse the order
+    return corr[0:(len(sig2)+1)][::-1]
+
+
+def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
+    # ensure format is correct (only keep first col
+    # ts1_values = ts1['count'] # ts1.iloc[:,0]
+    # ts2_values = ts2['count'] # ts2.iloc[:,0]
+
+    # Calculate values
+    # print(ts1)
+    ccf = ccf_calc(ts1, ts2)
+    # lags = signal.correlation_lags(len(ts1_values), len(ts2_values))
+
+    # keep only positive lag values
+    # Not needed with stats packate
+    # if only_positive:
+    #     ccf = ccf[lags >= 0]
+    #     lags = lags[lags >= 0]
+
+    # ccf = ccf[:min(len(ccf), max_offset)]
+
+    # find best
+    best_cor = max(ccf)
+    best_lag = np.argmax(ccf)
+
+    if debug:
+        print('best cross correlation: ' + str(best_cor) + " at time lag: " + str(best_lag))
+        print(len(ccf))
+        print(ccf)
+        ccf_plot(range(len(ccf)), ccf)
+    # print(ccf)
+    # assert best_cor >= -1 and best_cor <= 1
+    return best_cor, best_lag
+
+
+def compare_ts(ts1, ts2, debug=False):
+    # dtw_classic, path_classic = dtw(ts1, ts2, dist='square',
+    #                             method='classic', return_path=True)
+    # return dtw_classic
+    # print(ts1)
+    # print(ts2)
+    # dist, lag = cross_cor(pd.Series(ts1), pd.Series(ts2))
+    dist, lag = cross_cor(ts1, ts2, debug=debug)
+    # assert dist >= -1 and dist <= 1
+    dist = dist * -1  # flip for use as distance metric
+    # assert dist >= -1 and dist <= 1
+    return dist, lag
+
+
+def normalize_ts(ts):
+    ts = (ts-ts.min())/(ts.max()-ts.min())
+    return ts.fillna(0)
+
+
+def compare_ts_reshape(ts1, ts2, debug=False):
+    # buffer_room = 120  # in seconds
+    range = min(ts2.index.values), max(ts2.index.values)
+    ts1 = ts1.loc[(ts1.index >= range[0]) & (ts1.index <= range[1])]
+    # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
+    #           (ts1['frame.time'] <= int(range[1]))]
+    ts1 = ts1.loc[:, 'tda_pl']
+
+    ts1_norm = np.array(ts1.copy())
+    ts2_norm = np.array(ts2.copy())
+
+    # delay = 0
+
+    # ts1_norm.index = ts1_norm.index + pd.DateOffset(seconds=delay)
+
+    # lock to same range with buffer room
+    # on each side to account for network (or PPT) delay
+
+    # detect if no overlap
+    if len(ts1_norm) < 2 or len(ts2_norm) < 2:
+        return float("inf"), 0
+
+    # Normalize peaks?
+    # ts1_norm = normalize_ts(ts1_norm)
+    # ts2_norm = normalize_ts(ts2_norm)
+
+    # plot_ts(ts1_norm, ts2_norm)
+    # exit(1)
+
+    # else:
+    #     ts1_norm = ts1_norm.tolist()
+    #     ts2_norm = ts2_norm.tolist()
+
+    score, lag = compare_ts(ts1_norm, ts2_norm, debug=debug)
+
+    return score, lag
+
+
+def plot_ts(ts1, ts2):
+    # to set the plot size
+    plt.figure(figsize=(16, 8), dpi=150)
+
+    # normalize_ts(ts1['count']).plot(label='ts1')
+    # normalize_ts(ts2['count']).plot(label='ts2')
+    ts1['count'].plot(label='ts1')
+    ts2['count'].plot(label='ts2')
+
+    plt.title('Requests per second')
+
+    # adding Label to the x-axis
+    plt.xlabel('Time')
+    plt.ylabel('Requests (seconds)')
+
+    # adding legend to the curve
+    plt.legend()
+plot_ts(client_chat_logs['/tordata/config/group_0_user_0'], flows_ts_ip_total['102.0.0.10'])
+
+
+# In[ ]:
+
+
+# from scipy.cluster.hierarchy import dendrogram, linkage
+# from scipy.cluster.hierarchy import fcluster
+from sklearn.metrics import silhouette_score
+from scipy.spatial.distance import squareform
+
+
+# def cluster(samples, max_clust, display=False, multi_to_single=lambda x: x):
+#     dist_mat = calc_dist_matrix(samples,
+#                                 my_dist,
+#                                 multi_to_single=multi_to_single)
+
+#     # Perform hierarchical clustering using the computed distances
+#     Z = linkage(dist_mat, method='single')
+
+#     # Plot a dendrogram to visualize the clustering
+#     if display:
+#         dendrogram(Z)
+
+#     # Extract the cluster assignments using the threshold
+#     labels = fcluster(Z, max_clust, criterion='maxclust')
+# #     print(labels)
+
+#     return labels
+
+
+def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
+    src = {}
+    dst = {}
+    for ip in src_raw:
+        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+    for user in dst_raw:
+        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+    correct = 0.0
+    for user in dst:
+        best_score = 0
+        best_ip = 0
+        for ip in src:
+            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            if score < best_score:
+                best_score = score
+                best_ip = ip
+        if user == ip_to_user(best_ip):
+            correct += 1
+    accuracy = correct / len(src)
+    return accuracy
+# Find best features
+import itertools
+from tqdm import tqdm
+import multiprocessing as mp
+from concurrent.futures import ProcessPoolExecutor
+import os
+
+
+def findsubsets(s, n):
+    return list(itertools.combinations(s, n))
+
+
+def evaluate_subset(src_df, dst_df, src_features, dst_feaures, tda_config=None):
+    try:
+        score = evaluate(src_df, dst_df, list(src_features), list(dst_feaures), params=tda_config)
+    except: 
+        score = -1
+    return score, src_features
+
+
+def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
+    features = src_df[next(iter(src_df))].columns
+    subsets = findsubsets(features, n)
+    results = []
+    num_cpus = int(os.cpu_count())
+    print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
+    with mp.Pool(processes=num_cpus) as pool:
+        results = []
+        for subset in subsets:
+            results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset, dst_features, tda_config)))
+        with open(filename, 'a') as f:
+            for result in tqdm(results, total=len(subsets)):
+                score, subset = result.get()
+                out = str(score) + "\t" + str(subset) + "\n"
+                f.write(out)
+
+
+flows_ts_ip_total_str_int = {}
+for ip in flows_ts_ip_total:
+    flows_ts_ip_total_str_int[ip] = cast_columns(flows_ts_ip_total[ip])
+
+chat_log = {}
+for user in client_chat_logs:
+    chat_log[user] = cast_columns(client_chat_logs[user])
+
+src_df = flows_ts_ip_total_str_int
+dst_df = chat_log
+
+dst_df_count = {}
+for user in dst_df:
+    dst_df_count[user] = dst_df[user]['count']
+
+single_user = '/tordata/config/group_0_user_0'
+single_ip = '102.0.0.10'
+dst_single = {single_user: dst_df_count[single_user]}
+src_single = {single_ip: flows_ts_ip_total[single_ip]}
+# plot_ts(client_chat_logs['/tordata/config/group_0_user_0'],
+#                           flows_ts_ip_total['102.0.0.10'])
+
+# purity = evaluate(src_single, dst_single, ['count'], display=True)
+# purity = evaluate(src_df, dst_df_count, ['count'], display=True)
+# print("Accuracy: " + str(purity*100) + "%")
+
+
+def evaluate_tda(src_df, dst_df, tda_params):
+    try:
+        dst_arr = {}
+        for ip in dst_df:
+            dst_arr[ip] = np.array(
+                    ts_to_tda(
+                        dst_df[ip].loc[:, features],
+                        tda_params))
+        assert dst_arr[single_user].ndim == 1
+        result = evaluate(src_df, dst_arr, ['count'], display=True, params=tda_params)
+    except Exception:
+        result = -1
+    return result, tda_params.thresh
+
+
+
+
+# In[29]:
+
+
+def eval_model(src_raw, dst_raw, src_features, dst_feaures):
+    src = {}
+    dst = {}
+    for ip in src_raw:
+        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+    for user in dst_raw:
+        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+    correct = 0.0
+    for user in tqdm(dst):
+        best_score = 0
+        best_ip = 0
+        for ip in src:
+            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            if score < best_score:
+                best_score = score
+                best_ip = ip
+        if user == ip_to_user(best_ip):
+            correct += 1
+    accuracy = correct / len(src)
+    return accuracy
+
+
+# In[ ]:
+
+
+num_cpus = os.cpu_count()
+skip = 1
+dim = 0
+window = 3
+k = 9
+thresh = float("inf")
+tda_config = TDA_Parameters(dim, window, skip, k, thresh)
+
+src_df = flows_ts_ip_total
+dst_df = client_chat_logs
+
+for output_size in range(1, len(dst_df)+1):
+    for n in range(1, 3):
+        for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
+#             dst_arr = {}
+#             for ip in dst_df:
+#                 dst_arr[ip] = ts_to_tda(dst_df[ip].loc[:, features], params=tda_config)
+#             assert dst_arr[single_user].ndim == 2
+            best_features = iterate_features(src_df, dst_df, n, features, tda_config,
+                                             "post_tor_chatlog_tda_match_dns_all_" + str(n) +
+                                             "_outputFeatures_" + str(features) +
+                                             "_" + str(datetime.now()) +
+                                             ".output")
+
+
+# In[4]:
+
+
+# for n in range(2,3):
+#     best_features = iterate_features(src_df, dst_df, n,
+#                                      "chatlog_dtw_dns_all_" + str(n) +
+#                                      "_" + str(datetime.now()) + ".output")
+
+
+# In[5]:
+
+
+ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
+ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
+ts1 = ts_to_tda(ts1, params=tda_config)
+ts2 = ts_to_tda(ts2, params=tda_config)
+compare_ts_reshape(ts1, ts2, debug=True)
+
+
+# In[17]:
+
+
+eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
+
+
+# In[7]:
+
+
+ip_to_user(best_ip)
+
+
+# In[8]:
+
+
+# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
+
+
+# In[9]:
+
+
+# client_chat_logs['/tordata/config/group_0_user_2']
+
