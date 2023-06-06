@@ -6,6 +6,7 @@ for f in $(find data -type f -name "*.pcap"); do
         -T fields -e frame.number -e frame.time \
         -e ip.src -e ip.dst -e ip.proto \
         -e ip.len -e tcp.srcport -e tcp.dstport\
+        -e tcp.connection.syn \
         -e tcp.ack -e tcp.seq -e tcp.len \
         -e tcp.reassembled.length \
         -e dtls.handshake.extension.len -e dtls.handshake.extension.type -e dtls.handshake.session_id \
