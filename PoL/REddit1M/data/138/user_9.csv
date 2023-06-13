@@ -1,2 +1,0 @@
-Timestamp,Message
-6276,"It doesn't really work because it's missing a lot of the shaders that make SS painterly (there's a local bias done on the lighting on the models in SS), there's also the painterly DOF effect, etc."

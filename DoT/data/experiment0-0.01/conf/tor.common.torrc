@@ -1,0 +1,36 @@
+DirServer 4uthority1 v3ident=CFCFB065D082C296376A1D08FC477D9F4A1DA8CF orport=9001 100.0.0.1:8080 1104 22AA B1F0 FC2A 2535 8EF4 B01A 7080 1464 F442
+DirServer 4uthority2 v3ident=9C7956A8FB0B0418A3895BF64C8BDDE4A66FB279 orport=9001 100.0.0.2:8080 ADAA 8374 3225 25B1 400D 885A F174 9138 6B17 D21E
+DirServer 4uthority3 v3ident=C4725851054DFA47B0E7FAC0BA2D5C733C8FA31A orport=9001 100.0.0.3:8080 8632 CDF2 62E1 ED21 E8F6 AE14 67CC FAA4 AD7F 6FEB
+TestingTorNetwork 1
+TestingEnableCellStatsEvent 0
+DataDirectory .
+ServerDNSResolvConfFile ../../../conf/shadowresolv.conf
+ServerDNSTestAddresses 4uthority1,4uthority2,4uthority3
+ServerDNSAllowBrokenConfig 1
+ServerDNSDetectHijacking 0
+AssumeReachable 1
+NumCPUs 1
+Log notice stdout
+SafeLogging 0
+LogTimeGranularity 1
+HeartbeatPeriod 1
+ContactInfo https://github.com/shadow/shadow-plugin-tor/issues
+DisableDebuggerAttachment 0
+CellStatistics 0
+PaddingStatistics 0
+DirReqStatistics 0
+EntryStatistics 0
+ExitPortStatistics 0
+ConnDirectionStatistics 0
+HiddenServiceStatistics 0
+ExtraInfoStatistics 0
+CircuitPriorityHalflife 30
+PathBiasUseThreshold 10000
+PathBiasCircThreshold 10000
+DoSCircuitCreationEnabled 0
+DoSConnectionEnabled 0
+DoSRefuseSingleHopClientRendezvous 0
+ControlPort 9051
+GeoIPFile 
+GeoIPV6File
+ProtocolWarnings 1

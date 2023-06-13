@@ -1,0 +1,89 @@
+# Tor state file last generated on 2000-01-01 00:37:47 local time
+# Other times below are in UTC
+# You *do not* need to edit this file.
+
+CircuitBuildTimeBin 145 5
+CircuitBuildTimeBin 155 3
+CircuitBuildTimeBin 165 3
+CircuitBuildTimeBin 175 8
+CircuitBuildTimeBin 185 9
+CircuitBuildTimeBin 195 8
+CircuitBuildTimeBin 205 2
+CircuitBuildTimeBin 215 6
+CircuitBuildTimeBin 225 13
+CircuitBuildTimeBin 235 9
+CircuitBuildTimeBin 245 5
+CircuitBuildTimeBin 265 2
+CircuitBuildTimeBin 275 2
+CircuitBuildTimeBin 285 2
+CircuitBuildTimeBin 305 1
+CircuitBuildTimeBin 315 3
+CircuitBuildTimeBin 325 5
+CircuitBuildTimeBin 335 2
+CircuitBuildTimeBin 355 3
+CircuitBuildTimeBin 365 1
+CircuitBuildTimeBin 375 4
+CircuitBuildTimeBin 385 2
+CircuitBuildTimeBin 395 3
+CircuitBuildTimeBin 415 2
+CircuitBuildTimeBin 425 1
+CircuitBuildTimeBin 455 2
+CircuitBuildTimeBin 515 1
+CircuitBuildTimeBin 525 1
+CircuitBuildTimeBin 555 1
+CircuitBuildTimeBin 605 1
+CircuitBuildTimeBin 635 1
+CircuitBuildTimeBin 675 4
+CircuitBuildTimeBin 685 1
+CircuitBuildTimeBin 695 2
+CircuitBuildTimeBin 875 1
+BWHistoryDirReadEnds 2000-01-02 00:00:04
+BWHistoryDirReadInterval 86400
+BWHistoryDirReadMaxima 2048
+BWHistoryDirReadValues 26624
+BWHistoryDirWriteEnds 2000-01-02 00:00:04
+BWHistoryDirWriteInterval 86400
+BWHistoryDirWriteMaxima 11264
+BWHistoryDirWriteValues 137216
+BWHistoryIPv6ReadEnds 2000-01-02 00:00:04
+BWHistoryIPv6ReadInterval 86400
+BWHistoryIPv6ReadMaxima 0
+BWHistoryIPv6ReadValues 0
+BWHistoryIPv6WriteEnds 2000-01-02 00:00:04
+BWHistoryIPv6WriteInterval 86400
+BWHistoryIPv6WriteMaxima 0
+BWHistoryIPv6WriteValues 0
+BWHistoryReadEnds 2000-01-02 00:00:04
+BWHistoryReadInterval 86400
+BWHistoryReadMaxima 150528
+BWHistoryReadValues 18388992
+BWHistoryWriteEnds 2000-01-02 00:00:04
+BWHistoryWriteInterval 86400
+BWHistoryWriteMaxima 150528
+BWHistoryWriteValues 19578880
+Dormant 0
+Guard in=default rsa_id=2D89EE6AA43D421122FC16620DA20E44AFD405F2 nickname=relay17guard sampled_on=1999-12-31T01:28:17 sampled_idx=0 sampled_by=0.4.8.1-alpha-dev listed=1 confirmed_on=1999-12-26T17:37:00 confirmed_idx=0 pb_circ_attempts=116.000000 pb_circ_successes=112.000000 pb_successful_circuits_closed=112.000000
+Guard in=default rsa_id=2A5D2159633C7F1336F5F16356795E77725B9C82 nickname=relay27guard sampled_on=1999-12-21T14:20:11 sampled_idx=1 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=AE90170C13FB1544B7D3BB9BA60B0BB29FB3F534 nickname=relay21guard sampled_on=1999-12-23T00:37:22 sampled_idx=2 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=390B1277804CDDF7BECCDEF2A9E49396BE7B75F3 nickname=relay28guard sampled_on=1999-12-24T14:19:29 sampled_idx=3 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=8DD64DAF55A604167D5570FEACEA1181C799E1CB nickname=relay23guard sampled_on=1999-12-29T04:48:47 sampled_idx=4 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=625292D1ED03A26D6A49B0746EEB0333A497B4DD nickname=relay20guard sampled_on=1999-12-25T13:27:21 sampled_idx=5 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=96848AFDD3291309CAED25B1BFDABB409EB3D004 nickname=relay24guard sampled_on=1999-12-31T18:01:12 sampled_idx=6 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=B9A2A64CC541538D98B0A22E9B907C9377EA877E nickname=relay22guard sampled_on=1999-12-31T08:56:04 sampled_idx=7 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=1BA301ABDAA59BCBA778E040FE61317A5A157187 nickname=relay16guard sampled_on=1999-12-24T22:59:58 sampled_idx=8 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=6E7ABF0D3F222534F301C4E85FADFE110E6C6D9A nickname=relay15guard sampled_on=1999-12-30T21:43:37 sampled_idx=9 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=454CBB8A30B2007E5092501F31B148A35A1F5D0A nickname=relay19guard sampled_on=1999-12-24T20:03:30 sampled_idx=10 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=AE03ECAD35DED6AABA017D936D749AFE6A0C9243 nickname=relay30guard sampled_on=1999-12-22T13:59:36 sampled_idx=11 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=A2313C7169A52E3C1D2700C08BDD2EEC869FCF5A nickname=relay25guard sampled_on=1999-12-29T23:58:28 sampled_idx=12 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=822E0E45ED33A34BC9F13A7754D7ADA507609871 nickname=relay31guard sampled_on=1999-12-28T06:35:30 sampled_idx=13 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=546CDFB63C847F2AEA7DF6281F68E18795ADD7B8 nickname=relay32guard sampled_on=1999-12-23T21:12:45 sampled_idx=14 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=CAAA917944078E5B2DC305011605017D5C812B7A nickname=relay26guard sampled_on=1999-12-20T03:48:03 sampled_idx=15 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=8458E403B3765C0FF9D955C9AD52C9096A0FE925 nickname=relay33guard sampled_on=1999-12-30T10:52:49 sampled_idx=16 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=5D224C211A3023F4EB3FC0C1124DF49E5F457BFE nickname=relay29guard sampled_on=1999-12-21T06:13:15 sampled_idx=17 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=9B1E3CD6F935CF1A81DFB5E9FED27DC395FE2811 nickname=relay34guard sampled_on=1999-12-28T06:44:06 sampled_idx=18 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=0B236264EE05E3BDBB45DA789E8D9C5AE8252FD7 nickname=relay35guard sampled_on=1999-12-27T06:01:00 sampled_idx=19 sampled_by=0.4.8.1-alpha-dev listed=1
+LastRotatedOnionKey 2000-01-01 00:00:04
+LastWritten 2000-01-01 00:37:47
+MinutesSinceUserActivity 2
+TorVersion Tor 0.4.8.1-alpha-dev (git-d4f4fb6088cee8e5)
+TotalBuildTimes 119

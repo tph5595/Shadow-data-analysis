@@ -1,0 +1,4593 @@
+general:
+  stop_time: 10800 sec
+  seed: 666
+  parallelism: 6
+  bootstrap_end_time: 300 sec
+  log_level: info
+  heartbeat_interval: 1 sec
+  data_directory: shadow.data
+  template_directory: shadow.data.template
+  progress: true
+  model_unblocked_syscall_latency: false
+network:
+  graph:
+    type: gml
+    file:
+      path: /tordata/tornettools/experiment0-0.01/conf/atlas_v201801.shadow_v2.gml.xz
+      compression: xz
+  use_shortest_path: false
+experimental:
+  use_sched_fifo: false
+  use_syscall_counters: true
+  use_object_counters: true
+  use_preload_libc: true
+  use_preload_openssl_rng: true
+  use_preload_openssl_crypto: false
+  use_memory_manager: true
+  use_shim_syscall_handler: true
+  use_cpu_pinning: true
+  runahead: 1 ms
+  use_dynamic_runahead: false
+  socket_send_buffer: 131072 B
+  socket_send_autotune: true
+  socket_recv_buffer: 174760 B
+  socket_recv_autotune: true
+  interface_qdisc: fifo
+  use_legacy_working_dir: false
+  host_heartbeat_log_level: info
+  host_heartbeat_log_info:
+  - ram
+  - node
+  - socket
+  host_heartbeat_interval: 1 min
+  strace_logging_mode: off
+  max_unapplied_cpu_latency: 1 μs
+  unblocked_syscall_latency: 1 μs
+  unblocked_vdso_latency: 10 ns
+  use_extended_yaml: false
+  scheduler: thread-per-core
+hosts:
+  4uthority1:
+    network_node_id: 1640
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address 4uthority1 --Nickname 4uthority1 --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 1 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    ip_addr: 100.0.0.1
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  4uthority2:
+    network_node_id: 327
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address 4uthority2 --Nickname 4uthority2 --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 1 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    ip_addr: 100.0.0.2
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  4uthority3:
+    network_node_id: 1151
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address 4uthority3 --Nickname 4uthority3 --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 1 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    ip_addr: 100.0.0.3
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group0user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group0user0 --Nickname group0user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_0_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.10
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group0user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group0user1 --Nickname group0user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_0_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.11
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group0user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group0user2 --Nickname group0user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_0_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.12
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group0user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group0user3 --Nickname group0user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_0_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.13
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group0user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group0user4 --Nickname group0user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_0_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.14
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group10user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group10user0 --Nickname group10user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_10_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.60
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group10user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group10user1 --Nickname group10user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_10_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.61
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group10user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group10user2 --Nickname group10user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_10_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.62
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group10user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group10user3 --Nickname group10user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_10_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.63
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group10user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group10user4 --Nickname group10user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_10_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.64
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group11user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group11user0 --Nickname group11user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_11_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.65
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group11user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group11user1 --Nickname group11user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_11_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.66
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group11user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group11user2 --Nickname group11user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_11_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.67
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group11user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group11user3 --Nickname group11user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_11_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.68
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group11user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group11user4 --Nickname group11user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_11_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.69
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group12user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group12user0 --Nickname group12user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_12_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.70
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group12user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group12user1 --Nickname group12user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_12_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.71
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group12user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group12user2 --Nickname group12user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_12_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.72
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group12user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group12user3 --Nickname group12user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_12_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.73
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group12user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group12user4 --Nickname group12user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_12_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.74
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group13user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group13user0 --Nickname group13user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_13_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.75
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group13user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group13user1 --Nickname group13user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_13_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.76
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group13user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group13user2 --Nickname group13user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_13_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.77
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group13user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group13user3 --Nickname group13user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_13_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.78
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group13user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group13user4 --Nickname group13user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_13_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.79
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group14user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group14user0 --Nickname group14user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_14_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.80
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group14user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group14user1 --Nickname group14user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_14_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.81
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group14user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group14user2 --Nickname group14user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_14_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.82
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group14user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group14user3 --Nickname group14user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_14_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.83
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group14user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group14user4 --Nickname group14user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_14_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.84
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group15user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group15user0 --Nickname group15user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_15_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.85
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group15user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group15user1 --Nickname group15user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_15_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.86
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group15user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group15user2 --Nickname group15user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_15_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.87
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group15user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group15user3 --Nickname group15user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_15_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.88
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group15user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group15user4 --Nickname group15user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_15_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.89
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group16user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group16user0 --Nickname group16user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_16_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.90
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group16user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group16user1 --Nickname group16user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_16_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.91
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group16user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group16user2 --Nickname group16user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_16_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.92
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group16user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group16user3 --Nickname group16user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_16_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.93
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group16user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group16user4 --Nickname group16user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_16_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.94
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group17user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group17user0 --Nickname group17user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_17_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.95
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group17user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group17user1 --Nickname group17user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_17_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.96
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group17user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group17user2 --Nickname group17user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_17_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.97
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group17user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group17user3 --Nickname group17user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_17_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.98
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group17user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group17user4 --Nickname group17user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_17_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.99
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group18user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group18user0 --Nickname group18user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_18_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.100
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group18user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group18user1 --Nickname group18user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_18_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.101
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group18user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group18user2 --Nickname group18user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_18_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.102
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group18user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group18user3 --Nickname group18user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_18_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.103
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group18user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group18user4 --Nickname group18user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_18_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.104
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group19user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group19user0 --Nickname group19user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_19_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.105
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group19user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group19user1 --Nickname group19user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_19_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.106
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group19user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group19user2 --Nickname group19user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_19_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.107
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group19user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group19user3 --Nickname group19user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_19_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.108
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group19user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group19user4 --Nickname group19user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_19_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.109
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group1user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group1user0 --Nickname group1user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_1_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.15
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group1user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group1user1 --Nickname group1user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_1_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.16
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group1user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group1user2 --Nickname group1user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_1_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.17
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group1user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group1user3 --Nickname group1user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_1_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.18
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group1user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group1user4 --Nickname group1user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_1_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.19
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group2user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group2user0 --Nickname group2user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_2_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.20
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group2user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group2user1 --Nickname group2user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_2_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.21
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group2user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group2user2 --Nickname group2user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_2_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.22
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group2user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group2user3 --Nickname group2user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_2_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.23
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group2user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group2user4 --Nickname group2user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_2_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.24
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group3user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group3user0 --Nickname group3user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_3_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.25
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group3user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group3user1 --Nickname group3user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_3_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.26
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group3user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group3user2 --Nickname group3user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_3_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.27
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group3user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group3user3 --Nickname group3user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_3_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.28
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group3user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group3user4 --Nickname group3user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_3_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.29
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group4user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group4user0 --Nickname group4user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_4_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.30
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group4user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group4user1 --Nickname group4user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_4_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.31
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group4user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group4user2 --Nickname group4user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_4_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.32
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group4user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group4user3 --Nickname group4user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_4_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.33
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group4user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group4user4 --Nickname group4user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_4_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.34
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group5user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group5user0 --Nickname group5user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_5_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.35
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group5user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group5user1 --Nickname group5user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_5_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.36
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group5user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group5user2 --Nickname group5user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_5_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.37
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group5user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group5user3 --Nickname group5user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_5_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.38
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group5user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group5user4 --Nickname group5user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_5_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.39
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group6user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group6user0 --Nickname group6user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_6_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.40
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group6user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group6user1 --Nickname group6user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_6_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.41
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group6user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group6user2 --Nickname group6user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_6_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.42
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group6user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group6user3 --Nickname group6user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_6_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.43
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group6user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group6user4 --Nickname group6user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_6_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.44
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group7user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group7user0 --Nickname group7user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_7_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.45
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group7user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group7user1 --Nickname group7user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_7_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.46
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group7user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group7user2 --Nickname group7user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_7_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.47
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group7user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group7user3 --Nickname group7user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_7_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.48
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group7user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group7user4 --Nickname group7user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_7_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.49
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group8user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group8user0 --Nickname group8user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_8_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.50
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group8user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group8user1 --Nickname group8user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_8_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.51
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group8user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group8user2 --Nickname group8user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_8_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.52
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group8user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group8user3 --Nickname group8user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_8_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.53
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group8user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group8user4 --Nickname group8user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_8_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.54
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group9user0:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group9user0 --Nickname group9user0 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_9_user_0.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.55
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group9user1:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group9user1 --Nickname group9user1 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_9_user_1.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.56
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group9user2:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group9user2 --Nickname group9user2 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_9_user_2.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.57
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group9user3:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group9user3 --Nickname group9user3 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_9_user_3.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.58
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  group9user4:
+    network_node_id: 9999
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address group9user4 --Nickname group9user4 --defaults-torrc torrc-defaults -f torrc
+      environment: OPENBLAS_NUM_THREADS=1
+      quantity: 1
+      start_time: 240 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 241 sec
+      stop_time: null
+    - path: /tordata/config/pythonSocks.py
+      args: /tordata/config/group_9_user_4.csv 1685669795
+      environment: ''
+      quantity: 1
+      start_time: 1800 sec
+      stop_time: null
+    ip_addr: 102.0.0.59
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  mymarkovservice0:
+    network_node_id: 9999
+    processes:
+    - path: /tordata/config/pythonServerThread.py
+      args: ''
+      environment: ''
+      quantity: 1
+      start_time: 500 sec
+      stop_time: null
+    ip_addr: 101.0.0.10
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  mymarkovservice1:
+    network_node_id: 9999
+    processes:
+    - path: /tordata/config/pythonServerThread.py
+      args: ''
+      environment: ''
+      quantity: 1
+      start_time: 500 sec
+      stop_time: null
+    ip_addr: 101.0.0.20
+    quantity: 1
+    bandwidth_down: 1000000 Kbit
+    bandwidth_up: 1000000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay10exit:
+    network_node_id: 1601
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay10exit --Nickname relay10exit --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    ip_addr: 185.220.101.218
+    quantity: 1
+    bandwidth_down: 143280 Kbit
+    bandwidth_up: 143280 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay11exit:
+    network_node_id: 487
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay11exit --Nickname relay11exit --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    ip_addr: 199.249.230.161
+    quantity: 1
+    bandwidth_down: 100552 Kbit
+    bandwidth_up: 100552 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay12exit:
+    network_node_id: 487
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay12exit --Nickname relay12exit --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    ip_addr: 199.249.230.86
+    quantity: 1
+    bandwidth_down: 77776 Kbit
+    bandwidth_up: 77776 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay13exit:
+    network_node_id: 1114
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay13exit --Nickname relay13exit --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    ip_addr: 209.141.58.50
+    quantity: 1
+    bandwidth_down: 28024 Kbit
+    bandwidth_up: 28024 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay14exit:
+    network_node_id: 1405
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay14exit --Nickname relay14exit --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    ip_addr: 139.162.7.42
+    quantity: 1
+    bandwidth_down: 31664 Kbit
+    bandwidth_up: 31664 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay15guard:
+    network_node_id: 2505
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay15guard --Nickname relay15guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 5.39.72.20
+    quantity: 1
+    bandwidth_down: 460384 Kbit
+    bandwidth_up: 460384 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay16guard:
+    network_node_id: 1191
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay16guard --Nickname relay16guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 78.129.186.28
+    quantity: 1
+    bandwidth_down: 297544 Kbit
+    bandwidth_up: 297544 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay17guard:
+    network_node_id: 1735
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay17guard --Nickname relay17guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 51.15.44.251
+    quantity: 1
+    bandwidth_down: 271256 Kbit
+    bandwidth_up: 271256 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay18guard:
+    network_node_id: 986
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay18guard --Nickname relay18guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 5.9.21.240
+    quantity: 1
+    bandwidth_down: 158528 Kbit
+    bandwidth_up: 158528 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay19guard:
+    network_node_id: 1787
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay19guard --Nickname relay19guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 83.162.230.105
+    quantity: 1
+    bandwidth_down: 147496 Kbit
+    bandwidth_up: 147496 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay1exitguard:
+    network_node_id: 1292
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay1exitguard --Nickname relay1exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 109.70.100.4
+    quantity: 1
+    bandwidth_down: 323064 Kbit
+    bandwidth_up: 323064 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay20guard:
+    network_node_id: 2200
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay20guard --Nickname relay20guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 212.83.154.33
+    quantity: 1
+    bandwidth_down: 124240 Kbit
+    bandwidth_up: 124240 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay21guard:
+    network_node_id: 811
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay21guard --Nickname relay21guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 178.73.220.22
+    quantity: 1
+    bandwidth_down: 213936 Kbit
+    bandwidth_up: 213936 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay22guard:
+    network_node_id: 215
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay22guard --Nickname relay22guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 51.77.158.218
+    quantity: 1
+    bandwidth_down: 101776 Kbit
+    bandwidth_up: 101776 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay23guard:
+    network_node_id: 1344
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay23guard --Nickname relay23guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 37.153.1.10
+    quantity: 1
+    bandwidth_down: 158272 Kbit
+    bandwidth_up: 158272 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay24guard:
+    network_node_id: 625
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay24guard --Nickname relay24guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 167.86.127.130
+    quantity: 1
+    bandwidth_down: 106192 Kbit
+    bandwidth_up: 106192 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay25guard:
+    network_node_id: 132
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay25guard --Nickname relay25guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 149.202.61.6
+    quantity: 1
+    bandwidth_down: 80152 Kbit
+    bandwidth_up: 80152 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay26guard:
+    network_node_id: 1808
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay26guard --Nickname relay26guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 185.82.127.11
+    quantity: 1
+    bandwidth_down: 127776 Kbit
+    bandwidth_up: 127776 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay27guard:
+    network_node_id: 2029
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay27guard --Nickname relay27guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 81.169.167.88
+    quantity: 1
+    bandwidth_down: 164848 Kbit
+    bandwidth_up: 164848 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay28guard:
+    network_node_id: 344
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay28guard --Nickname relay28guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 185.103.110.14
+    quantity: 1
+    bandwidth_down: 78496 Kbit
+    bandwidth_up: 78496 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay29guard:
+    network_node_id: 2044
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay29guard --Nickname relay29guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 176.123.6.41
+    quantity: 1
+    bandwidth_down: 79624 Kbit
+    bandwidth_up: 79624 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay2exitguard:
+    network_node_id: 1292
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay2exitguard --Nickname relay2exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 109.70.100.3
+    quantity: 1
+    bandwidth_down: 267400 Kbit
+    bandwidth_up: 267400 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay30guard:
+    network_node_id: 2104
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay30guard --Nickname relay30guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 74.126.185.193
+    quantity: 1
+    bandwidth_down: 70560 Kbit
+    bandwidth_up: 70560 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay31guard:
+    network_node_id: 1808
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay31guard --Nickname relay31guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 185.217.0.85
+    quantity: 1
+    bandwidth_down: 40728 Kbit
+    bandwidth_up: 40728 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay32guard:
+    network_node_id: 1054
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay32guard --Nickname relay32guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 91.134.137.99
+    quantity: 1
+    bandwidth_down: 32880 Kbit
+    bandwidth_up: 32880 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay33guard:
+    network_node_id: 2034
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay33guard --Nickname relay33guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 155.98.5.5
+    quantity: 1
+    bandwidth_down: 154880 Kbit
+    bandwidth_up: 154880 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay34guard:
+    network_node_id: 1196
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay34guard --Nickname relay34guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 37.187.20.164
+    quantity: 1
+    bandwidth_down: 29952 Kbit
+    bandwidth_up: 29952 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay35guard:
+    network_node_id: 530
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay35guard --Nickname relay35guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 188.127.21.37
+    quantity: 1
+    bandwidth_down: 27400 Kbit
+    bandwidth_up: 27400 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay36guard:
+    network_node_id: 171
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay36guard --Nickname relay36guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 87.139.33.217
+    quantity: 1
+    bandwidth_down: 23128 Kbit
+    bandwidth_up: 23128 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay37guard:
+    network_node_id: 664
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay37guard --Nickname relay37guard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 4 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    ip_addr: 54.67.75.217
+    quantity: 1
+    bandwidth_down: 86208 Kbit
+    bandwidth_up: 86208 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay38middle:
+    network_node_id: 1157
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay38middle --Nickname relay38middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 172.104.148.77
+    quantity: 1
+    bandwidth_down: 230928 Kbit
+    bandwidth_up: 230928 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay39middle:
+    network_node_id: 398
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay39middle --Nickname relay39middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 217.160.255.113
+    quantity: 1
+    bandwidth_down: 282768 Kbit
+    bandwidth_up: 282768 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay3exitguard:
+    network_node_id: 1303
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay3exitguard --Nickname relay3exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 162.247.73.192
+    quantity: 1
+    bandwidth_down: 279568 Kbit
+    bandwidth_up: 279568 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay40middle:
+    network_node_id: 348
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay40middle --Nickname relay40middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 195.189.96.71
+    quantity: 1
+    bandwidth_down: 75328 Kbit
+    bandwidth_up: 75328 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay41middle:
+    network_node_id: 2408
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay41middle --Nickname relay41middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 83.166.154.98
+    quantity: 1
+    bandwidth_down: 44200 Kbit
+    bandwidth_up: 44200 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay42middle:
+    network_node_id: 2465
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay42middle --Nickname relay42middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 70.142.222.112
+    quantity: 1
+    bandwidth_down: 85632 Kbit
+    bandwidth_up: 85632 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay43middle:
+    network_node_id: 1157
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay43middle --Nickname relay43middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 172.105.8.247
+    quantity: 1
+    bandwidth_down: 120344 Kbit
+    bandwidth_up: 120344 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay44middle:
+    network_node_id: 1150
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay44middle --Nickname relay44middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 185.225.16.146
+    quantity: 1
+    bandwidth_down: 48264 Kbit
+    bandwidth_up: 48264 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay45middle:
+    network_node_id: 788
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay45middle --Nickname relay45middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 80.144.208.67
+    quantity: 1
+    bandwidth_down: 31264 Kbit
+    bandwidth_up: 31264 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay46middle:
+    network_node_id: 1077
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay46middle --Nickname relay46middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 193.1.12.166
+    quantity: 1
+    bandwidth_down: 61288 Kbit
+    bandwidth_up: 61288 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay47middle:
+    network_node_id: 1035
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay47middle --Nickname relay47middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 139.162.201.238
+    quantity: 1
+    bandwidth_down: 16152 Kbit
+    bandwidth_up: 16152 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay48middle:
+    network_node_id: 635
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay48middle --Nickname relay48middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 45.155.42.240
+    quantity: 1
+    bandwidth_down: 46080 Kbit
+    bandwidth_up: 46080 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay49middle:
+    network_node_id: 2256
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay49middle --Nickname relay49middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 45.156.23.133
+    quantity: 1
+    bandwidth_down: 39696 Kbit
+    bandwidth_up: 39696 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay4exitguard:
+    network_node_id: 2296
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay4exitguard --Nickname relay4exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 185.12.45.117
+    quantity: 1
+    bandwidth_down: 182704 Kbit
+    bandwidth_up: 182704 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay50middle:
+    network_node_id: 974
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay50middle --Nickname relay50middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 92.4.211.66
+    quantity: 1
+    bandwidth_down: 16416 Kbit
+    bandwidth_up: 16416 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay51middle:
+    network_node_id: 2152
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay51middle --Nickname relay51middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 98.14.166.248
+    quantity: 1
+    bandwidth_down: 11968 Kbit
+    bandwidth_up: 11968 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay52middle:
+    network_node_id: 662
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay52middle --Nickname relay52middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 96.65.68.193
+    quantity: 1
+    bandwidth_down: 12968 Kbit
+    bandwidth_up: 12968 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay53middle:
+    network_node_id: 1157
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay53middle --Nickname relay53middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 172.104.148.219
+    quantity: 1
+    bandwidth_down: 9208 Kbit
+    bandwidth_up: 9208 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay54middle:
+    network_node_id: 996
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay54middle --Nickname relay54middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 45.14.150.136
+    quantity: 1
+    bandwidth_down: 10712 Kbit
+    bandwidth_up: 10712 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay55middle:
+    network_node_id: 1411
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay55middle --Nickname relay55middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 88.151.112.221
+    quantity: 1
+    bandwidth_down: 25680 Kbit
+    bandwidth_up: 25680 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay56middle:
+    network_node_id: 433
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay56middle --Nickname relay56middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 118.240.66.81
+    quantity: 1
+    bandwidth_down: 23304 Kbit
+    bandwidth_up: 23304 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay57middle:
+    network_node_id: 1446
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay57middle --Nickname relay57middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 83.254.30.87
+    quantity: 1
+    bandwidth_down: 14568 Kbit
+    bandwidth_up: 14568 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay58middle:
+    network_node_id: 576
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay58middle --Nickname relay58middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 50.83.33.7
+    quantity: 1
+    bandwidth_down: 8000 Kbit
+    bandwidth_up: 8000 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay59middle:
+    network_node_id: 1920
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay59middle --Nickname relay59middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 177.98.214.186
+    quantity: 1
+    bandwidth_down: 11560 Kbit
+    bandwidth_up: 11560 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay5exitguard:
+    network_node_id: 2081
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay5exitguard --Nickname relay5exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 179.43.160.234
+    quantity: 1
+    bandwidth_down: 155624 Kbit
+    bandwidth_up: 155624 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay60middle:
+    network_node_id: 1157
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay60middle --Nickname relay60middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 172.105.171.73
+    quantity: 1
+    bandwidth_down: 10968 Kbit
+    bandwidth_up: 10968 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay61middle:
+    network_node_id: 1337
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay61middle --Nickname relay61middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 47.56.198.152
+    quantity: 1
+    bandwidth_down: 25152 Kbit
+    bandwidth_up: 25152 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay62middle:
+    network_node_id: 1971
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay62middle --Nickname relay62middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 59.102.111.75
+    quantity: 1
+    bandwidth_down: 12184 Kbit
+    bandwidth_up: 12184 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay63middle:
+    network_node_id: 563
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay63middle --Nickname relay63middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 37.209.19.86
+    quantity: 1
+    bandwidth_down: 2360 Kbit
+    bandwidth_up: 2360 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay64middle:
+    network_node_id: 1348
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay64middle --Nickname relay64middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 78.42.8.229
+    quantity: 1
+    bandwidth_down: 2040 Kbit
+    bandwidth_up: 2040 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay65middle:
+    network_node_id: 675
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay65middle --Nickname relay65middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 93.202.185.224
+    quantity: 1
+    bandwidth_down: 1504 Kbit
+    bandwidth_up: 1504 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay66middle:
+    network_node_id: 1348
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay66middle --Nickname relay66middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 78.46.64.245
+    quantity: 1
+    bandwidth_down: 936 Kbit
+    bandwidth_up: 936 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay67middle:
+    network_node_id: 1723
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay67middle --Nickname relay67middle --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 5 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 6 sec
+      stop_time: null
+    ip_addr: 86.238.166.127
+    quantity: 1
+    bandwidth_down: 840 Kbit
+    bandwidth_up: 840 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay6exitguard:
+    network_node_id: 503
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay6exitguard --Nickname relay6exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 104.244.72.115
+    quantity: 1
+    bandwidth_down: 106032 Kbit
+    bandwidth_up: 106032 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay7exitguard:
+    network_node_id: 503
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay7exitguard --Nickname relay7exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 104.244.76.69
+    quantity: 1
+    bandwidth_down: 75160 Kbit
+    bandwidth_up: 75160 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay8exitguard:
+    network_node_id: 1196
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay8exitguard --Nickname relay8exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 51.38.162.232
+    quantity: 1
+    bandwidth_down: 58120 Kbit
+    bandwidth_up: 58120 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
+  relay9exitguard:
+    network_node_id: 2044
+    processes:
+    - path: ~/.local/bin/tor
+      args: --Address relay9exitguard --Nickname relay9exitguard --defaults-torrc torrc-defaults -f torrc
+      environment: ''
+      quantity: 1
+      start_time: 2 sec
+      stop_time: null
+    - path: ~/.local/bin/oniontrace
+      args: Mode=log TorControlPort=9051 LogLevel=info Events=BW,CIRC
+      environment: ''
+      quantity: 1
+      start_time: 3 sec
+      stop_time: null
+    ip_addr: 176.123.5.193
+    quantity: 1
+    bandwidth_down: 35808 Kbit
+    bandwidth_up: 35808 Kbit
+    options:
+      log_level: null
+      pcap_directory: .
+      pcap_capture_size: 65535 B
