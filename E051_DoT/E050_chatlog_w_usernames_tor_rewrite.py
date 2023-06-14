@@ -1,14 +1,842 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[214]:
+
+
+from os.path import isfile, join
+import matplotlib.pyplot as plt
 from datetime import datetime
+from os import listdir
 import pandas as pd
+import json
+import re
 import os
 
 import numpy as np
 import math
+from sklearn import metrics
+# from statistics import mean
+# from sklearn.metrics import confusion_matrix
+from sklearn.metrics import (adjusted_rand_score,
+                             normalized_mutual_info_score,
+                             fowlkes_mallows_score,
+                             homogeneity_completeness_v_measure)
+from ripser import ripser
+# from sklearn import preprocessing
+from fastdtw import fastdtw
+import fast_pl_py
+# from scipy.spatial.distance import pdist
 import statsmodels.api as sm
-from Model import df_to_ts
+# from pyts.metrics import dtw, itakura_parallelogram, sakoe_chiba_band
+# rom pyts.metrics.dtw import (cost_matrix, accumulated_cost_matrix,
+#                             _return_path, _blurred_path_region)
+
+
+def getFilenames(path):
+    filenames = []
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            filenames.append(os.path.join(root, file))
+    return filenames
+
+
+# Get argus data
+arguspath = "data/argus/csv/"
+argusCSVs = getFilenames(arguspath)
+
+# Get pcap data
+pcappath = "data/csv/"
+pcapCSVs = getFilenames(pcappath)
+
+# Get server logs
+logpath = "data/experiment0-0.01/shadow.data/hosts/mymarkovservice0/"
+logs = getFilenames(logpath)
+
+# Combine all locations
+data = argusCSVs + pcapCSVs + logs
+
+df = pd.read_csv(pcapCSVs[0])
+
+
+class PrivacyScope:
+
+    def __init__(self, filenames, name):
+        self.name = name
+        self.filenames = filenames
+        self.time_format = '%b %d, %Y %X.%f'
+        self.time_cut_tail = -7
+        self.time_col = 'frame.time'
+        self.filter_func = lambda df, args: df
+        self.df = None
+        self.ip_search_enabled = False
+        self.cache_search_enabled = False
+        self.cache_timing = pd.Timedelta("300 seconds")
+        self.client_map = Client_Map
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return self.name
+
+    def __repr(self):
+        return str(self)
+
+    def set_offset(self, timeoffset):
+        self.timeoffset = timeoffset
+        self.as_df()
+        self.df[self.time_col] += timeoffset
+
+    def process_log(self, fn, sep='\t', cols=["time", "format", "data"]):
+        df = pd.read_csv(fn, sep=sep, names=cols)
+        m = pd.json_normalize(df["data"].apply(json.loads))
+        df.drop(["data"], axis=1, inplace=True)
+        df = pd.concat([df, m], axis=1, sort=False)
+        return df
+
+    def as_df(self, filenames=None):
+        if self.df is not None:
+            return self.df
+        if filenames is None:
+            filenames = self.filenames
+        df = pd.DataFrame()
+        for f in filenames:
+            if f.endswith(".csv"):
+                ddf = pd.read_csv(f)
+            elif f.endswith("stdout"):
+                ddf = self.process_log(f)
+            df = pd.concat([df, ddf])
+        self.df = df
+        self.format_time_col()
+        return self.df
+
+    def get_ts(self):
+        return None
+
+    def format_time_col(self):
+        if self.time_format == 'epoch':
+            self.df[self.time_col] = \
+                    self.df[self.time_col].apply(
+                            lambda x: datetime.fromtimestamp(float(x)))
+        else:
+            self.df[self.time_col] = \
+                    self.df[self.time_col].apply(
+                            lambda x: datetime.strptime(
+                                x[:self.time_cut_tail], self.time_format))
+        return self.df
+
+    def pcap_only(self):
+        r = re.compile(".*data/csv.*")
+        return list(filter(r.match, self.filenames))
+
+    def pcap_df(self):
+        return self.as_df(filenames=self.pcap_only())
+
+    def set_filter(self, filter_func):
+        self.filter_func = filter_func
+
+    def run_filter(self, args):
+        return self.filter_func(self.as_df(), args)
+
+    def filterByIP(self, ip, run_filter=True, args=None):
+        df = self.as_df()
+        if run_filter:
+            df = self.run_filter(args)
+        return df[((df['ip.dst'] == ip) |
+                   (df['ip.src'] == ip))]
+
+    def filterByCache(self, ip, cache_data, run_filter=True, args=None):
+        df = self.as_df()
+        if run_filter:
+            df = self.run_filter(args)
+
+        df_times = df[self.time_col].tolist()
+        input_times = cache_data[self.time_col].tolist()
+        keepers = [False] * len(df_times)
+        idx = 0
+        stop = len(input_times)
+        for i in range(0, len(df_times)):
+            if idx >= stop:
+                break
+            diff = input_times[idx] - df_times[i]
+            if diff <= pd.Timedelta(0):
+                idx += 1
+            elif diff < self.cache_timing:
+                keepers[i] = True
+
+        return df[keepers]
+
+    def search(self, ip=None, cache_data=None):
+        matches = []
+        if self.ip_search_enabled and ip is not None:
+            matches += [self.filterByIP(ip)]
+        if self.cache_search_enabled and cache_data is not None:
+            matches += [self.filterByCache(ip, cache_data)]
+        return matches
+
+    def remove_zero_var(self, cutoff=0.01):
+        df = self.as_df()
+
+        numeric_cols = df.select_dtypes(include=np.number)
+        cols_to_drop = numeric_cols.columns[(numeric_cols.std() <= cutoff) |
+                                            (numeric_cols.std().isna())]\
+                                                    .tolist()
+        df_filtered = df.drop(cols_to_drop, axis=1)
+        self.df = df_filtered
+        
+    def remove_features(self, bad_features):
+        df = self.as_df()
+        df.drop(bad_features, inplace=True, axis=1)
+        self.df = df
+        
+    def _map_row(self, row, ip_map, cache):
+        ip = row['ip.src']
+        four_tuple = (ip, row['ip.dst'], row['tcp.srcport'], row['tcp.dstport'])
+        new_ip = ip_map.get(ip, row[self.time_col])
+
+        new_connection = row['tcp.connection.syn']
+        if new_connection:
+            cache.add(four_tuple, new_ip)
+        result = cache.get_or_add(four_tuple, new_ip) or ip
+        self.client_map.update(ip, row[self.time_col], result)
+        return result
+        
+    def ip_map(self, src_map, dst_map):
+        df = self.as_df()
+        four_tuple_cache = Tor_Cache()
+        df['ip.src'] = df.apply(lambda row: self._map_row(row, src_map, four_tuple_cache), axis=1)
+        df['ip.dst'] = df.apply(lambda row: self._map_row(row, dst_map, four_tuple_cache), axis=1)
+        self.df = df
+        
+
+# Basic Scopes
+
+# Get all clients and ISP dns scope
+r = re.compile(r".*isp.csv|.*group[0-9]*user[0-9]*-(?!127\.0\.0\.1)[0-9]*.[0-9]*.[0-9]*.[0-9]*..csv")
+ISP_scope = PrivacyScope(list(filter(r.match, data)), "ISP")
+
+
+# Access to public resolver scope
+r = re.compile(r".*isp.*.csv")
+Access_resolver = PrivacyScope(list(filter(r.match, data)), "Access_resolver")
+
+r = re.compile(r"(.*tld).*.csv")
+tld = PrivacyScope(list(filter(r.match, data)), "TLD")
+
+r = re.compile(r"(.*root).*.csv")
+root = PrivacyScope(list(filter(r.match, data)), "root")
+
+r = re.compile(r"(.*sld).*.csv")
+sld = PrivacyScope(list(filter(r.match, data)), "SLD")
+
+# Access Tor Scope
+r = re.compile(r".*group[0-9]*user[0-9]*-(?!127\.0\.0\.1)[0-9]*.[0-9]*.[0-9]*.[0-9]*..csv")
+Access_tor = PrivacyScope(list(filter(r.match, data)), "Access_tor")
+
+# Server Public Scope
+r = re.compile(r".*myMarkovServer0*-(?!127\.0\.0\.1)[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.csv")
+Server_scope = PrivacyScope(list(filter(r.match, data)), "Server_of_interest")
+
+# tor Exit scope
+r = re.compile(r".*exit.*")
+Tor_exit_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_exit")
+
+# tor Guard scope
+r = re.compile(r".*guard.*")
+Tor_guard_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_guard")
+
+# tor Relay scope
+r = re.compile(r".*relay.*")
+Tor_relay_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_relay")
+
+# tor Middle scope
+r = re.compile(r".*middle.*")
+Tor_middle_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_middle")
+
+# tor 4uthority scope
+r = re.compile(r".*4uthority.*")
+Tor_4uthority_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_4uthority")
+
+# resolver scope
+r = re.compile(r".*resolver.*")
+resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
+
+
+def df_to_ts(df, time_col='frame.time'):
+    df.loc[:, 'count'] = 1
+    tmp = df.set_index(time_col).infer_objects()
+    tmp = tmp.resample('1S').sum(numeric_only=True).infer_objects()
+    return tmp.reset_index()
+
+
+# get start time for GNS3
+GNS3_scopes = [Access_resolver,
+                       sld,
+                       tld,
+                       root]
+GNS3_data = pd.concat([x.pcap_df() for x in GNS3_scopes])
+
+GNS3_starttime = GNS3_data.head(1)['frame.time'].tolist()[0]
+Shadow_starttime = datetime.strptime('Dec 31, 1999 19:26:00', '%b %d, %Y %X')
+Shadow_offset = GNS3_starttime - Shadow_starttime
+
+# service log scope
+r = re.compile(".*mymarkovservice.*py.*stdout")
+chatlog = PrivacyScope(list(filter(r.match, data)), "chatlogs")
+chatlog.time_col = "time"
+chatlog.time_cut_tail = 0
+chatlog.time_format = 'epoch'
+chatlog.set_offset(Shadow_offset)
+
+window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
+
+
+# In[215]:
+
+
+from collections import defaultdict
+import bisect
+
+class TimestampedDict:
+    def __init__(self):
+        self.dict = {}
+        self.timestamps = {}
+
+    def add(self, key, timestamp, value):
+        if key in self.dict:
+            self.dict[key][timestamp] = value
+        else:
+            self.dict[key] = {}
+            self.dict[key][timestamp] = value
+        if key in self.timestamps:
+            bisect.insort(self.timestamps[key], timestamp)
+        else:
+            self.timestamps[key] = [timestamp]
+        return self
+
+    def get(self, key, timestamp):
+        if key not in self.dict or key not in self.timestamps:
+            return None
+        values = self.dict[key]
+        timestamps = self.timestamps[key]
+        if values and timestamps:
+            index = bisect.bisect_right(timestamps, timestamp)
+            if index > 0:
+                return values[self.timestamps[key][index - 1]]
+            else:
+                return None
+        else:
+            return None
+    
+    def latest(self, key):
+        if key not in self.timestamps:
+            return None
+        timestamps = self.timestamps[key]
+        if timestamps:
+            return timestamps[-1]
+        else:
+            return None
+    
+    def latest_value(self, key):
+        timestamp = self.latest(key)
+        if timestamp is None:
+            return None
+        return self.get(key, timestamp)
+
+    def add_if_new(self, key, timestamp, value):
+        latest = self.latest_value(key)
+        if latest != value:
+            self.add(key, timestamp, value)
+
+
+# In[216]:
+
+
+class Tor_Cache:
+    def __init__(self):
+        self.dict = {}
+        
+    def get_or_add(self, four_tuple, new_ip):
+        value = self.dict[four_tuple]
+        if value == None:
+            value = self.dict[four_tuple] = new_ip
+        return value
+    
+    def add(self, four_tuple, new_ip):
+        self.dict[four_tuple] = new_ip
+        return new_ip
+
+
+# In[14]:
+
+
+class Client_Map:
+    def __init__(self):
+        self.dict = {}
+    
+    def update(self, key, time, result):
+        value = self.dict.get(key)
+        if value == None:
+            self.dict[key] = {}
+        value = self.dict[key].get(result)
+        if value == None:
+            self.dict[key][result] = (time, time)
+        else:
+            if value[0] > time:
+                self.dict[key][result] = (time, value[1])
+            if value[1] < time:
+                self.dict[key][result] = (value[0], time)
+            
+    def get_range(self, ip, start, end):
+        values = []
+        ip_data = self.dict.get(ip)
+        if ip_data is not None:
+            for result, time_range in ip_data.items():
+                if time_range[1] >= start and time_range[0] <= end:
+                    values.append(result)
+        return values
+
+
+# In[26]:
+
+
+t_map = Client_Map()
+
+t_map.update("test me", 0, "answer 1")
+t_map.update("test me", 4, "answer 1")
+
+t_map.update("test me", 6, "answer 2")
+t_map.update("test me", 1, "answer 2")
+
+assert t_map.get_range("test wrong", 0, 2) == []
+assert t_map.get_range("test me", 0, 0) == ["answer 1"]
+assert t_map.get_range("test me", 6, 6) == ["answer 2"]
+assert t_map.get_range("test me", 1, 1) == ["answer 1","answer 2"]
+assert t_map.get_range("test me", 1, 5) == ["answer 1","answer 2"]
+assert t_map.get_range("test me", 0, 6) == ["answer 1","answer 2"]
+
+
+# In[217]:
+
+
+def read_oniontraces():
+    onion_path = "data/experiment0-0.01/shadow.data/hosts"
+    onion_files = getFilenames(onion_path)
+
+    r = re.compile(r".*group\d+user\d+\.oniontrace\.\d+\.stdout")
+    onion_files = list(filter(r.match, onion_files))
+    logs = {}
+    for f in onion_files:
+        hostname = f.split('/')[-1].split('.')[0]
+        with open(f, 'r') as file:
+            logs[hostname] = file.readlines()
+    return logs
+    
+def filter_log(user_logs, circ_regex):
+    output = {}
+    pattern = re.compile(circ_regex)  # Compile the regular expression pattern
+    for user in user_logs:
+        filtered_lines = [line for line in user_logs[user] if pattern.match(line)]  # Use the compiled pattern
+        output[user] = filtered_lines
+    return output
+
+def parse_onion_trace(line):
+    pattern = r"CIRC \d+ EXTENDED \$[0-9A-Z]+~([a-zA-Z0-9]+),.*,\$[0-9A-Z]+~([0-9A-Za-z]+).*TIME_CREATED=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+)"
+
+    match = re.search(pattern, line)
+    if match:
+        entry = match.group(1)
+        exit = match.group(2)
+        timestamp = match.group(3)
+        timestamp_parsed = datetime.strptime(timestamp, "%Y-%m-%dT%H:%M:%S.%f")
+        return timestamp_parsed, entry, exit
+    else:
+        print(line)
+        print("bad line!!!!")
+        exit(1)
+
+import yaml
+def onion_map_maker():
+    # Read the file
+    with open('data/experiment0-0.01/shadow.data/processed-config.yaml', 'r') as file:
+        data = yaml.safe_load(file)
+
+    hosts_dict = {}
+
+    # Extract the name and IP address of each host
+    for host_name, host_data in data['hosts'].items():
+        ip_addr = host_data['ip_addr']
+        hosts_dict[host_name] = ip_addr
+    return hosts_dict
+
+onion_lut = onion_map_maker()
+
+def convert_to_map(logs, offset):
+    tor_ip_map_src = TimestampedDict()
+    tor_ip_map_dst = TimestampedDict()
+    for user in logs:
+        for line in logs[user]:
+            timestamp, entry, exit = parse_onion_trace(line)
+            timestamp += offset
+            entry_ip = onion_lut[entry]
+            exit_ip = onion_lut[exit]
+            tor_ip_map_src.add_if_new(user, timestamp, entry_ip)
+            tor_ip_map_dst.add_if_new(user, timestamp, exit_ip)
+    return tor_ip_map_src, tor_ip_map_dst
+
+
+# In[218]:
+
+
+# Rewrite tor ips into GNS3 data
+# Create map of client to (tor entry, tor exit) with time stamps
+def generate_tor_maps():
+    circ_regex = r".*CIRC \d+ EXTENDED \$([0-9A-Za-z~]+),.*,\$([0-9A-Za-z~]+).*TIME_CREATED=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+)"
+    user_logs = read_oniontraces()
+    filtered_logs = filter_log(user_logs, circ_regex)
+    
+    return convert_to_map(filtered_logs, Shadow_offset)
+
+
+# In[219]:
+
+
+src_map, dst_map = generate_tor_maps()
+
+
+# In[220]:
+
+
+# go through GNS3 data and rewrite based on map
+for scope in GNS3_scopes:
+    print(scope)
+    scope.ip_map(tor_ip_map_src, tor_ip_map_dst)
+    
+client_map = GNS3_scopes[0].client_map
+
+
+# In[ ]:
+
+
+# detect and remove solo quries
+# these can easily be handled on their own
+# as only 1 device is accessing the network at that moment
+def detect_solo(df_list):
+    new_df = df_list[df_list['ip.src'].ne(df_list['ip.src'].shift())]
+    new_df['diff'] = new_df['frame.time'].diff()
+    new_df = new_df[new_df['diff'] > window]
+    solo_ips = new_df['ip.src'].unique()
+    return solo_ips
+
+
+def handle_solo(solo):
+    print("IPs that must trigger a cache miss: " + str(solo))
+
+
+def solo_pipeline(df_list):
+    fil = df_list[['ip.src', 'frame.time']]
+    solo = detect_solo(fil)
+    handle_solo(solo)
+    return solo
+
+
+def combineScopes(dfs):
+    if len(dfs) < 1:
+        return dfs
+    return pd.concat(dfs)
+
+
+def scopesToTS(dfs):
+    output = []
+    for df in dfs:
+        if len(df) < 2:
+            continue
+        output += scopeToTS(df)
+    return output
+
+
+def scopeToTS(df):
+    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
+
+
+def scope_label(df, scope_name):
+    for col in df.columns:
+        df[col + "_" + scope_name] = df[col]
+    df["scope_name"] = scope_name
+    return df
+
+
+# Setup filters for different scopes
+evil_domain = 'evil.dne'
+DNS_PORT = 17.0
+DOT_PORT = 853
+
+
+def dns_filter(df, ip):
+    if ('dns.qry.name' in df.columns and 'tcp.dstport' in df.columns):
+        return df[(df['dns.qry.name'] == evil_domain)
+                  | (df['dns.qry.name'].isna())
+                  & (df['tcp.dstport'] == DOT_PORT)]
+    else:
+        return df[(df['dns.qry.name'] == evil_domain)
+                  | (df['dns.qry.name'].isna())]
+
+
+resolver.set_filter(dns_filter)
+root.set_filter(dns_filter)
+tld.set_filter(dns_filter)
+sld.set_filter(dns_filter)
+
+resolver.ip_search_enabled = True
+resolver.cache_search_enabled = False
+
+root.ip_search_enabled = True
+root.cache_search_enabled = True
+
+sld.ip_search_enabled = True
+sld.cache_search_enabled = True
+
+tld.ip_search_enabled = True
+tld.cache_search_enabled = True
+
+TCP_PROTO = 6
+
+
+def tor_filter(df, ip):
+    return df[(df['tcp.len'] > 500) & (df['ip.proto'] == TCP_PROTO)]
+
+
+Access_tor.set_filter(tor_filter)
+
+Access_tor.ip_search_enabled = True
+Access_tor.cache_search_enabled = True
+
+
+# Cluster DNS
+# Create ts for each IP
+resolv_df = resolver.pcap_df()
+resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
+infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
+ips_seen = resolv_df_filtered['ip.src'].unique()
+IPs = list(set(ips_seen) - set(infra_ip))
+flows_ip = {}
+flows_ts_ip_scoped = {}
+flows_ts_ip_total = {}
+first_pass = resolv_df_filtered[((~resolv_df_filtered['ip.src'].isin(infra_ip)))
+                                & (resolv_df_filtered['dns.qry.name'] == evil_domain)]
+solo = solo_pipeline(first_pass)
+
+# Add all scope data to IPs found in resolver address space
+# This should be a valid topo sorted list
+# of the scopes (it will be proccessed in order)
+scopes = [resolver, root, tld, sld]  # , Access_tor]
+bad_features = ['tcp.dstport', 'tcp.srcport', 'udp.port', 'tcp.seq']
+for scope in scopes:
+    scope.remove_features(bad_features)
+    scope.remove_zero_var()
+cache_window = window  # see above
+print("scopes: " + str(scopes))
+print("cache window: " + str(cache_window))
+
+for ip in IPs:
+    # Don't add known infra IPs or users that can are solo communicaters
+    if ip in infra_ip or ip in solo:
+        continue
+    flows_ip[ip] = pd.DataFrame()
+    flows_ts_ip_scoped[ip] = pd.DataFrame()
+    flows_ts_ip_total[ip] = pd.DataFrame()
+    for scope in scopes:
+        # Find matches
+        matches = scope.search(ip, flows_ip[ip])
+
+        # Update df for ip
+        combined_scope = combineScopes(matches)
+        combined_scope = scope_label(combined_scope, scope.name)
+        combined_scope["scope_name"] = scope.name
+        flows_ip[ip] = combineScopes([flows_ip[ip], combined_scope])
+
+        # update ts for ip
+        new_ts_matches = scopeToTS(combined_scope)
+        if len(new_ts_matches) == 0:
+            continue
+        new_ts_matches["scope_name"] = scope.name
+        flows_ts_ip_scoped[ip] = combineScopes([flows_ts_ip_scoped[ip],
+                                                new_ts_matches])
+    if len(flows_ip[ip]) > 0:
+        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip])
+
+        # order df by time
+        flows_ip[ip] = flows_ip[ip].set_index('frame.time')
+
+        # sort combined df by timestamp
+        flows_ip[ip].sort_index(inplace=True)
+        flows_ts_ip_scoped[ip].sort_index(inplace=True)
+        flows_ts_ip_total[ip].sort_index(inplace=True)
+
+        # Preserve time col to be used for automated feautre engineering
+        flows_ip[ip]['frame.time'] = flows_ip[ip].index
+        flows_ts_ip_total[ip]['frame.time'] = flows_ts_ip_total[ip].index
+
+        # remove nans with 0
+        flows_ip[ip].fillna(0, inplace=True)
+        flows_ts_ip_scoped[ip].fillna(0, inplace=True)
+        flows_ts_ip_total[ip].fillna(0, inplace=True)
+
+        # label scope col as category
+        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
+        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
+
+
+# In[28]:
+
+
+# Viz
+# importing Libraries
+plt.style.use('default')
+# code
+# Visualizing The Open Price of all the stocks
+# to set the plot size
+plt.figure(figsize=(16, 8), dpi=150)
+# using plot method to plot open prices.
+# in plot method we set the label and color of the curve.
+
+total = 0
+for f in flows_ts_ip_total:
+    if total > 10:
+        break
+    total += 1
+    flows_ts_ip_total[f]['count'].plot(label=f)
+
+plt.title('Requests per second')
+
+# adding Label to the x-axis
+plt.xlabel('Time')
+plt.ylabel('Requests (seconds)')
+
+# adding legend to the curve
+plt.legend()
+
+
+def ip_to_group(ip):
+    if ip.split(".")[0] != '101':
+        return -1
+    return math.floor((int(ip.split(".")[-1])-2) / 5)
+
+
+def get_real_label(dic):
+    data = dic.keys()
+    result = np.array([ip_to_group(xi) for xi in data])
+    return result
+
+
+# compute cluster purity
+def purity_score(y_true, y_pred):
+    # compute contingency matrix (also called confusion matrix)
+    contingency_matrix = metrics.cluster.contingency_matrix(y_true, y_pred)
+    # return purity
+    return np.sum(np.amax(contingency_matrix, axis=0)) / np.sum(contingency_matrix)
+
+
+def weighted_purity(true_labels, found_labels):
+    s = 0
+    total = 0
+    for c in true_labels.unique():
+        selection = df[df['cluster'] == c]
+        p = purity_score(selection['real_label'], selection['cluster'])
+        total += len(selection)
+        s += p * len(selection)
+    return s/total
+
+
+answers = get_real_label(flows_ts_ip_total)
+
+
+def gpt_cluster_metrics(true_labels, found_labels):
+    # Calculate the Adjusted Rand Index
+    ari = adjusted_rand_score(true_labels, found_labels)
+    ari_range = (-1, 1)
+    ari_ideal = 1
+
+    # Calculate the Normalized Mutual Information
+    nmi = normalized_mutual_info_score(true_labels, found_labels)
+    nmi_range = (0, 1)
+    nmi_ideal = 1
+
+    # Calculate the Fowlkes-Mallows Index
+    fmi = fowlkes_mallows_score(true_labels, found_labels)
+    fmi_range = (0, 1)
+    fmi_ideal = 1
+
+    # Calculate homogeneity, completeness, and V-measure
+    homogeneity, completeness, v_measure = homogeneity_completeness_v_measure(true_labels, found_labels)
+    hcv_range = (0, 1)
+    hcv_ideal = 1
+
+    # Print the results
+    print(f"Adjusted Rand Index: {ari:.4f} [range: {ari_range}, ideal: {ari_ideal}]")
+    print(f"Normalized Mutual Information: {nmi:.4f} [range: {nmi_range}, ideal: {nmi_ideal}]")
+    print(f"Fowlkes-Mallows Index: {fmi:.4f} [range: {fmi_range}, ideal: {fmi_ideal}]")
+    print(f"Homogeneity: {homogeneity:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
+    print(f"Completeness: {completeness:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
+    print(f"V-measure: {v_measure:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
+
+
+def my_dtw(ts1, ts2):
+    distance, path = fastdtw(ts1, ts2)
+    return distance
+
+
+def my_dist(ts1, ts2, ip1="", ip2=""):
+    return my_pl_ts(ts1, ts2, ip1, ip2)
+
+
+def rip_ts(window, dim, skip, data, thresh=float("inf")):
+    for_pl = {}
+    for i in range(0, len(data)-window+1, skip):
+        diagrams = ripser(data[i:i+window], maxdim=dim, thresh=thresh)['dgms']
+        for_pl[i] = diagrams[dim]
+    return for_pl
+
+
+def tda_trans(pairs, k=2, debug=False):
+    pairs = [(x[0], x[1]) for x in pairs]
+    return fast_pl_py.pairs_to_l2_norm(pairs, k, debug)
+
+
+class TDA_Parameters:
+    def __init__(self, dim, window, skip, k, thresh):
+        self.dim = dim
+        self.window = window
+        self.skip = skip
+        self.k = k
+        self.thresh = thresh
+
+
+def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False):
+    data = data.astype(float)
+
+    # compute birth death pairs
+    rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
+    new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
+    return pd.DataFrame({'tda_pl': new_ts}, index=data.index[:len(new_ts)])
+
+
+def my_pl_ts(ts1, ts2, ip1, ip2):
+    return my_dtw(ts1, ts2)
+
+
+def calc_dist_matrix(samples, my_dist, multi_to_single=lambda x: x):
+    # create a list of dataframe values
+    X = [multi_to_single(df.to_numpy(), ip) for ip, df in samples.items()]
+    n_samples = len(X)
+    dist_mat = np.zeros((n_samples, n_samples))
+    for i in range(n_samples):
+        for j in range(i+1, n_samples):
+            d = my_dist(X[i], X[j], i, j)
+            dist_mat[i, j] = d
+            dist_mat[j, i] = d
+    return squareform(dist_mat)
 
 
 def cast_col(col: pd.Series) -> pd.Series:
@@ -63,16 +891,23 @@ def get_chat_logs(scope):
     users = df["username"].unique()
     client_log = {}
     for user in users:
-        client_log[user] = df_to_ts(df[df["username"] == user],
-                                    time_col='time').set_index('time')
+        client_log[user] = df_to_ts(df[df["username"] == user], time_col='time').set_index('time')
     return client_log
 
 
 client_chat_logs = get_chat_logs(chatlog)
 
 
-def user_to_ip(user, timeMap=None):
-    Exception("Not impremented")
+def user_to_ip(user, start, end):
+    return client_map.get_range(user_to_ip_pre(user), start, end)
+
+def user_to_ip_pre(user, group_size=5, starting=10):
+    group_user = user.split("_")
+    group = int(group_user[1])
+    user_num = int(group_user[3])
+    local_net = group * group_size + user_num + starting
+    ip = "102.0.0." + str(local_net)
+    return ip
 
 
 def ip_to_user_pre(ip, group_size=5, starting=10):
@@ -274,7 +1109,9 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
             if score < best_score:
                 best_score = score
                 best_ip = ip
-        if best_ip == user_to_ip(user):
+        start = min(dst[user].index.values)
+        end =  max(dst[user].index.values)
+        if best_ip in user_to_ip(user, start, end):
             correct += 1
     accuracy = correct / len(src)
     return accuracy
@@ -378,7 +1215,9 @@ def eval_model(src_raw, dst_raw, src_features, dst_feaures):
             if score < best_score:
                 best_score = score
                 best_ip = ip
-        if best_ip == user_to_ip(user):
+        start = min(dst[user].index.values)
+        end =  max(dst[user].index.values)
+        if best_ip in user_to_ip(user, start, end):
             correct += 1
     accuracy = correct / len(src)
     return accuracy
@@ -424,33 +1263,33 @@ for output_size in range(1, len(dst_df)+1):
 # In[5]:
 
 
-# ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
-# ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
-# ts1 = ts_to_tda(ts1, params=tda_config)
-# ts2 = ts_to_tda(ts2, params=tda_config)
-# compare_ts_reshape(ts1, ts2, debug=True)
+ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
+ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
+ts1 = ts_to_tda(ts1, params=tda_config)
+ts2 = ts_to_tda(ts2, params=tda_config)
+compare_ts_reshape(ts1, ts2, debug=True)
 
 
-# # In[17]:
+# In[17]:
 
 
-# eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
+eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
 
 
-# # In[7]:
+# In[7]:
 
 
-# ip_to_user(best_ip)
+ip_to_user(best_ip)
 
 
 # In[8]:
 
 
-# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'],
-        # flows_ts_ip_total['102.0.0.99'])
+# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
 
 
 # In[9]:
 
 
 # client_chat_logs['/tordata/config/group_0_user_2']
+
