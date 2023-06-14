@@ -88,13 +88,17 @@ chatlog.set_offset(Shadow_offset)
 
 window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
 
+
+def create_client_maps(src_map, dst_map):
+    client_map = {}
+    for client in src_map:
+    return client_map
+
+
+exit(1)
 src_map, dst_map = generate_tor_maps()
-
-
-# go through GNS3 data and rewrite based on map
-for scope in GNS3_scopes:
-    print(scope)
-    scope.ip_map(src_map, dst_map)
+access_resolver.ip_map(src_map, dst_map)
+client_maps = create_client_maps(src_map, dst_map)
 
 # Setup filters for different scopes
 evil_domain = 'evil.dne'

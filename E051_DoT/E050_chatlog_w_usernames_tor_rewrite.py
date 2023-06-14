@@ -8,6 +8,7 @@ import os
 import numpy as np
 import math
 import statsmodels.api as sm
+from Model import df_to_ts
 
 
 def cast_col(col: pd.Series) -> pd.Series:
@@ -62,14 +63,19 @@ def get_chat_logs(scope):
     users = df["username"].unique()
     client_log = {}
     for user in users:
-        client_log[user] = df_to_ts(df[df["username"] == user], time_col='time').set_index('time')
+        client_log[user] = df_to_ts(df[df["username"] == user],
+                                    time_col='time').set_index('time')
     return client_log
 
 
 client_chat_logs = get_chat_logs(chatlog)
 
 
-def ip_to_user(ip, group_size=5, starting=10):
+def user_to_ip(user, timeMap=None):
+    Exception("Not impremented")
+
+
+def ip_to_user_pre(ip, group_size=5, starting=10):
     local_net = int(ip.split(".")[-1]) - starting
     user = local_net % group_size
     group = math.floor(local_net/group_size)
@@ -268,7 +274,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
             if score < best_score:
                 best_score = score
                 best_ip = ip
-        if user == ip_to_user(best_ip):
+        if best_ip == user_to_ip(user):
             correct += 1
     accuracy = correct / len(src)
     return accuracy
@@ -372,7 +378,7 @@ def eval_model(src_raw, dst_raw, src_features, dst_feaures):
             if score < best_score:
                 best_score = score
                 best_ip = ip
-        if user == ip_to_user(best_ip):
+        if best_ip == user_to_ip(user):
             correct += 1
     accuracy = correct / len(src)
     return accuracy
@@ -418,33 +424,33 @@ for output_size in range(1, len(dst_df)+1):
 # In[5]:
 
 
-ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
-ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
-ts1 = ts_to_tda(ts1, params=tda_config)
-ts2 = ts_to_tda(ts2, params=tda_config)
-compare_ts_reshape(ts1, ts2, debug=True)
+# ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
+# ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
+# ts1 = ts_to_tda(ts1, params=tda_config)
+# ts2 = ts_to_tda(ts2, params=tda_config)
+# compare_ts_reshape(ts1, ts2, debug=True)
 
 
-# In[17]:
+# # In[17]:
 
 
-eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
+# eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
 
 
-# In[7]:
+# # In[7]:
 
 
-ip_to_user(best_ip)
+# ip_to_user(best_ip)
 
 
 # In[8]:
 
 
-# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
+# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'],
+        # flows_ts_ip_total['102.0.0.99'])
 
 
 # In[9]:
 
 
 # client_chat_logs['/tordata/config/group_0_user_2']
-
