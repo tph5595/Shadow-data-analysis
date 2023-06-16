@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[18]:
+# In[40]:
 
 
 #!/usr/bin/env python
@@ -9,7 +9,7 @@
 
 from os.path import isfile, join
 import matplotlib.pyplot as plt
-from datetime import datetime
+from datetime import datetime, timedelta
 from os import listdir
 import pandas as pd
 import json
@@ -70,6 +70,7 @@ class PrivacyScope:
         self.ip_search_enabled = False
         self.cache_search_enabled = False
         self.cache_timing = pd.Timedelta("300 seconds")
+        self.generated = False
 
     def __repr__(self):
         return str(self)
@@ -128,6 +129,7 @@ class PrivacyScope:
         return list(filter(r.match, self.filenames))
 
     def pcap_df(self):
+        assert self.df is None
         return self.as_df(filenames=self.pcap_only())
 
     def set_filter(self, filter_func):
@@ -186,6 +188,18 @@ class PrivacyScope:
         df = self.as_df()
         df.drop(bad_features, inplace=True, axis=1)
         self.df = df
+        
+    def adjust_time_scale(self, offset, scale):
+        df = self.as_df()
+        print(df[self.time_col].iloc[0])
+        df[self.time_col] = df[self.time_col].apply(lambda x: int(x.timestamp()))
+        print(df[self.time_col].iloc[0])
+        df[self.time_col] = (df[self.time_col] - offset) * scale + offset
+        print(df[self.time_col].iloc[0])
+        self.df = df
+        self.time_format = 'epoch'
+        self.format_time_col()
+
 
 # Basic Scopes
 
@@ -239,21 +253,55 @@ Tor_4uthority_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_4uthority")
 r = re.compile(r".*resolver.*")
 resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
-
 def df_to_ts(df, time_col='frame.time'):
     df.loc[:, 'count'] = 1
     tmp = df.set_index(time_col).infer_objects()
     tmp = tmp.resample('1S').sum(numeric_only=True).infer_objects()
     return tmp.reset_index()
 
+print("Scopes created")
 
-# get start time for GNS3
-GNS3_data = pd.concat([Access_resolver.pcap_df(),
-                       sld.pcap_df(),
-                       tld.pcap_df(),
-                       root.pcap_df()])
 
-GNS3_starttime = GNS3_data.head(1)['frame.time'].tolist()[0]
+# In[41]:
+
+
+import yaml
+
+def get_GNS3_offset():
+    # Read the YAML file
+    with open('data/experiment0-0.01/shadow.config.yaml', 'r') as file:
+        data = yaml.safe_load(file)
+
+    # Extract the value
+    time = data['hosts']['group0user0']['processes'][2]['args'].split()[1]
+    return int(time)
+    
+def get_start_time(scopes):
+    return pd.concat([scope.as_df() for scope in scopes]).head(1)['frame.time'].tolist()[0]
+    
+GNS3_scopes = [Access_resolver,
+                           sld,
+                           tld,
+                           root]
+
+GNS3_offset = get_GNS3_offset()
+scale = 10
+for scope in GNS3_scopes:
+    scope.pcap_df()
+    scope.adjust_time_scale(GNS3_offset, scale)
+GNS3_starttime = get_start_time(GNS3_scopes)
+GNS3_starttime
+
+
+# In[39]:
+
+
+GNS3_offset
+
+
+# In[ ]:
+
+
 Shadow_starttime = datetime.strptime('Dec 31, 1999 19:26:00', '%b %d, %Y %X')
 Shadow_offset = GNS3_starttime - Shadow_starttime
 
@@ -874,7 +922,7 @@ def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
     features = src_df[next(iter(src_df))].columns
     subsets = findsubsets(features, n)
     results = []
-    num_cpus = int(os.cpu_count())
+    num_cpus = int(os.cpu_count()/2)
     print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
     with mp.Pool(processes=num_cpus) as pool:
         results = []
@@ -959,7 +1007,7 @@ def eval_model(src_raw, dst_raw, src_features, dst_feaures):
 # In[ ]:
 
 
-num_cpus = os.cpu_count()
+num_cpus = os.cpu_count()/2
 skip = 1
 dim = 0
 window = 3
@@ -971,7 +1019,7 @@ src_df = flows_ts_ip_total
 dst_df = client_chat_logs
 
 for output_size in range(1, len(dst_df)+1):
-    for n in range(3, 4):
+    for n in range(1, 4):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
 #             dst_arr = {}
 #             for ip in dst_df:
