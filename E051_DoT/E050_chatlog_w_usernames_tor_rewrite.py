@@ -33,6 +33,33 @@ import statsmodels.api as sm
 #                             _return_path, _blurred_path_region)
 
 
+class Client_Map:
+    def __init__(self):
+        self.dict = {}
+
+    def update(self, key, time, result):
+        value = self.dict.get(key)
+        if value is None:
+            self.dict[key] = {}
+        value = self.dict[key].get(result)
+        if value is None:
+            self.dict[key][result] = (time, time)
+        else:
+            if value[0] > time:
+                self.dict[key][result] = (time, value[1])
+            if value[1] < time:
+                self.dict[key][result] = (value[0], time)
+
+    def get_range(self, ip, start, end):
+        values = []
+        ip_data = self.dict.get(ip)
+        if ip_data is not None:
+            for result, time_range in ip_data.items():
+                if time_range[1] >= start and time_range[0] <= end:
+                    values.append(result)
+        return values
+
+
 def getFilenames(path):
     filenames = []
     for root, dirs, files in os.walk(path):
@@ -72,7 +99,7 @@ class PrivacyScope:
         self.ip_search_enabled = False
         self.cache_search_enabled = False
         self.cache_timing = pd.Timedelta("300 seconds")
-        self.client_map = Client_Map
+        self.client_map = Client_Map()
 
     def __repr__(self):
         return str(self)
@@ -184,12 +211,12 @@ class PrivacyScope:
                                                     .tolist()
         df_filtered = df.drop(cols_to_drop, axis=1)
         self.df = df_filtered
-        
+
     def remove_features(self, bad_features):
         df = self.as_df()
         df.drop(bad_features, inplace=True, axis=1)
         self.df = df
-        
+
     def _map_row(self, row, ip_map, cache):
         ip = row['ip.src']
         four_tuple = (ip, row['ip.dst'], row['tcp.srcport'], row['tcp.dstport'])
@@ -201,14 +228,14 @@ class PrivacyScope:
         result = cache.get_or_add(four_tuple, new_ip) or ip
         self.client_map.update(ip, row[self.time_col], result)
         return result
-        
+
     def ip_map(self, src_map, dst_map):
         df = self.as_df()
         four_tuple_cache = Tor_Cache()
         df['ip.src'] = df.apply(lambda row: self._map_row(row, src_map, four_tuple_cache), axis=1)
         df['ip.dst'] = df.apply(lambda row: self._map_row(row, dst_map, four_tuple_cache), axis=1)
         self.df = df
-        
+
 
 # Basic Scopes
 
@@ -371,32 +398,6 @@ class Tor_Cache:
 # In[14]:
 
 
-class Client_Map:
-    def __init__(self):
-        self.dict = {}
-    
-    def update(self, key, time, result):
-        value = self.dict.get(key)
-        if value == None:
-            self.dict[key] = {}
-        value = self.dict[key].get(result)
-        if value == None:
-            self.dict[key][result] = (time, time)
-        else:
-            if value[0] > time:
-                self.dict[key][result] = (time, value[1])
-            if value[1] < time:
-                self.dict[key][result] = (value[0], time)
-            
-    def get_range(self, ip, start, end):
-        values = []
-        ip_data = self.dict.get(ip)
-        if ip_data is not None:
-            for result, time_range in ip_data.items():
-                if time_range[1] >= start and time_range[0] <= end:
-                    values.append(result)
-        return values
-
 
 # In[26]:
 
@@ -511,8 +512,8 @@ src_map, dst_map = generate_tor_maps()
 # go through GNS3 data and rewrite based on map
 for scope in GNS3_scopes:
     print(scope)
-    scope.ip_map(tor_ip_map_src, tor_ip_map_dst)
-    
+    scope.ip_map(src_map, dst_map)
+
 client_map = GNS3_scopes[0].client_map
 
 
