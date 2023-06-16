@@ -1,0 +1,53 @@
+@downloaded-at 2000-01-01 00:16:33
+@source "100.0.0.2"
+router relay35guard 93.95.100.166 9001 0 0
+identity-ed25519
+-----BEGIN ED25519 CERT-----
+AQQABylCAZ6rlqhv9njf86IRYpGHLk3BMyMbuD6xdQ6ulMV1xbwLAQAgBABW93hE
+PnhbYbhvuVRlz5mx6IYRAZ4ntp5tiCsrJrhNwPzuXxRJs9jQU0X4+wXGpi4hccs9
+nt1l27jx+28tfa/0f4blO0hqDN3vnpmkIk5hmM4MoUJyPgPOTSEt4GSJ1gE=
+-----END ED25519 CERT-----
+master-key-ed25519 Vvd4RD54W2G4b7lUZc+ZseiGEQGeJ7aebYgrKya4TcA
+platform Tor 0.4.8.1-alpha-dev on shadowsys
+proto Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+published 2000-01-01 00:09:37
+fingerprint 2716 3430 3F8C D224 B2CC 2CAE 888E 97FC A10E 2581
+uptime 572
+bandwidth 1073741824 1073741824 55376
+extra-info-digest 9E1A5E6952E53E28309B6004092F65AC3D23A233 vYTVHQMLqx9OWOOw/KXLQL7Or1Vg4eQ2SE61aMfdK8M
+onion-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAOu8KlJKj1bBU+rHcQ2H/h9O2EdQoajJVNDy7WH9D4Ca8XTtSW+1Jkc5
+b34YV7HUMFipaxq+KGQjRQrfKDuwHbmxDwfMczYf1IGxGA/b3JFlDFDkQU4YiBP/
+53qtCsjwWf/doGAB48QPPEjA8RGndosJtJE2tNgolx+nryrdXFz9AgMBAAE=
+-----END RSA PUBLIC KEY-----
+signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAM4rOI+SOeorGfG0txhxt8Gmlj+M8E7TZs+YFA9A7Syx2izKozM3RKW1
+0th0/u99Xp6vdlSSv+PtqAc4bfppSzWZrfnBxjmzxgirtDEQwsGWJyMUDr6TNmIC
+tqBXAFxZfcV3U3uNMeox4l3Ds87O4ISiNTAQxtSJtHVsgKMQy4SjAgMBAAE=
+-----END RSA PUBLIC KEY-----
+onion-key-crosscert
+-----BEGIN CROSSCERT-----
+Oh39GS/iOpsP2xFZR6YF7HzhiUG74FUcd9xT4wdA++KHhYR0dKNfIGMS5CAPZxNc
+qsg8AKjbDpB4BdJ8LxeZ0++m7SsPuSdw/sOppuKCTaps+AT/l//O/gpgObOjxs1/
+W1BksX2hLU4G386Dnd8TtEiQ0zbqF6174ImqO6fl3V8=
+-----END CROSSCERT-----
+ntor-onion-key-crosscert 1
+-----BEGIN ED25519 CERT-----
+AQoABAXZAVb3eEQ+eFthuG+5VGXPmbHohhEBnie2nm2IKysmuE3AAG7gsOXG+ZcP
+CMYEXUVvJdGPdbson3OTya31v2ViJsL0TezgAwevCmkm4Aox9KeLCJt14+IuV9xE
+eet9Y29rKA0=
+-----END ED25519 CERT-----
+hidden-service-dir
+contact https://github.com/shadow/shadow-plugin-tor/issues
+ntor-onion-key a/+9FBZ70uMKKi+VVZ81jvKljTMHMxZa01MZ6N8ZChU
+reject *:*
+tunnelled-dir-server
+router-sig-ed25519 +EV+M6zVVaINvYUUzErlNCcXa96XuA8N49ZHkG0+p4W3R7+yj5aBIq5T6xcWpYA7eojmZk0GYoGUodu2NJYNCQ
+router-signature
+-----BEGIN SIGNATURE-----
+wy3LuGSfq2KNlrBazLEg/F6SOPuzurJ7niT/DHjf1qmUSaEiEpjjCJMYYOSoqbog
+nvQQ/m62DBeSdXYiGPSrcxyJkm2Xvs0le49v9CxcO5G+jKirxsnxO2y3BN8S7H86
+QnB/AKJ+nXaBojtndTdIX/fiS3jlkIJvXCK3UKGMqG8=
+-----END SIGNATURE-----
