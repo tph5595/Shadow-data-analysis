@@ -1,18 +1,12 @@
 #!/usr/bin/env python
-# coding: utf-8
-
-# In[40]:
-
-
-#!/usr/bin/env python
-# coding: utf-8
 
 from os.path import isfile, join
 import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
+from datetime import datetime
 from os import listdir
 import pandas as pd
 import json
+import yaml
 import re
 
 import numpy as np
@@ -40,8 +34,8 @@ def getFilenames(path):
 
 
 # Get argus data
-arguspath = "data/argus/csv/"
-argusCSVs = getFilenames(arguspath)
+# arguspath = "data/argus/csv/"
+# argusCSVs = getFilenames(arguspath)
 
 # Get pcap data
 pcappath = "data/csv/"
@@ -52,7 +46,8 @@ logpath = "data/experiment0-0.01/shadow.data/hosts/mymarkovservice0/"
 logs = getFilenames(logpath)
 
 # Combine all locations
-data = argusCSVs + pcapCSVs + logs
+# data = argusCSVs + pcapCSVs + logs
+data = pcapCSVs + logs
 
 df = pd.read_csv(pcapCSVs[0])
 
@@ -150,7 +145,11 @@ class PrivacyScope:
         if run_filter:
             df = self.run_filter(args)
 
-        df_times = df[self.time_col].tolist()
+        df_times = df.index.values.tolist()
+        # Convert nanoseconds to seconds
+        df_times = [pd.to_datetime(t) for t in df_times]
+        if 'A' in df.columns:
+            df_times = df[self.time_col].tolist()
         input_times = cache_data[self.time_col].tolist()
         keepers = [False] * len(df_times)
         idx = 0
@@ -158,6 +157,8 @@ class PrivacyScope:
         for i in range(0, len(df_times)):
             if idx >= stop:
                 break
+            print(input_times[idx])
+            print(df_times[i])
             diff = input_times[idx] - df_times[i]
             if diff <= pd.Timedelta(0):
                 idx += 1
@@ -183,22 +184,22 @@ class PrivacyScope:
                                                     .tolist()
         df_filtered = df.drop(cols_to_drop, axis=1)
         self.df = df_filtered
-        
+
     def remove_features(self, bad_features):
         df = self.as_df()
         df.drop(bad_features, inplace=True, axis=1)
         self.df = df
-        
+
     def adjust_time_scale(self, offset, scale):
         df = self.as_df()
-        print(df[self.time_col].iloc[0])
         df[self.time_col] = df[self.time_col].apply(lambda x: int(x.timestamp()))
-        print(df[self.time_col].iloc[0])
         df[self.time_col] = (df[self.time_col] - offset) * scale + offset
-        print(df[self.time_col].iloc[0])
+        col = df[self.time_col]
         self.df = df
         self.time_format = 'epoch'
         self.format_time_col()
+        self.df = self.df.set_index(self.time_col)
+        self.df[self.time_col] = col
 
 
 # Basic Scopes
@@ -253,19 +254,16 @@ Tor_4uthority_Scope = PrivacyScope(list(filter(r.match, data)), "Tor_4uthority")
 r = re.compile(r".*resolver.*")
 resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
+
 def df_to_ts(df, time_col='frame.time'):
     df.loc[:, 'count'] = 1
     tmp = df.set_index(time_col).infer_objects()
     tmp = tmp.resample('1S').sum(numeric_only=True).infer_objects()
     return tmp.reset_index()
 
+
 print("Scopes created")
 
-
-# In[41]:
-
-
-import yaml
 
 def get_GNS3_offset():
     # Read the YAML file
@@ -275,14 +273,18 @@ def get_GNS3_offset():
     # Extract the value
     time = data['hosts']['group0user0']['processes'][2]['args'].split()[1]
     return int(time)
-    
+
+
 def get_start_time(scopes):
-    return pd.concat([scope.as_df() for scope in scopes]).head(1)['frame.time'].tolist()[0]
-    
+    df = pd.concat([scope.as_df() for scope in scopes])
+    start_time = df.head(1).index.to_numpy()[0]
+    return pd.to_datetime(start_time)
+
+
 GNS3_scopes = [Access_resolver,
-                           sld,
-                           tld,
-                           root]
+               sld,
+               tld,
+               root]
 
 GNS3_offset = get_GNS3_offset()
 scale = 10
@@ -290,17 +292,6 @@ for scope in GNS3_scopes:
     scope.pcap_df()
     scope.adjust_time_scale(GNS3_offset, scale)
 GNS3_starttime = get_start_time(GNS3_scopes)
-GNS3_starttime
-
-
-# In[39]:
-
-
-GNS3_offset
-
-
-# In[ ]:
-
 
 Shadow_starttime = datetime.strptime('Dec 31, 1999 19:26:00', '%b %d, %Y %X')
 Shadow_offset = GNS3_starttime - Shadow_starttime
@@ -353,8 +344,8 @@ def scopesToTS(dfs):
     return output
 
 
-def scopeToTS(df):
-    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
+def scopeToTS(df, time_col):
+    return df_to_ts(df.copy(deep=True), time_col=time_col).set_index(time_col)
 
 
 def scope_label(df, scope_name):
@@ -445,6 +436,7 @@ for ip in IPs:
     flows_ts_ip_total[ip] = pd.DataFrame()
     for scope in scopes:
         # Find matches
+        print(scope.as_df())
         matches = scope.search(ip, flows_ip[ip])
 
         # Update df for ip
@@ -454,14 +446,14 @@ for ip in IPs:
         flows_ip[ip] = combineScopes([flows_ip[ip], combined_scope])
 
         # update ts for ip
-        new_ts_matches = scopeToTS(combined_scope)
+        new_ts_matches = scopeToTS(combined_scope, scope.time_col)
         if len(new_ts_matches) == 0:
             continue
         new_ts_matches["scope_name"] = scope.name
         flows_ts_ip_scoped[ip] = combineScopes([flows_ts_ip_scoped[ip],
                                                 new_ts_matches])
     if len(flows_ip[ip]) > 0:
-        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip])
+        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip], scope.time_col)
 
         # order df by time
         flows_ip[ip] = flows_ip[ip].set_index('frame.time')
@@ -1030,53 +1022,3 @@ for output_size in range(1, len(dst_df)+1):
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
-
-
-# In[4]:
-
-
-# for n in range(2,3):
-#     best_features = iterate_features(src_df, dst_df, n,
-#                                      "chatlog_dtw_dns_all_" + str(n) +
-#                                      "_" + str(datetime.now()) + ".output")
-
-
-# In[5]:
-
-
-ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
-ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
-ts1 = ts_to_tda(ts1, params=tda_config)
-ts2 = ts_to_tda(ts2, params=tda_config)
-compare_ts_reshape(ts1, ts2, debug=True)
-
-
-# In[17]:
-
-
-eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
-
-
-# In[7]:
-
-
-ip_to_user(best_ip)
-
-
-# In[8]:
-
-
-# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
-
-
-# In[9]:
-
-
-# client_chat_logs['/tordata/config/group_0_user_2']
-
-
-# In[ ]:
-
-
-
-
