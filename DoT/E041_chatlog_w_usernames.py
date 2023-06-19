@@ -677,11 +677,13 @@ def cast_columns(df):
 
 def get_chat_logs(scope):
     df = scope.as_df()
+    print(df)
+    exit(1)
     df["text_len"] = df["text"].apply(len)
     users = df["username"].unique()
     client_log = {}
     for user in users:
-        client_log[user] = df_to_ts(df[df["username"] == user], time_col='time').set_index('time')
+        client_log[user] = df_to_ts(df[df["username"] == user]).set_index('time')
     return client_log
 
 
