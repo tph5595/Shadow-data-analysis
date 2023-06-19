@@ -76,6 +76,9 @@ class PrivacyScope:
     def __repr(self):
         return str(self)
 
+    def start_time(self):
+        return self.as_df()[self.time_col].min()
+
     def set_offset(self, timeoffset):
         self.timeoffset = timeoffset
         self.as_df()
@@ -146,19 +149,17 @@ class PrivacyScope:
             df = self.run_filter(args)
 
         df_times = df.index.values.tolist()
-        # Convert nanoseconds to seconds
         df_times = [pd.to_datetime(t) for t in df_times]
-        if 'A' in df.columns:
-            df_times = df[self.time_col].tolist()
-        input_times = cache_data[self.time_col].tolist()
+
+        input_times = cache_data.index.values.tolist()
+        input_times = [pd.to_datetime(t) for t in input_times]
+
         keepers = [False] * len(df_times)
         idx = 0
         stop = len(input_times)
         for i in range(0, len(df_times)):
             if idx >= stop:
                 break
-            print(input_times[idx])
-            print(df_times[i])
             diff = input_times[idx] - df_times[i]
             if diff <= pd.Timedelta(0):
                 idx += 1
@@ -255,9 +256,9 @@ r = re.compile(r".*resolver.*")
 resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
 
-def df_to_ts(df, time_col='frame.time'):
+def df_to_ts(df):
     df.loc[:, 'count'] = 1
-    tmp = df.set_index(time_col).infer_objects()
+    tmp = df.infer_objects()
     tmp = tmp.resample('1S').sum(numeric_only=True).infer_objects()
     return tmp.reset_index()
 
@@ -281,7 +282,7 @@ def get_start_time(scopes):
     return pd.to_datetime(start_time)
 
 
-GNS3_scopes = [Access_resolver,
+GNS3_scopes = [resolver,
                sld,
                tld,
                root]
@@ -293,18 +294,18 @@ for scope in GNS3_scopes:
     scope.adjust_time_scale(GNS3_offset, scale)
 GNS3_starttime = get_start_time(GNS3_scopes)
 
-Shadow_starttime = datetime.strptime('Dec 31, 1999 19:26:00', '%b %d, %Y %X')
-Shadow_offset = GNS3_starttime - Shadow_starttime
-
 # service log scope
-r = re.compile(".*mymarkovservice.*py.*stdout")
+r = re.compile(".*mymarkovservice*.*py.*stdout")
 chatlog = PrivacyScope(list(filter(r.match, data)), "chatlogs")
 chatlog.time_col = "time"
 chatlog.time_cut_tail = 0
 chatlog.time_format = 'epoch'
-chatlog.set_offset(Shadow_offset)
+# Subtract an extra second for buffer room to ensure chatlog happens after DNS
+chatlog.set_offset(GNS3_starttime - chatlog.start_time() - pd.Timedelta(seconds=1))
 
 window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
+
+assert GNS3_starttime - chatlog.start_time() == pd.Timedelta(seconds=1)
 
 
 # detect and remove solo quries
@@ -312,7 +313,8 @@ window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
 # as only 1 device is accessing the network at that moment
 def detect_solo(df_list):
     new_df = df_list[df_list['ip.src'].ne(df_list['ip.src'].shift())]
-    new_df['diff'] = new_df['frame.time'].diff()
+    new_df['index_col'] = new_df.index
+    new_df['diff'] = new_df['index_col'].diff()
     new_df = new_df[new_df['diff'] > window]
     solo_ips = new_df['ip.src'].unique()
     return solo_ips
@@ -323,7 +325,7 @@ def handle_solo(solo):
 
 
 def solo_pipeline(df_list):
-    fil = df_list[['ip.src', 'frame.time']]
+    fil = df_list.loc[:, ['ip.src']]
     solo = detect_solo(fil)
     handle_solo(solo)
     return solo
@@ -345,7 +347,7 @@ def scopesToTS(dfs):
 
 
 def scopeToTS(df, time_col):
-    return df_to_ts(df.copy(deep=True), time_col=time_col).set_index(time_col)
+    return df_to_ts(df.copy(deep=True)).set_index(time_col)
 
 
 def scope_label(df, scope_name):
@@ -391,19 +393,19 @@ tld.cache_search_enabled = True
 TCP_PROTO = 6
 
 
-def tor_filter(df, ip):
-    return df[(df['tcp.len'] > 500) & (df['ip.proto'] == TCP_PROTO)]
+# def tor_filter(df, ip):
+#     return df[(df['tcp.len'] > 500) & (df['ip.proto'] == TCP_PROTO)]
 
 
-Access_tor.set_filter(tor_filter)
+# Access_tor.set_filter(tor_filter)
 
-Access_tor.ip_search_enabled = True
-Access_tor.cache_search_enabled = True
+# Access_tor.ip_search_enabled = True
+# Access_tor.cache_search_enabled = True
 
 
 # Cluster DNS
 # Create ts for each IP
-resolv_df = resolver.pcap_df()
+resolv_df = resolver.as_df()
 resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
 infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
 ips_seen = resolv_df_filtered['ip.src'].unique()
@@ -436,7 +438,6 @@ for ip in IPs:
     flows_ts_ip_total[ip] = pd.DataFrame()
     for scope in scopes:
         # Find matches
-        print(scope.as_df())
         matches = scope.search(ip, flows_ip[ip])
 
         # Update df for ip
@@ -456,7 +457,7 @@ for ip in IPs:
         flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip], scope.time_col)
 
         # order df by time
-        flows_ip[ip] = flows_ip[ip].set_index('frame.time')
+        # flows_ip[ip] = flows_ip[ip].set_index('frame.time')
 
         # sort combined df by timestamp
         flows_ip[ip].sort_index(inplace=True)
