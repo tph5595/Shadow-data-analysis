@@ -1,10 +1,4 @@
 #!/usr/bin/env python
-# coding: utf-8
-
-# In[4]:
-
-
-#!/usr/bin/env python
 
 from os.path import isfile, join
 import matplotlib.pyplot as plt
@@ -18,21 +12,14 @@ import re
 import numpy as np
 import math
 from sklearn import metrics
-# from statistics import mean
-# from sklearn.metrics import confusion_matrix
 from sklearn.metrics import (adjusted_rand_score,
                              normalized_mutual_info_score,
                              fowlkes_mallows_score,
                              homogeneity_completeness_v_measure)
 from ripser import ripser
-# from sklearn import preprocessing
 from fastdtw import fastdtw
 import fast_pl_py
-# from scipy.spatial.distance import pdist
 import statsmodels.api as sm
-# from pyts.metrics import dtw, itakura_parallelogram, sakoe_chiba_band
-# rom pyts.metrics.dtw import (cost_matrix, accumulated_cost_matrix,
-#                             _return_path, _blurred_path_region)
 
 
 def getFilenames(path):
@@ -79,9 +66,6 @@ class PrivacyScope:
     def __str__(self):
         return self.name
 
-    def __repr(self):
-        return str(self)
-
     def start_time(self):
         return self.as_df().index.min()
 
@@ -89,7 +73,7 @@ class PrivacyScope:
         self.timeoffset = timeoffset
         self.as_df()
         self.df.index += timeoffset
-    
+
     def set_index(self, col_name):
         df = self.as_df()
         df.set_index(col_name, inplace=True)
@@ -317,21 +301,12 @@ chatlog.time_cut_tail = 0
 chatlog.time_format = 'epoch'
 # Subtract an extra second for buffer room to ensure chatlog happens after DNS
 chatlog.set_index(chatlog.time_col)
-chatlog.set_offset(GNS3_starttime - chatlog.start_time() - pd.Timedelta(seconds=1))
+chatlog.set_offset(GNS3_starttime - chatlog.start_time() + pd.Timedelta(seconds=5))
 
 
 window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
 
 assert GNS3_starttime - chatlog.start_time() == pd.Timedelta(seconds=1)
-
-
-# In[5]:
-
-
-print("blah")
-
-
-# In[ ]:
 
 
 # detect and remove solo quries
