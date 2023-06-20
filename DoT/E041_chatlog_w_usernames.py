@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+# coding: utf-8
+
+# In[4]:
+
+
+#!/usr/bin/env python
 
 from os.path import isfile, join
 import matplotlib.pyplot as plt
@@ -77,12 +83,18 @@ class PrivacyScope:
         return str(self)
 
     def start_time(self):
-        return self.as_df()[self.time_col].min()
+        return self.as_df().index.min()
 
     def set_offset(self, timeoffset):
         self.timeoffset = timeoffset
         self.as_df()
-        self.df[self.time_col] += timeoffset
+        self.df.index += timeoffset
+    
+    def set_index(self, col_name):
+        df = self.as_df()
+        df.set_index(col_name, inplace=True)
+        self.df = df
+        return df
 
     def process_log(self, fn, sep='\t', cols=["time", "format", "data"]):
         df = pd.read_csv(fn, sep=sep, names=cols)
@@ -258,9 +270,12 @@ resolver = PrivacyScope(list(filter(r.match, data)), "resolver")
 
 def df_to_ts(df):
     df.loc[:, 'count'] = 1
-    tmp = df.infer_objects()
-    tmp = tmp.resample('1S').sum(numeric_only=True).infer_objects()
-    return tmp.reset_index()
+#    tmp = df.index.to_frame()
+    if not isinstance(df.index, pd.DatetimeIndex):
+        print(df)
+    tmp = df.resample('1S').sum(numeric_only=True).infer_objects()
+    tmp = tmp.reset_index()
+    return tmp
 
 
 print("Scopes created")
@@ -301,11 +316,22 @@ chatlog.time_col = "time"
 chatlog.time_cut_tail = 0
 chatlog.time_format = 'epoch'
 # Subtract an extra second for buffer room to ensure chatlog happens after DNS
+chatlog.set_index(chatlog.time_col)
 chatlog.set_offset(GNS3_starttime - chatlog.start_time() - pd.Timedelta(seconds=1))
+
 
 window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
 
 assert GNS3_starttime - chatlog.start_time() == pd.Timedelta(seconds=1)
+
+
+# In[5]:
+
+
+print("blah")
+
+
+# In[ ]:
 
 
 # detect and remove solo quries
@@ -677,8 +703,6 @@ def cast_columns(df):
 
 def get_chat_logs(scope):
     df = scope.as_df()
-    print(df)
-    exit(1)
     df["text_len"] = df["text"].apply(len)
     users = df["username"].unique()
     client_log = {}
@@ -1025,3 +1049,10 @@ for output_size in range(1, len(dst_df)+1):
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
+
+
+# In[ ]:
+
+
+
+
