@@ -12,444 +12,444 @@ recommended-client-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2
 recommended-relay-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2 Link=4-5 LinkAuth=3 Microdesc=2 Relay=2
 required-client-protocols Cons=2 Desc=2 Link=4 Microdesc=2 Relay=2
 required-relay-protocols Cons=2 Desc=2 DirCache=2 HSDir=2 HSIntro=4 HSRend=2 Link=4-5 LinkAuth=3 Microdesc=2 Relay=2
-shared-rand-current-value 3 7c8iGJCvYhoBDqFXblkYKWmOXdkerobQMo25Lkx2KsQ=
-dir-source 4uthority2 3E04D37998A4F99FED2EAB122C359D1A9FBAC0B5 100.0.0.2 100.0.0.2 8080 9001
+shared-rand-current-value 3 LNTDVrKCdJHVw8buavhZyeZYbNZ/ltxEV6ymKQtqkBo=
+dir-source 4uthority3 3EC01009E0A86D9DD235E15319F0492DC01C6278 100.0.0.3 100.0.0.3 8080 9001
 contact https://github.com/shadow/shadow-plugin-tor/issues
-vote-digest 755C62070E50732D3B2DFF6391C97E9048D5F5A0
-dir-source 4uthority1 DC01AE9411E8109DF555A237EEC83C91DC9425D8 100.0.0.1 100.0.0.1 8080 9001
+vote-digest 8F7B93397172CA8E4BA3488837DFB4BB572E3132
+dir-source 4uthority2 42E3ED923F283410DF8013B7940BAD15565ED30E 100.0.0.2 100.0.0.2 8080 9001
 contact https://github.com/shadow/shadow-plugin-tor/issues
-vote-digest F7F28B4C030EBAA184C8AEE094C60157E139CE2A
-dir-source 4uthority3 DF0CBE2DAACB399D04461B12AFF63908FF8341DE 100.0.0.3 100.0.0.3 8080 9001
+vote-digest CD780B3632B041D39F83915483FE8E6B35E10486
+dir-source 4uthority1 C540ED29F9457D12F27EF4118565D845E53CDA22 100.0.0.1 100.0.0.1 8080 9001
 contact https://github.com/shadow/shadow-plugin-tor/issues
-vote-digest 9B1F67091C5D14B2D33B7A685458F29313C98F0D
-r relay53middle BwCE9laScaWBo7GSkx8yOqZk+Qs 2038-01-01 00:00:00 54.36.112.237 9001 0
-m z0JqxD22CFEURKn+vBifCLoGserDHTr1pSqIf1DyZC8
+vote-digest B7EEE49D333DEAD7D19467465F3C9D8875895C08
+r relay45middle BHj/RSdfq0RBHGYPhOyUGXUTODM 2038-01-01 00:00:00 178.17.171.25 9001 0
+m GlQhb+hZXdLjS0i3/S3ZLdRj9NCnTGHc0+twd0NDt+M
 s Fast Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=108
-r relay56middle DkCWt4GjIkxB1k+gTprmDGhWimc 2038-01-01 00:00:00 172.105.122.161 9001 0
-m DJuS/AgTu0EuDxTRpq3NBVq0OPpaGTHmJ5wedvmbwvs
-s Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=76
-r relay15guard DmoRZesFcrf/jJ4wuDDTrHg3kmk 2038-01-01 00:00:00 148.251.41.235 9001 0
-m oQ14Q6aiL85KdjWzvi0LQm0ls9A7pU8I6sNIW6oBSF0
+w Bandwidth=617
+r relay25guard B8wzfO35rAShW0TwyqRytaNiFMU 2038-01-01 00:00:00 185.225.69.90 9001 0
+m fd2W7CiSSH9+qUP9yur5bTM9mLVykeMBBa/Jghl3AzM
 s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=14511
-r relay2exitguard EAO+0XmUvGYNl1GNuq+rqS3emLY 2038-01-01 00:00:00 31.220.40.241 9001 0
-m QNuUP0/abq3H3cy8qcMzi5wy3gB6MdwJHPDe+lqOEtI
-s Exit Fast Guard HSDir Running Stable V2Dir Valid
+w Bandwidth=2268
+r relay10exit C4NFJJK1Ao+QnWj5sle2Kg5jzRw 2038-01-01 00:00:00 51.68.212.73 9001 0
+m z71TDguF+UKMsnjm76HIMuWkqrxEypbUIMcL45nzFoM
+s Exit Fast HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=7330
-r relay65middle FNssSvdUH46xYd5MHL/qLojXRLE 2038-01-01 00:00:00 111.171.161.18 9001 0
-m 19RBdzG9sw9x0pSWMmZtbnabhQO7gTntQIzB+1WmmTo
+w Bandwidth=3287
+r relay41middle C6RfpGktj+01DghgA+hFk0+6Qpg 2038-01-01 00:00:00 51.38.147.96 9001 0
+m Kv8C23dDhNCSCBT03MuycXh00PKxmJJWrsfNt5+c6zA
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1641
+r relay65middle DHfRyTyevzZJDQtGM8rjRkmNreE 2038-01-01 00:00:00 78.108.216.127 9001 0
+m GN/tlkCnFLttbwYHLLAPUN/Rb+soJ1noV1wVRIggQZk
 s Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=4
-r relay44middle FO2f5K5HGTERBst6HlNgnMjD1pY 2038-01-01 00:00:00 185.150.117.219 9001 0
-m PczEl1wNdV15UIpBbcHzlOF3izyhwaZfGqkEs36sUG0
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=784
-r relay31guard FluVrKP0vCho+LcFKwXBPlfG58g 2038-01-01 00:00:00 80.112.144.233 9001 0
-m exotGVifxUYCYDb7Aql4OQYoFCbIJfBLl3lWEGbEhqI
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=985
-r relay25guard HvX3ZOg/AKn7z7133eEzJ6SYrdE 2038-01-01 00:00:00 193.106.31.2 9001 0
-m xLi2vJGoCqTSltNf3D0lGHzZh79+tolfEWRa8bhFnT8
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=2237
-r relay63middle JudJPmibK+9TSDwdSsoUkT5A77s 2038-01-01 00:00:00 37.48.116.26 9001 0
-m eenq3fIAjAFBc18FVJT6LmTAlBVXUbBnlBcNWv5sAtE
-s Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=11
-r relay35guard JxY0MD+M0iSyzCyuiI6X/KEOJYE 2038-01-01 00:00:00 93.95.100.166 9001 0
-m lLQp/zYjx7KRT53vZecmpPG7nQoGfDaiVcbE2ZlrRgc
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=565
-r relay41middle KRA5pk9mhS+HRQUOl8rI3z8oF+s 2038-01-01 00:00:00 85.208.147.12 9001 0
-m Onw6JO+A01jdFngAOBwr3QgiI5XLH/DEJ7xPj+07UZE
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1561
-r relay14exit Lz4DMTL+qPuxe5rzsXh8D7Rodxo 2038-01-01 00:00:00 67.163.135.106 9001 0
-m F4GuBUzxgrsJ52xv0B69FqX/KXNwDZy2/qrvfdgMw8w
-s Exit Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=19
-r relay50middle OU/l4in3pl7iQCGAE66vA7m5xEo 2038-01-01 00:00:00 68.183.182.89 9001 0
-m PPKJKap3HjlvXTemNlPAhfYiiLV2y1IGUdWsQWbOZnA
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=196
-r relay4exitguard PrTPc/S8vLynVaR4DPEUtBAU4n8 2038-01-01 00:00:00 87.118.116.103 9001 0
-m AndOI6gkKVStLwfMoliP4w2rkKtoQ607kg7fUL0AY2o
-s Exit Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=4178
-r relay59middle PwL6T0X4y1ovx5L09E7bNGKzLw0 2038-01-01 00:00:00 179.190.113.219 9001 0
-m Mp9vSN21GV2ipoUEeZlPmyB0cxkTWPcrfWlptohAYms
-s Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=36
-r relay20guard QqHQkrOcqhsvlxZJHAAJiwGTcDA 2038-01-01 00:00:00 185.82.127.48 9001 0
-m n0bbyyicIiVWZYWI+iRShLuFYcAHcvBcG0lqpZKRbVg
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=3900
-r relay51middle QvuxYEMjmSF1LPtAkNZv+XNSd2w 2038-01-01 00:00:00 217.228.186.100 9001 0
-m vULfZNBCwmMp15DxH542aiwMOQbZuScakYIFzYWFKoE
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=151
-r relay33guard SqY86ArmSiPzktnwfI6niqq3G3o 2038-01-01 00:00:00 185.100.85.132 9001 0
-m CYYhvIahrWVJyuqWeeU+txurPharCRwus6qLu9tBJRQ
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=750
-r relay21guard TN1b7tDMT4u/kTXdSVD1RxR2fWg 2038-01-01 00:00:00 95.217.14.17 9001 0
-m iymIcr8osEd5hwMZdY8uOJY9eMZ9d4YrjpenJ9mLs40
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=3374
-r relay18guard UwPJe3l1BTFFTF8s1+DlfYYXJ2A 2038-01-01 00:00:00 93.115.86.8 9001 0
-m sQmcUW6ua/xJlStMEGQYfLsJj7emalxi+ZnxUkqTK2k
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=5221
-r relay1exitguard WpOlao6iAhH2s4tGTPwW8L6/VRs 2038-01-01 00:00:00 109.70.100.4 9001 0
-m VAG7Na27PUiL3cdDDRiVxcqT/kXyxS0we2EOi7Ntctg
-s Exit Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=9103
-r relay16guard WunroJJVRweho+dPzqLdoJVv1jE 2038-01-01 00:00:00 78.129.186.28 9001 0
-m puELQZUcHMjkN9CwErwdYlKF3hFcg4+mMoN14UpcCnM
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=9422
-r relay26guard XeE7uWT5syfCxA+87ZYybwYZCgA 2038-01-01 00:00:00 185.4.135.157 9001 0
-m AmeXlGpVHzclHhwulHJr9HlLQMdML4Zi1L2DuyHDXeo
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1984
-r 4uthority3 YS5steJ5SxjaydQ0sIjbHJGok6I 2038-01-01 00:00:00 100.0.0.3 9001 8080
-m zXCHJom9eICTwZhUcAYOr3JAzg4tpoIN3u0Y3H7i10U
-s Authority Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=20 Unmeasured=1
-r relay6exitguard Yy5KiLIBrKSO2xAMNHJW4vvk9ug 2038-01-01 00:00:00 145.239.82.168 9001 0
-m eF0aHGxvpZ/3Sxx0zXmLr4Ze1RJ73qKctszK8PygRlU
-s Exit Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=2457
-r relay22guard ZSL0QiGGMCQD7zepvyyBXc4I0HA 2038-01-01 00:00:00 91.143.80.230 9001 0
-m H/WDRyIhDzWnBhpBpqkeViVd14f7Gg3LbcguiS2Oj6A
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=2982
-r relay24guard ZxcmJCe16wPVlX7+vv6EaaRGFR8 2038-01-01 00:00:00 93.190.141.26 9001 0
-m el7WXxGyKAbUtb8DCYeqTqKzTdvFN1qT5qqrYsLhj90
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=2530
-r relay55middle a1SMLa4kLAgNjQkftYadhFiKQ+4 2038-01-01 00:00:00 45.55.34.252 9001 0
-m OT/vwsaUnGRrp+XiOd5Bk/IRzJqFsZTf5v2u7qgASRk
+r relay55middle DQsy9LckGFnCfJisei6+M7VANgA 2038-01-01 00:00:00 71.19.157.127 9001 0
+m RooQAM2iynvMw2W6QZzu+59uWmSTAn9r2rbLSKdynQ0
 s Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=90
-r relay52middle cLc+p4oTXFQ81P07GosWEpturyQ 2038-01-01 00:00:00 5.231.158.11 9001 0
-m PGHma0h4GymJdqWDnsOf2rW/33Od2LsiG5o9ddwCQeM
+r relay32guard DfsD2of9RFhScTLqXs6b6lC83Ho 2038-01-01 00:00:00 208.94.242.26 9001 0
+m 3sP4E1FU3VTsvk2aTYIlbr3uvSSnYAua4YFi8Id9TS8
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=858
+r 4uthority2 ERFQ2CJRDhTJagWtyOy2J9cfN9s 2038-01-01 00:00:00 100.0.0.2 9001 8080
+m 10kZFc2BqMGfH/eF5Aa1ZhY2B/lQT9CzWveImQH9NQQ
+s Authority Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=20 Unmeasured=1
+r relay40middle EjFy2vkzGvaFGthUxxY3+y8DSlA 2038-01-01 00:00:00 134.209.183.172 9001 0
+m uRyF92pyosnQDGmU6B0vHqcY+zbkGltEAW9MnZ6bweQ
 s Fast Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=124
-r relay3exitguard cghxnMFu8KOV8qJnS+J+z5G76pA 2038-01-01 00:00:00 185.220.101.199 9001 0
-m cDvN6AOxCKBrWRuWu5ZIMEiZpyoKQi7T+dwgoqYtzRU
-s Exit Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=5505
-r relay17guard eBBBWcY4hLvTQgQPWgckzjNFPvo 2038-01-01 00:00:00 51.15.44.251 9001 0
-m QZnMHhH7YPczTHlKpEtwTtbvTBZR1l8E834kaFfKOSY
+w Bandwidth=2062
+r relay16guard EmJoKjQ8yPnBCfYXE2Bb3VO1qAc 2038-01-01 00:00:00 178.254.45.64 9001 0
+m qedE747LcIPjOlyOKneI9eGrmZulbLS2a659KLvJvLU
 s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=6955
-r relay32guard eL6L8O8BO1WPUd88x4FPes8D32E 2038-01-01 00:00:00 162.200.149.221 9001 0
-m 6nN4ioNIYWdt6AyB3hzp5Qgkp82V8dFsKd8iwltnmQ0
+w Bandwidth=9961
+r relay17guard EmNMOTy0GfJB0Oa4JDa43Dv+xc4 2038-01-01 00:00:00 193.108.117.41 9001 0
+m xGB6Jy5PZgBmGndrEyCVIxVUBW7FEafX67NB+XLE20U
 s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=852
-r relay9exitguard fbJoSUoAtUxVfOl/YEy7t3d+U7M 2038-01-01 00:00:00 104.244.78.67 9001 0
-m HmaEBTLVYoYLTZhLau6tTO2L/y+UPi3hOfBBghhy78Y
+w Bandwidth=7070
+r relay11exit FoceDJxmxMd9mXX7htcUICbyNHQ 2038-01-01 00:00:00 199.249.230.158 9001 0
+m iQnHmLnZuC2s9O0rU1Kjk0lG7kicjkFBcvnPYSENjQg
+s Exit Fast HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1646
+r relay59middle F+iQ0lrK5pcThbK/RYzYqYV7pgU 2038-01-01 00:00:00 86.239.217.252 9001 0
+m k8rECf2YibQ6oPuUly5jSlYeF5mPHarq/I1JWOxAOlU
+s Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=37
+r relay22guard GX4YVfe+SP3hw0VCiH5RmIBKppk 2038-01-01 00:00:00 54.37.200.155 9001 0
+m 06bYY2bO/5AYJsKUjiYLu9l77JgIClzph4B7w6FdYNE
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=2981
+r relay28guard IEOjzsmOGCxADTOGzLRRR+9eo5M 2038-01-01 00:00:00 198.245.49.191 9001 0
+m pGV4z//n+bYc0u+eBhcClGeG+q41+i5jpnvDtbSjCwM
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1521
+r relay37guard JpQ6Log2vTmcQudxwQkXxOPUED8 2038-01-01 00:00:00 161.97.70.137 9001 0
+m UuHlb0Z8kgODDoZmB4ZUXWUPx5pnF5mbqtdJSz2zzvA
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=378
+r relay38middle K+IgRT6auGeauGC0DBI63JHM+cc 2038-01-01 00:00:00 95.217.5.88 9001 0
+m KkTnoaxUS/oXBgaPvhqLHYxMPnE4dS0B0p7u734iyJU
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=6094
+r relay57middle Lkb3VQorU/59gbVuDFH1ck+oLZQ 2038-01-01 00:00:00 94.142.241.138 9001 0
+m +Q6vELzB7JYs1PbaPfKLXEJZYQK/jaKNCmUCMtTNVqU
+s Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=57
+r relay27guard LoVfUv9j3iFwRWkKSmXKtIUBJgA 2038-01-01 00:00:00 171.25.193.139 9001 0
+m R8zbqhEtltcIjppxByLl60E4NxpevTcC6CucgwwKBbY
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1767
+r relay53middle NCAlD/xoZc9dfapaA0bKZJr3U7E 2038-01-01 00:00:00 88.74.238.175 9001 0
+m ULa3PdkFk8p8S7ZHkiXE8ZcizS4Xc633vPgPNURMFks
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=110
+r relay4exitguard OnU0cIl+pnYocLo0HHPvm/1eSzk 2038-01-01 00:00:00 91.192.103.8 9001 0
+m PV038gq/aUQUiAST8X2lFTkyLttYmj9X3drO3L4aAA0
 s Exit Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=576
-r relay62middle gArTJ4JGIzU98P/yVFHXVyDaKXA 2038-01-01 00:00:00 80.110.35.15 9001 0
-m 40JGSA8fzhzUEno4ABbBAedvG3CK7+aGmFmwQ5NVtiY
+w Bandwidth=4236
+r relay39middle Oz0JQSP6jaZq0S1GX0C4VMhri0g 2038-01-01 00:00:00 104.185.202.207 9001 0
+m zGnOQzvBwpqMzub6KSYwfEnGYwzIHp+8Nrnwfz/sq14
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=2796
+r relay24guard O1Cq1UcM8X8ZVej5BYgWV6ttz+E 2038-01-01 00:00:00 93.190.141.26 9001 0
+m GzcCpxaBwbNPLJw6m17A67K4ifPLBuKZoiA9c8CEQHM
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=2532
+r relay26guard RQ1wY3ocsW9QfWFPHxE0OsVzluU 2038-01-01 00:00:00 91.219.237.117 9001 0
+m PEPDEeAHATD6+ZaiIqzSlTc1BLA0OHPG0oURXmK8z4s
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=2006
+r relay67middle R5bVIFieOUdim+xBpp/IHaa6NII 2038-01-01 00:00:00 92.75.148.39 9001 0
+m O9Ve6YF1GkcMklSgVUXGsfxD0aAqRDcu2hpLrIpuYig
+s Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1
+r relay9exitguard SFOpEDdAE9vKNOG7ovDqdIew8TI 2038-01-01 00:00:00 95.142.161.63 9001 0
+m L1ZtdG/Fl3t0Smsh0N7uTCT2CrhpX0lf8jzeA3Wu19c
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=609
+r relay2exitguard SsLsBjG1JqKa1vBO/Uv1gNeKM0c 2038-01-01 00:00:00 185.220.101.19 9001 0
+m zhXfqerMalPIF3efAKoLqaMNTiRiiatRt7dP98s954c
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=7341
+r relay43middle Th1na1oZlrfxfxdlV01uSkwi7zE 2038-01-01 00:00:00 109.193.76.83 9001 0
+m IXCXCz8JDkSdQAV+M8zg62w9nAEJKfhr3bJKHLzb+b0
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1000
+r relay46middle T3D1hyEIRskjq/SDPeIbUeqcpcg 2038-01-01 00:00:00 204.15.78.249 9001 0
+m mb8pN5TWEszFWXVgoMKFcAYAvren92uJoqSH9CCjPdc
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=467
+r relay36guard UA3gNyUd4xb2UW66TeZ3tskUb0o 2038-01-01 00:00:00 45.79.76.89 9001 0
+m HJEdF0DKibXAdhCUaTdVQzkSJsby8azMmOE0liXyakE
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=469
+r relay15guard UR+EnLZzjGdG/OnIPYsDllzWUVY 2038-01-01 00:00:00 217.182.196.67 9001 0
+m TC7KuH4Xe9bzV1LsiLGXiQJRLagGV8orWa+cv2+TWtI
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=14536
+r relay1exitguard UePvciCc0XJ2jpJ1fxwpZtNm07M 2038-01-01 00:00:00 185.220.102.242 9001 0
+m NqiCq73QllfjZAQK/tpeAiv4jw41V+hsf/DNzrZY5XY
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=9069
+r relay3exitguard U5zrfGDes1MXZuNuI8N4023E/TQ 2038-01-01 00:00:00 176.10.99.206 9001 0
+m MhGOWpMCkqMk1zgDtkgwdOwnAPqMCxpw3elIsB4BcZI
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=5608
+r relay62middle VBfvqoVI1ey+zBYhbXMJbj/f3Hg 2038-01-01 00:00:00 2.56.213.237 9001 0
+m ZU6/LAYzGJriY8bUGgHCtq8XSsJtuadaff6/DIsEbVc
 s Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=18
-r relay23guard gTmtl7T2xAZyfAfX4QxZtWqh520 2038-01-01 00:00:00 37.143.118.9 9001 0
-m PnxYFg1cerZDR/cM8qv68XHnrhh3NCCvRDnVGUdv61A
+r relay51middle VjHXlSiad8MxYrtaZodxiEx9TPg 2038-01-01 00:00:00 45.76.43.237 9001 0
+m auJj02Cir/b9Qv9CAF8NHpPaAhowzs+u4CUoi0jZRRM
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=155
+r relay29guard WCpbnBl03zwF798QHnfGlYDNU/U 2038-01-01 00:00:00 173.249.58.30 9001 0
+m biwDJiXbbi14Y7KxKNA4QXl3I7HoXydetb4xt+Wy1pY
 s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=2757
-r relay37guard g2730tWP31PEcWXPYE5fsLR5zqk 2038-01-01 00:00:00 87.172.109.178 9001 0
-m biGuaY+gducuR/hbtUCpS6O/0E4pFk+AJWmBWX41TxU
-s Fast Guard HSDir Running Stable V2Dir Valid
+w Bandwidth=1323
+r relay42middle ZOReV9Hn1vChgfoTqBvjawUlVYo 2038-01-01 00:00:00 194.5.249.219 9001 0
+m WtzzJWZ5mCxxzhLh1L/YBHdGF3WsqCrvCY3ElJ7ZOko
+s Fast Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=375
-r relay57middle jPCevVX56/ud4JBp2VYeVf9Qwhg 2038-01-01 00:00:00 185.118.68.31 9001 0
-m NGavbcrRAYK3WGhbP7JS7qXScgdy0Lmm3y1iskbi4kI
-s Running V2Dir Valid
+w Bandwidth=1255
+r relay49middle Z6nkQOOwf/+/ONbB+YONcpoxrUs 2038-01-01 00:00:00 45.66.156.112 9001 0
+m pI2rQ0GkvelDhh6tdSp+AjJsjOwCTN+V/YHPTfz8u0Y
+s Fast Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=56
-r relay13exit kNooGlZbu7kMEjuzWYuhAVpcUpY 2038-01-01 00:00:00 185.205.210.245 9001 0
-m Wh/02kTy8PRjUfin28hwBX9ZgOaM+N8sEG9+BO115vU
+w Bandwidth=248
+r relay12exit b7oAaa4pNr+NOf6v9/wdvMN+ArA 2038-01-01 00:00:00 62.109.0.2 9001 0
+m /egPZ3tGcbsMeLyKEd8GBXniLeLsYMkoFlW4YKEKu3s
 s Exit Fast HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=163
-r relay46middle k44hPrb4OsX393rcwLrTO5kf76c 2038-01-01 00:00:00 178.140.108.176 9001 0
-m iZ3t1Yc9OQFarGnCtL/krkGdVZBkbTqiBno+ug8K5lo
+w Bandwidth=691
+r relay52middle cSfRwrHa4T0jl+gxSkHNiSwK6G0 2038-01-01 00:00:00 159.89.171.180 9001 0
+m nebAUFRjb7x0wwHV+y00EN4YwvEm7Qr3Yuuxd0vh9tA
 s Fast Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=458
-r relay28guard llNmlAF2dhR7fo3uyBu7tYhPS7A 2038-01-01 00:00:00 185.195.237.24 9001 0
-m QHUt1YRHQWOwaXeGh66iROZOQ9+uIKuCropZSs4fsWU
+w Bandwidth=127
+r relay8exitguard cqSm5jPhdqA4qf/QAym6IZVZY6w 2038-01-01 00:00:00 85.93.218.204 9001 0
+m FskBKzvVCkl/7U+uoTKCb8lh17sUdW5XtbZxXoitmGA
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1242
+r relay14exit dLXD+czabXOKTUnDUkKsYkwWmuM 2038-01-01 00:00:00 31.220.3.185 9001 0
+m Z3IThQqHVMRfYNZPWl3kbThkpObC8pI9KAhvleDplRk
+s Exit Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=20
+r relay61middle d3TPAiLHbicTCxZstNEVOHOREA8 2038-01-01 00:00:00 185.11.146.95 9001 0
+m oFE0w9J7K67g2bE8VFc13kRqQYhlYGGY3hlOJwb2Nt4
+s Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=26
+r relay23guard fdX9Hh0Uwv0zEUmJQd6S4/tpn8s 2038-01-01 00:00:00 51.254.136.195 9001 0
+m G7TVlLTGr4liCcr5RwRYrIMhaY77R/9RvJV3WGh6VYA
 s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1539
-r relay42middle lzO8xIKyL7+tq9UibODfPSpVzwU 2038-01-01 00:00:00 172.104.4.46 9001 0
-m QDa/UXe+gOqnhD6M7wjijo9skK9cNs0mK7Qry8kcje8
+w Bandwidth=2764
+r relay20guard hFJFqaTCQnecwiLIm3yzqwRV9bs 2038-01-01 00:00:00 89.163.224.175 9001 0
+m w+XJAKs84n4gDQ+B2j32vHEqKMKxXonSszmF1y+iv3o
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=3892
+r relay47middle hYKttzTCy/yYqXEbcMUAlhABgN8 2038-01-01 00:00:00 173.212.209.10 9001 0
+m U/Y2p/H++DnBbZoVdBv55Qn/iDttqpYpF3qPnIssyKs
 s Fast Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1224
-r relay66middle mGDVCSmlpfwjdMU37lK18P1pvHc 2038-01-01 00:00:00 5.54.250.90 9001 0
-m Ty9uryiwPm8pm7/4n5J4B/oSO8AphWZPFWm7C2jZWPY
+w Bandwidth=350
+r relay63middle h45MC/K4oN4H58uC0Igu4/iQJFM 2038-01-01 00:00:00 87.188.194.229 9001 0
+m L/eo14JvnqRvseMRi/7iGYWVcCS5OHGMlvX75c0KA5E
+s Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=11
+r relay50middle jKTXT3FzpHmrsOruSLjgaB2lFuM 2038-01-01 00:00:00 45.62.230.216 9001 0
+m oWLBHwaYbE+38vafd6oaqQEwr4+6wCUFURT017wWCLE
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=198
+r relay30guard j7SsQAF7HtF/tktNiRboPjf23rw 2038-01-01 00:00:00 31.31.73.222 9001 0
+m v8wQ81uzOYSJviadlvG8M32fWq4nT7ZMdm1prFtYzQY
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1176
+r relay33guard kiZ/2PSMgVVYtNLBt6M5WM4yb0s 2038-01-01 00:00:00 178.17.174.242 9001 0
+m XBizCeZ2fSOXIVdx4q2vQwxpDqhTtqDWJzXWdPwt/iY
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=757
+r relay13exit n5tmW/MCW5kVcu+3An/lWH9p1QQ 2038-01-01 00:00:00 216.186.250.53 9001 0
+m 54rkTnJkEYUR+ALvMdinkCV8G/KMcNOBf3Oar/ddN+k
+s Exit Fast HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=169
+r relay6exitguard n6B6MRnazdZqbWR3SibMoZ5k200 2038-01-01 00:00:00 104.244.72.115 9001 0
+m NXn1a5OMv8IEKbKtiqUycH8zuK82T+xaQxPnzESFyGw
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=2601
+r relay66middle pJOwrzj3XJX3h8lKn/eSlUOjLwY 2038-01-01 00:00:00 5.54.250.90 9001 0
+m 5BLlDGoSASKgSn0Cb2rLKczpdsCcR2/XH2Wy3zxfl1I
 s Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=1
-r relay43middle mV6wmtGmf7WXuGhhEaT4uRWEuDM 2038-01-01 00:00:00 109.228.186.74 9001 0
-m 00DHwo3eNqvujM4TLW8zzWML6JezcqGTFjVlx769290
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=978
-r relay54middle mgrPQJtsoPynuxeQ/bDdtQUCQKA 2038-01-01 00:00:00 95.217.248.169 9001 0
-m 8bv05Rt1g0yk94ZbpHuq9AvTxehYKo8g7nL9HSOv2fk
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=99
-r relay19guard m02F6LTK3kWjkCtIdIF4xwn5uFI 2038-01-01 00:00:00 85.195.253.59 9001 0
-m nqPjTQUfds/PeXPwOZXK/cwPbbE6q1AtbCuW56xR3Bw
+r relay18guard qJ/dkwlJBUEOW87yt9+tfT7suZE 2038-01-01 00:00:00 109.105.109.162 9001 0
+m 0X36MDbJ5uOI6M73Af47u0ZiiT5IyyY+/T7u8jrWsTQ
 s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=4458
-r relay45middle nNWPlgj9qQE9ztexK9kxv3hfrrM 2038-01-01 00:00:00 134.209.86.103 9001 0
-m QZyuZiGcGibtCg9GXRI0PVOPYW1d6kbquOH0s1hnLqg
+w Bandwidth=5318
+r relay19guard rAeU0r29QHf+OBPlwscUu9+FdbY 2038-01-01 00:00:00 185.243.217.23 9001 0
+m IjhGBMzwTWcBCz+lGKUhbo20RxCNm1tfXO3n9T3xh4w
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=4467
+r relay44middle sQZT8lSAJSs3S9ZWoJ8ejD6eyPs 2038-01-01 00:00:00 172.81.180.10 9001 0
+m 0bgfStCfOzTdOGcdNV0IGqZ2u9X8rBBFFqSg3lBRXWQ
 s Fast Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=603
-r relay64middle oC6WUlm/TjWuhZCHzfUd1Ruu7aU 2038-01-01 00:00:00 89.14.169.191 9001 0
-m dIJKzNBr0hUnuW7Vdc7MZH9+0R2i2b4j24xG76BzntM
+w Bandwidth=802
+r relay54middle tuk3uHFchldU+Xi6mc6p8vIn6m0 2038-01-01 00:00:00 95.85.8.226 9001 0
+m zgjlV6CUoO+bMA/m0ACEfEai4W/IgqgiuEfiIRlXS5s
+s Fast Running V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=100
+r relay31guard uLbqTzqmTRF6b1ej/v3VnNGQvjU 2038-01-01 00:00:00 82.64.152.247 9001 0
+m WoSE/V3AZ/g0nCewHJnpUCSMHZB7sk8feleKJeH+LpU
+s Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=990
+r relay64middle uW2ZzYO7iBq+9Q5LFfnXi+zyqC8 2038-01-01 00:00:00 128.199.232.56 9001 0
+m 8dG1kyGqzX/CPg1FD50voE4pnG2/GOGyv0+PeGeovl4
 s Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=7
-r relay47middle sEH7RsC3sf/ydmsMN4oNQIBh/xM 2038-01-01 00:00:00 178.27.123.9 9001 0
-m Mdv0BSmqkeJstWqqf1m3mmVH33xyhAZIyFXxaFOGjPE
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=348
-r relay12exit ukfoSvpAvuK2DeacBRPr0OtUgeI 2038-01-01 00:00:00 149.28.63.195 9001 0
-m D5g9hL5QfFP/Wbx8AvMdMW295Hp6PSOS6zKg3P5jIG8
-s Exit Fast HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=733
-r relay34guard u/tc28PxFgWWxySVCoKr4/iLh2U 2038-01-01 00:00:00 45.66.157.10 9001 0
-m PDIHeDsGIHcgCoIrXxvAgEiEDmRVkPEbnjERhXW9ehQ
+r relay35guard u10+Do8z1XuMzSzGZaZiqnibRvI 2038-01-01 00:00:00 80.211.90.106 9001 0
+m IhM8JecGSTNYg2iDgVrrHXVGBFcqHDYMQldqYvu370Q
 s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=663
-r relay48middle x53jaZi1g1+0CWm3pFVrrwy6uDs 2038-01-01 00:00:00 45.62.236.117 9001 0
-m tz0PrUzIs5I49gmO5C3vvEpjUmqr8gWbZi7PUc4x7Gw
-s Fast Running V2Dir Valid
+w Bandwidth=567
+r relay21guard u2+JoAIW79mbUW5+J1Vpr791Am0 2038-01-01 00:00:00 149.56.185.56 9001 0
+m 2xu8lKZg+ormFsL/GC9ThX/kzL2KIHdi8SGQ21/kwzg
+s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=297
-r relay7exitguard ylUBjXQICiRKs5Lcqd73ZwAyxjg 2038-01-01 00:00:00 45.154.35.211 9001 0
-m pRRraa4W/Lg9BPNx1TaZR16hVA97IAcNZxh3B6NafZ8
-s Exit Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1734
-r relay60middle zGHGiHSZVRgb7FOqr5p1V2SuxqE 2038-01-01 00:00:00 78.94.253.253 9001 0
-m WNKGqV8JKZyf4rz3s1B01d0p32+unsNz9A4ESrg3e0E
-s Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=29
-r relay67middle zbKkyW6uqZWQO7Iv5bQSPmkRoiY 2038-01-01 00:00:00 85.127.162.92 9001 0
-m Ldy9F5FqJm2+DZTriG/ezt+VdN8rdfiqC1cVbonXd+s
-s Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1
-r relay40middle 0k3Z/EnMtPPjFHS85Sc+SmSVsLA 2038-01-01 00:00:00 195.189.96.68 9001 0
-m GVX2A60ZGeD8NQMr1u/aCnPZmTPJfINngjsn0LqJ80M
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=2028
-r relay61middle 0mgjYaALSkyu0rmoUj+qp5RlQKk 2038-01-01 00:00:00 213.140.66.88 9001 0
-m FeHzCMEJNfmjhVwCnxbuqzwBsrppoc2chBkwpjmQiVA
-s Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=25
-r relay11exit 1DBQqBh/mXrs4Nck2WZXvZnTWIg 2038-01-01 00:00:00 199.249.230.161 9001 0
-m O8ep1n8tN3URAPxk7KnjR4STo0Mv07dtT+ts1uUhs+Y
-s Exit Fast HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1604
-r 4uthority1 2mFjFYNfeY6FaNkSUY1SMyItF04 2038-01-01 00:00:00 100.0.0.1 9001 8080
-m AbXpAXchknbCh2gC3PXC5fnz9zi1dAk3hOmeWnzo+7o
+w Bandwidth=3346
+r 4uthority1 yN77+gn2Vxs7uCKPZlFsW6Gxiyg 2038-01-01 00:00:00 100.0.0.1 9001 8080
+m lKl5zr4saEQl2/Fx6+UgNU3Uul0vB2NYOqfjfGcfqyI
 s Authority Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=20 Unmeasured=1
-r relay29guard 2nZf9aen4HdqucwM9Hlzz0cz70g 2038-01-01 00:00:00 87.154.213.49 9001 0
-m 1AY/MhQLdTDU1FBxvyW2mPRK4cygXc4bRx+I1fJsG1Y
-s Fast Guard HSDir Running Stable V2Dir Valid
+r relay5exitguard 3nLU2N6qGph9FUPNgTS+OpXHBho 2038-01-01 00:00:00 185.167.160.219 9001 0
+m zEXYsX2nAVwVJwqwPNMVy2d28Qjv3iG8/iarwmfA7GI
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1324
-r relay58middle 2y+TEV+/fDY4KUP3/uTAguDDoAc 2038-01-01 00:00:00 91.11.223.34 9001 0
-m BoluKABMu35D5kTl5E68bp0sl6XUaDbt106hAZa4ggE
+w Bandwidth=3385
+r relay56middle 4xz3fkebeVSs1Dfa8giUpN9hkJU 2038-01-01 00:00:00 104.149.128.94 9001 0
+m UBIAd+QWCuMLkJ1pGGECVoba7dgXGM2HRRh4Z5qHuOo
 s Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=45
-r relay38middle 4z2ybi8eZSsgb0Kzz3V2dcZJENs 2038-01-01 00:00:00 91.121.52.156 9001 0
-m OhZZ6T8P18luHBnN0rKp1Ti/XXuj9BhY8dtoOOHEi5E
+w Bandwidth=73
+r relay7exitguard 5FDdBjqMZ/w7B35UBz/oGpzBRtU 2038-01-01 00:00:00 192.160.102.169 9001 0
+m rjP1H0F+GUP+LKUut8utt1WRih1SwRYnpjYFEqIfCoQ
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.4.8.1-alpha-dev
+pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
+w Bandwidth=1806
+r relay48middle 7NDP1OHf2LVLNKkkUSAheib3CWw 2038-01-01 00:00:00 104.236.52.16 9001 0
+m 7hJggDGmQqbpy6hkvG1NczPOPZKdE3pyU73aTsq0u4c
 s Fast Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=6046
-r relay8exitguard 54CJsGPPh5UHiEQx9k4Lwi+4fjQ 2038-01-01 00:00:00 37.187.105.104 9001 0
-m AlJZZfo89UIWz9wV+YnWfRRkrqzCNdxg4r5GG6XMaUY
-s Exit Fast Guard HSDir Running Stable V2Dir Valid
+w Bandwidth=298
+r relay60middle 8DPhd+zAn9zEBrEp2og75p96cm4 2038-01-01 00:00:00 37.205.9.131 9001 0
+m Ok0AQfpRgVfpLXfhARc/EPkHA7A6jWgCvC/wnMPKhxs
+s Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1111
-r relay5exitguard 65NX/sp4QmQ3/LmIaMBBWfSigDU 2038-01-01 00:00:00 192.42.116.13 9001 0
-m ctProJbbMlvBUXSKyO9F9yHUifXavouPTMUuCA00fpw
-s Exit Fast Guard HSDir Running Stable V2Dir Valid
+w Bandwidth=30
+r relay34guard 8IdMo5+9oTRdarrOsQ7yVHq6XA8 2038-01-01 00:00:00 104.57.231.26 9001 0
+m 8pOmq3qE4RruUjLm5U5Hsvqr+eXTGXRVLpFOkn9sAVs
+s Fast Guard HSDir Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=3289
-r relay10exit 7C+trEwB5R3UNZusMp0sEG+8Zuo 2038-01-01 00:00:00 185.220.101.150 9001 0
-m +LhHiJ/yFwdnMCtRTB8mGVN9Vu36jMKCqP2KgF9VHeQ
-s Exit Fast HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=3345
-r 4uthority2 7G8jAahTK/FOVXRDEqz7X2LRo/k 2038-01-01 00:00:00 100.0.0.2 9001 8080
-m 6PRdWLE7JBKQ5bwEKiyK4KjR4V0oeTH11XUpb1h6oVU
+w Bandwidth=667
+r 4uthority3 9YryykhQu85gCyEsxJrb5jzf6ro 2038-01-01 00:00:00 100.0.0.3 9001 8080
+m 5zZFvA1s8zfpzew+aqT/sHUB6z9BFPjDLRvnzNP2DbA
 s Authority Running Stable V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
 w Bandwidth=20 Unmeasured=1
-r relay27guard 7inNzj3LrORlBPgJYzI4sFBQ5o8 2038-01-01 00:00:00 163.172.211.128 9001 0
-m 1pMC+/3beCz30rB1doh/KsAtgrOL34PwUJJAW4/DKFw
-s Fast Guard HSDir Running Stable V2Dir Valid
+r relay58middle /2aiFsuOUY1Bj9yaW2qo96rGgjU 2038-01-01 00:00:00 31.193.139.14 9001 0
+m GIIaitRMMiUKaKridcyEITjMWZTxvUf0l+wAjlFG5rY
+s Running V2Dir Valid
 v Tor 0.4.8.1-alpha-dev
 pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1751
-r relay30guard 7qXb/zbI0iF2YBo9+LQwUpZqhws 2038-01-01 00:00:00 87.248.7.41 9001 0
-m Qf80XJFbzcJdkYPrwqx5hjxdCR7YHS6dYB1j0StBcFY
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=1163
-r relay36guard 84Ns68YSOp2wZ4lrIbS7sOa9yeA 2038-01-01 00:00:00 46.29.250.27 9001 0
-m omfKAVqDg9JqipRtCURzlHJEE60iucf5crEaI2DLQ/w
-s Fast Guard HSDir Running Stable V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=468
-r relay49middle +gCItut/OgmRReFNagjxjH38yrU 2038-01-01 00:00:00 185.103.135.19 9001 0
-m VtiJdS/Xq4vnbRc3xy3MgU/YbU8wv1f5aO/8kwbQkMU
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=249
-r relay39middle /HDoIdMd+32DaTHQeXdurFnRBYk 2038-01-01 00:00:00 51.15.46.15 9001 0
-m 1PfS/BxszUleXpcerzJYZRx2ymES8GkjDHvtT1MelI4
-s Fast Running V2Dir Valid
-v Tor 0.4.8.1-alpha-dev
-pr Conflux=1 Cons=1-2 Desc=1-2 DirCache=2 FlowCtrl=1-2 HSDir=2 HSIntro=4-5 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Padding=2 Relay=1-4
-w Bandwidth=2717
+w Bandwidth=46
 directory-footer
-bandwidth-weights Wbd=0 Wbe=0 Wbg=3697 Wbm=10000 Wdb=10000 Web=10000 Wed=10000 Wee=10000 Weg=10000 Wem=10000 Wgb=10000 Wgd=0 Wgg=6303 Wgm=6303 Wmb=10000 Wmd=0 Wme=0 Wmg=3697 Wmm=10000
-directory-signature sha256 DF0CBE2DAACB399D04461B12AFF63908FF8341DE 0926326CB0BD3DFA320551DDF8E4BABE043684B2
+bandwidth-weights Wbd=0 Wbe=0 Wbg=3688 Wbm=10000 Wdb=10000 Web=10000 Wed=10000 Wee=10000 Weg=10000 Wem=10000 Wgb=10000 Wgd=0 Wgg=6312 Wgm=6312 Wmb=10000 Wmd=0 Wme=0 Wmg=3688 Wmm=10000
+directory-signature sha256 3EC01009E0A86D9DD235E15319F0492DC01C6278 EB6B15645A6B26D4A6C65AD02572AD0C0A14EDE9
 -----BEGIN SIGNATURE-----
-ONzhSfiJ6DEJDaISdMTnYfwzhxwJCi5UJ2QeBPU1w9Rr/8NayBwrzFdeIg97OMZf
-xq/FRHzKhk/jpcCZPG2Axjr5hQnGNbsmk67kUGWqilDum4BfW2GxKzv5rYbkbi4o
-XC8M4TmSInDIPzpV7lJL6oW79e5PtKJfW8q208spsTU7jTjYBB5nzO5efbSpc/jZ
-Zp/Knno0BSDgTwmJarc4DrLdiykXLG9RycLe31MCjKJUmEj0MUNQS6PpEUUYv+g0
-ZMHi5M4M/nSl5YK7YUpTdPUOFv+NtWIWa0vdaFTLmsElS/+0zXs6rLRF5Wqq8DxE
-Rsiymm2utB590Wdv9Z9v7w==
+BgOOEblOkdhOoaM3AGGo1tv8yKHC76OyeTJX6ppG59PVqdgfEzDcEZwxGU6Y5ajU
+grPjgmvZlB3VsrgQfnc561kNlaXLxnz7/8dMnALApLzK+DgtRLC/g5J3JkbSzqaB
+yJ3C4IkH5kYlLMB0Gc4anbLFbWMvVPQKjFuBgxYsvYGIIEKnsbbo/3vU+y2xKJAR
+cTv0erfWJJnkeVhj80scaJlYJ+Cf3WEPmxefYLqHwhwb+TtI1sUznPBF58HDCVmG
+d0E1XsyxsAr6r+ZUzw21c4WU8OT7h5Fk+gqYZJL562sE5uM9Rt1Xlpvnl7aPgUrb
+9MVTZ1W48lisg5h3tt6+zQ==
 -----END SIGNATURE-----

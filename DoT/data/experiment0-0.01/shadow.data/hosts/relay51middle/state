@@ -1,46 +1,44 @@
-# Tor state file last generated on 2000-01-01 00:52:16 local time
+# Tor state file last generated on 2000-01-01 00:53:18 local time
 # Other times below are in UTC
 # You *do not* need to edit this file.
 
-CircuitBuildTimeBin 185 3
-CircuitBuildTimeBin 195 7
-CircuitBuildTimeBin 205 6
-CircuitBuildTimeBin 215 13
-CircuitBuildTimeBin 225 17
-CircuitBuildTimeBin 235 13
-CircuitBuildTimeBin 245 9
-CircuitBuildTimeBin 255 6
-CircuitBuildTimeBin 265 5
-CircuitBuildTimeBin 275 4
-CircuitBuildTimeBin 285 4
-CircuitBuildTimeBin 295 10
-CircuitBuildTimeBin 305 2
-CircuitBuildTimeBin 315 3
-CircuitBuildTimeBin 335 1
-CircuitBuildTimeBin 355 1
-CircuitBuildTimeBin 365 1
-CircuitBuildTimeBin 385 1
-CircuitBuildTimeBin 515 1
-CircuitBuildTimeBin 555 1
-CircuitBuildTimeBin 565 2
-CircuitBuildTimeBin 715 1
-CircuitBuildTimeBin 735 1
-CircuitBuildTimeBin 785 1
-CircuitBuildTimeBin 815 1
-CircuitBuildTimeBin 835 1
-CircuitBuildTimeBin 995 1
-CircuitBuildTimeBin 1275 1
-CircuitBuildTimeBin 1625 1
-CircuitBuildTimeBin 1675 1
-CircuitBuildTimeBin 2025 1
+CircuitBuildTimeBin 395 1
+CircuitBuildTimeBin 415 2
+CircuitBuildTimeBin 445 4
+CircuitBuildTimeBin 455 2
+CircuitBuildTimeBin 465 1
+CircuitBuildTimeBin 485 15
+CircuitBuildTimeBin 495 7
+CircuitBuildTimeBin 505 4
+CircuitBuildTimeBin 515 11
+CircuitBuildTimeBin 525 8
+CircuitBuildTimeBin 535 16
+CircuitBuildTimeBin 545 9
+CircuitBuildTimeBin 555 13
+CircuitBuildTimeBin 565 3
+CircuitBuildTimeBin 575 6
+CircuitBuildTimeBin 585 7
+CircuitBuildTimeBin 595 2
+CircuitBuildTimeBin 615 1
+CircuitBuildTimeBin 635 2
+CircuitBuildTimeBin 655 1
+CircuitBuildTimeBin 705 1
+CircuitBuildTimeBin 745 1
+CircuitBuildTimeBin 775 1
+CircuitBuildTimeBin 1035 1
+CircuitBuildTimeBin 1095 1
+CircuitBuildTimeBin 1165 1
+CircuitBuildTimeBin 1225 1
+CircuitBuildTimeBin 1265 2
+CircuitBuildTimeBin 1535 1
 BWHistoryDirReadEnds 2000-01-02 00:00:05
 BWHistoryDirReadInterval 86400
 BWHistoryDirReadMaxima 0
-BWHistoryDirReadValues 1024
+BWHistoryDirReadValues 3072
 BWHistoryDirWriteEnds 2000-01-02 00:00:05
 BWHistoryDirWriteInterval 86400
-BWHistoryDirWriteMaxima 0
-BWHistoryDirWriteValues 9216
+BWHistoryDirWriteMaxima 1024
+BWHistoryDirWriteValues 19456
 BWHistoryIPv6ReadEnds 2000-01-02 00:00:05
 BWHistoryIPv6ReadInterval 86400
 BWHistoryIPv6ReadMaxima 0
@@ -51,35 +49,35 @@ BWHistoryIPv6WriteMaxima 0
 BWHistoryIPv6WriteValues 0
 BWHistoryReadEnds 2000-01-02 00:00:05
 BWHistoryReadInterval 86400
-BWHistoryReadMaxima 54272
-BWHistoryReadValues 1200128
+BWHistoryReadMaxima 67584
+BWHistoryReadValues 1543168
 BWHistoryWriteEnds 2000-01-02 00:00:05
 BWHistoryWriteInterval 86400
-BWHistoryWriteMaxima 57344
-BWHistoryWriteValues 1411072
+BWHistoryWriteMaxima 70656
+BWHistoryWriteValues 1683456
 Dormant 0
-Guard in=default rsa_id=0E6A1165EB0572B7FF8C9E30B830D3AC78379269 nickname=relay15guard sampled_on=1999-12-26T10:55:07 sampled_idx=0 sampled_by=0.4.8.1-alpha-dev listed=1 confirmed_on=1999-12-21T03:11:02 confirmed_idx=0 pb_circ_attempts=129.000000 pb_circ_successes=116.000000 pb_successful_circuits_closed=116.000000
-Guard in=default rsa_id=6717262427B5EB03D5957EFEBEFE8469A446151F nickname=relay24guard sampled_on=1999-12-20T15:17:17 sampled_idx=1 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=5AE9EBA092554707A1A3E74FCEA2DDA0956FD631 nickname=relay16guard sampled_on=1999-12-25T14:57:29 sampled_idx=2 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=6522F4422186302403EF37A9BF2C815DCE08D070 nickname=relay22guard sampled_on=1999-12-22T00:42:25 sampled_idx=3 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=78104159C63884BBD342040F5A0724CE33453EFA nickname=relay17guard sampled_on=1999-12-29T03:24:25 sampled_idx=4 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=4CDD5BEED0CC4F8BBF9135DD4950F54714767D68 nickname=relay21guard sampled_on=1999-12-26T18:08:42 sampled_idx=5 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=EEA5DBFF36C8D22176601A3DF8B43052966A870B nickname=relay30guard sampled_on=1999-12-26T21:05:12 sampled_idx=6 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=5303C97B79750531454C5F2CD7E0E57D86172760 nickname=relay18guard sampled_on=1999-12-21T20:18:27 sampled_idx=7 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=271634303F8CD224B2CC2CAE888E97FCA10E2581 nickname=relay35guard sampled_on=1999-12-23T19:37:40 sampled_idx=8 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=9B4D85E8B4CADE45A3902B48748178C709F9B852 nickname=relay19guard sampled_on=1999-12-21T20:59:57 sampled_idx=9 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=DA765FF5A7A7E0776AB9CC0CF47973CF4733EF48 nickname=relay29guard sampled_on=1999-12-29T08:26:51 sampled_idx=10 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=165B95ACA3F4BC2868F8B7052B05C13E57C6E7C8 nickname=relay31guard sampled_on=1999-12-28T14:57:51 sampled_idx=11 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=8139AD97B4F6C406727C07D7E10C59B56AA1E76D nickname=relay23guard sampled_on=1999-12-31T03:52:58 sampled_idx=12 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=836EF7D2D58FDF53C47165CF604E5FB0B479CEA9 nickname=relay37guard sampled_on=1999-12-30T23:43:40 sampled_idx=13 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=1EF5F764E83F00A9FBCFBD77DDE13327A498ADD1 nickname=relay25guard sampled_on=1999-12-30T21:09:40 sampled_idx=14 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=5DE13BB964F9B327C2C40FBCED96326F06190A00 nickname=relay26guard sampled_on=1999-12-27T10:18:45 sampled_idx=15 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=42A1D092B39CAA1B2F9716491C00098B01937030 nickname=relay20guard sampled_on=1999-12-24T14:41:42 sampled_idx=16 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=F3836CEBC6123A9DB067896B21B4BBB0E6BDC9E0 nickname=relay36guard sampled_on=1999-12-27T14:07:42 sampled_idx=17 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=96536694017676147B7E8DEEC81BBBB5884F4BB0 nickname=relay28guard sampled_on=1999-12-22T10:01:31 sampled_idx=18 sampled_by=0.4.8.1-alpha-dev listed=1
-Guard in=default rsa_id=EE29CDCE3DCBACE46504F809633238B05050E68F nickname=relay27guard sampled_on=1999-12-24T10:45:45 sampled_idx=19 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=2043A3CEC98E182C400D3386CCB45147EF5EA393 nickname=relay28guard sampled_on=1999-12-30T03:04:07 sampled_idx=0 sampled_by=0.4.8.1-alpha-dev listed=1 confirmed_on=1999-12-28T21:15:33 confirmed_idx=0 pb_circ_attempts=123.000000 pb_circ_successes=121.000000 pb_successful_circuits_closed=121.000000
+Guard in=default rsa_id=AC0794D2BDBD4077FE3813E5C2C714BBDF8575B6 nickname=relay19guard sampled_on=1999-12-26T04:58:14 sampled_idx=1 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=12634C393CB419F241D0E6B82436B8DC3BFEC5CE nickname=relay17guard sampled_on=1999-12-22T18:38:31 sampled_idx=2 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=511F849CB6738C6746FCE9C83D8B03965CD65156 nickname=relay15guard sampled_on=1999-12-22T09:37:50 sampled_idx=3 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=07CC337CEDF9AC04A15B44F0CAA472B5A36214C5 nickname=relay25guard sampled_on=1999-12-26T11:14:11 sampled_idx=4 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=1262682A343CC8F9C109F61713605BDD53B5A807 nickname=relay16guard sampled_on=1999-12-22T02:29:47 sampled_idx=5 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=197E1855F7BE48FDE1C34542887E5198804AA699 nickname=relay22guard sampled_on=1999-12-31T19:22:59 sampled_idx=6 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=3B50AAD5470CF17F1955E8F905881657AB6DCFE1 nickname=relay24guard sampled_on=1999-12-21T22:01:17 sampled_idx=7 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=BB6F89A00216EFD99B516E7E275569AFBF75026D nickname=relay21guard sampled_on=1999-12-21T19:05:07 sampled_idx=8 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=92267FD8F48C815558B4D2C1B7A33958CE326F4B nickname=relay33guard sampled_on=1999-12-26T19:44:46 sampled_idx=9 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=2E855F52FF63DE217045690A4A65CAB485012600 nickname=relay27guard sampled_on=1999-12-31T08:32:23 sampled_idx=10 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=845245A9A4C242779CC222C89B7CB3AB0455F5BB nickname=relay20guard sampled_on=1999-12-27T07:08:01 sampled_idx=11 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=7DD5FD1E1D14C2FD3311498941DE92E3FB699FCB nickname=relay23guard sampled_on=1999-12-27T04:22:58 sampled_idx=12 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=A89FDD93094905410E5BCEF2B7DFAD7D3EECB991 nickname=relay18guard sampled_on=1999-12-24T05:39:00 sampled_idx=13 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=500DE037251DE316F6516EBA4DE677B6C9146F4A nickname=relay36guard sampled_on=1999-12-21T07:33:18 sampled_idx=14 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=582A5B9C1974DF3C05EFDF101E77C69580CD53F5 nickname=relay29guard sampled_on=1999-12-22T05:10:11 sampled_idx=15 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=8FB4AC40017B1ED17FB64B4D8916E83E37F6DEBC nickname=relay30guard sampled_on=1999-12-27T04:10:16 sampled_idx=16 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=26943A2E8836BD399C42E771C10917C4E3D4103F nickname=relay37guard sampled_on=1999-12-21T21:39:05 sampled_idx=17 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=F0874CA39FBDA1345D6ABACEB10EF2547ABA5C0F nickname=relay34guard sampled_on=1999-12-28T23:51:44 sampled_idx=18 sampled_by=0.4.8.1-alpha-dev listed=1
+Guard in=default rsa_id=450D70637A1CB16F507D614F1F11343AC57396E5 nickname=relay26guard sampled_on=1999-12-28T01:49:18 sampled_idx=19 sampled_by=0.4.8.1-alpha-dev listed=1
 LastRotatedOnionKey 2000-01-01 00:00:05
-LastWritten 2000-01-01 00:52:16
-MinutesSinceUserActivity 2
-TorVersion Tor 0.4.8.1-alpha-dev (git-7a83aa4f50429058)
-TotalBuildTimes 120
+LastWritten 2000-01-01 00:53:18
+MinutesSinceUserActivity 3
+TorVersion Tor 0.4.8.1-alpha-dev (git-633355a88e9c1f5b)
+TotalBuildTimes 125

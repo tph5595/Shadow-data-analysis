@@ -2,5 +2,5 @@
 %include ../../../conf/tor.common.torrc
 %include ../../../conf/tor.relay.torrc
 %include ../../../conf/tor.relay.other.torrc
-BandwidthRate 20971520
-BandwidthBurst 20971520
+BandwidthRate 640000
+BandwidthBurst 640000

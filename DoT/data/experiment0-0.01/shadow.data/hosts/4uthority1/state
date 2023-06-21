@@ -29,4 +29,4 @@ BWHistoryWriteValues 0
 Dormant 0
 LastRotatedOnionKey 2000-01-01 00:00:01
 LastWritten 2000-01-01 00:00:02
-TorVersion Tor 0.4.8.1-alpha-dev (git-7a83aa4f50429058)
+TorVersion Tor 0.4.8.1-alpha-dev (git-633355a88e9c1f5b)
