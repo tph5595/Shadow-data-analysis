@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+# coding: utf-8
+
+# In[50]:
+
+
+#!/usr/bin/env python
 
 from os.path import isfile, join
 import matplotlib.pyplot as plt
@@ -258,7 +264,7 @@ def df_to_ts(df):
     if not isinstance(df.index, pd.DatetimeIndex):
         print(df)
     tmp = df.resample('1S').sum(numeric_only=True).infer_objects()
-    tmp = tmp.reset_index()
+#     tmp = tmp.reset_index()
     return tmp
 
 
@@ -293,6 +299,10 @@ for scope in GNS3_scopes:
     scope.adjust_time_scale(GNS3_offset, scale)
 GNS3_starttime = get_start_time(GNS3_scopes)
 
+
+# In[57]:
+
+
 # service log scope
 r = re.compile(".*mymarkovservice*.*py.*stdout")
 chatlog = PrivacyScope(list(filter(r.match, data)), "chatlogs")
@@ -301,7 +311,7 @@ chatlog.time_cut_tail = 0
 chatlog.time_format = 'epoch'
 # Subtract an extra second for buffer room to ensure chatlog happens after DNS
 chatlog.set_index(chatlog.time_col)
-chatlog.set_offset(GNS3_starttime - chatlog.start_time() + pd.Timedelta(seconds=40))
+chatlog.set_offset(GNS3_starttime - chatlog.start_time() + pd.Timedelta(seconds=430))
 
 
 window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
@@ -310,6 +320,62 @@ print("GNS3_starttime: " + str(GNS3_starttime))
 print("chatlog.start_time(): " + str(chatlog.start_time()))
 # Ensure chat happens after DNS traffic
 assert chatlog.start_time() - GNS3_starttime > pd.Timedelta(seconds=0)
+chatlog.start_time() - GNS3_starttime > pd.Timedelta(seconds=0)
+
+
+# In[52]:
+
+
+Access_resolver.pcap_df()
+Access_resolver.adjust_time_scale(GNS3_offset, scale)
+
+
+# In[53]:
+
+
+ar = Access_resolver.as_df()
+ar = ar[(ar['ip.proto'] == 6) & (ar['tcp.dstport'] == 80) & (ar['ip.len']>200)]
+
+
+# In[54]:
+
+
+ar
+
+
+# In[55]:
+
+
+# Viz
+# importing Libraries
+plt.style.use('default')
+# code
+# Visualizing The Open Price of all the stocks
+# to set the plot size
+plt.figure(figsize=(16, 8), dpi=150)
+# using plot method to plot open prices.
+# in plot method we set the label and color of the curve.
+chat_ts = df_to_ts(chatlog.as_df())['count']
+
+r_ts = df_to_ts(ar)['count']
+
+chat_ts /= chat_ts.max()
+r_ts /= r_ts.max()
+
+r_ts.plot(label="resolver")
+chat_ts.plot(label="chat")
+
+plt.title('Requests per second')
+
+# adding Label to the x-axis
+plt.xlabel('Time')
+plt.ylabel('Requests (seconds)')
+
+# adding legend to the curve
+plt.legend()
+
+
+# In[ ]:
 
 
 # detect and remove solo quries
@@ -485,6 +551,11 @@ for ip in IPs:
 # In[28]:
 
 
+
+
+# In[ ]:
+
+
 # Viz
 # importing Libraries
 plt.style.use('default')
@@ -510,6 +581,9 @@ plt.ylabel('Requests (seconds)')
 
 # adding legend to the curve
 plt.legend()
+
+
+# In[ ]:
 
 
 def ip_to_group(ip):
@@ -1026,11 +1100,5 @@ for output_size in range(1, len(dst_df)+1):
                                              "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
-                                             ".output_30")
-
-
-# In[ ]:
-
-
-
+                                             ".output")
 
