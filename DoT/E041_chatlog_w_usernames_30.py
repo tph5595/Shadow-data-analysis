@@ -301,7 +301,7 @@ chatlog.time_cut_tail = 0
 chatlog.time_format = 'epoch'
 # Subtract an extra second for buffer room to ensure chatlog happens after DNS
 chatlog.set_index(chatlog.time_col)
-chatlog.set_offset(GNS3_starttime - chatlog.start_time() + pd.Timedelta(seconds=240))
+chatlog.set_offset(GNS3_starttime - chatlog.start_time() + pd.Timedelta(seconds=40))
 
 
 window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
@@ -1026,7 +1026,7 @@ for output_size in range(1, len(dst_df)+1):
                                              "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
-                                             ".output")
+                                             ".output_30")
 
 
 # In[ ]:
