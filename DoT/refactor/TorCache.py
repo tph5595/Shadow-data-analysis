@@ -1,4 +1,8 @@
 import bisect
+import re
+from datetime import datetime
+import yaml
+from timeScale import getFilenames
 
 
 class TimestampedDict:
@@ -86,14 +90,17 @@ def read_oniontraces():
         with open(f, 'r') as file:
             logs[hostname] = file.readlines()
     return logs
-    
+
+
 def filter_log(user_logs, circ_regex):
     output = {}
     pattern = re.compile(circ_regex)  # Compile the regular expression pattern
     for user in user_logs:
-        filtered_lines = [line for line in user_logs[user] if pattern.match(line)]  # Use the compiled pattern
+        filtered_lines = [line for line in user_logs[user]
+                          if pattern.match(line)]  # Use the compiled pattern
         output[user] = filtered_lines
     return output
+
 
 def parse_onion_trace(line):
     pattern = r"CIRC \d+ EXTENDED \$[0-9A-Z]+~([a-zA-Z0-9]+),.*,\$[0-9A-Z]+~([0-9A-Za-z]+).*TIME_CREATED=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+)"
@@ -110,10 +117,11 @@ def parse_onion_trace(line):
         print("bad line!!!!")
         exit(1)
 
-import yaml
+
 def onion_map_maker():
     # Read the file
-    with open('data/experiment0-0.01/shadow.data/processed-config.yaml', 'r') as file:
+    config = 'data/experiment0-0.01/shadow.data/processed-config.yaml'
+    with open(config, 'r') as file:
         data = yaml.safe_load(file)
 
     hosts_dict = {}
@@ -125,7 +133,7 @@ def onion_map_maker():
     return hosts_dict
 
 
-def convert_to_map(logs, offset):
+def convert_to_map(logs, offset, onion_lut):
     tor_ip_map_src = TimestampedDict()
     tor_ip_map_dst = TimestampedDict()
     for user in logs:
@@ -144,7 +152,7 @@ def convert_to_map(logs, offset):
 
 # Rewrite tor ips into GNS3 data
 # Create map of client to (tor entry, tor exit) with time stamps
-def generate_tor_maps():
+def generate_tor_maps(Shadow_offset):
     circ_regex = r".*CIRC \d+ EXTENDED \$([0-9A-Za-z~]+),.*,\$([0-9A-Za-z~]+).*TIME_CREATED=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+)"
     user_logs = read_oniontraces()
     filtered_logs = filter_log(user_logs, circ_regex)
