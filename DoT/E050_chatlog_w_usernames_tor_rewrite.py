@@ -530,16 +530,17 @@ for scope in GNS3_scopes:
 
 # In[ ]:
 
-
 # detect and remove solo quries
 # these can easily be handled on their own
 # as only 1 device is accessing the network at that moment
 def detect_solo(df_list):
     new_df = df_list[df_list['ip.src'].ne(df_list['ip.src'].shift())]
-    new_df['diff'] = new_df['frame.time'].diff()
+    new_df['index_col'] = new_df.index
+    new_df['diff'] = new_df['index_col'].diff()
     new_df = new_df[new_df['diff'] > window]
     solo_ips = new_df['ip.src'].unique()
     return solo_ips
+
 
 
 def handle_solo(solo):
