@@ -36,8 +36,7 @@ def get_start_time(scopes):
     return pd.to_datetime(start_time)
 
 
-def main():
-
+def time_scale(cache=False):
     # Get argus data
     arguspath = "data/argus/csv/"
     argusCSVs = getFilenames(arguspath)
@@ -142,11 +141,12 @@ def main():
     # Ensure chat happens after DNS traffic
     assert chatlog.start_time() - GNS3_starttime > pd.Timedelta(seconds=0)
     assert chatlog.start_time() - ar.index.min() == pd.Timedelta(seconds=0)
-
-    GNS3_scopes_names = [scope.name for scope in GNS3_scopes]
-    save_scopes(GNS3_scopes)
-    GNS3_scopes = load_scopes(GNS3_scopes_names)
+    if cache:
+        save_scopes(GNS3_scopes, "time_scaled")
+    return GNS3_scopes
 
 
 if __name__ == "__main__":
-    main()
+    GNS3_scopes = time_scale(cache=True)
+    GNS3_scopes_names = [scope.name for scope in GNS3_scopes]
+    GNS3_scopes = load_scopes(GNS3_scopes_names, "time_scaled")

@@ -9,7 +9,6 @@ from datetime import datetime
 import pandas as pd
 import os
 
-import pickle
 import numpy as np
 import math
 from sklearn import metrics
@@ -22,10 +21,14 @@ from fastdtw import fastdtw
 import fast_pl_py
 import statsmodels.api as sm
 
-from PrivacyScope import PrivacyScope
+from PrivacyScope import save_scopes, load_scopes
 from TorCache import onion_map_maker, generate_tor_maps
 
+from timeScale import time_scale, df_to_ts
+
 window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
+
+GNS3_scopes = time_scale(cache=True)
 
 onion_lut = onion_map_maker()
 src_map, dst_map = generate_tor_maps()
@@ -34,6 +37,11 @@ src_map, dst_map = generate_tor_maps()
 for scope in GNS3_scopes:
     print(scope)
     scope.ip_map(src_map, dst_map)
+
+ending = "tor_map"
+save_scopes(GNS3_scopes, ending=ending)
+GNS3_scopes_names = [scope.name for scope in GNS3_scopes]
+GNS3_scopes = load_scopes(GNS3_scopes_names, ending=ending)
 
 
 # detect and remove solo quries
@@ -74,8 +82,8 @@ def scopesToTS(dfs):
     return output
 
 
-def scopeToTS(df):
-    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
+def scopeToTS(df, time_col):
+    return df_to_ts(df.copy(deep=True)).set_index(time_col)
 
 
 def scope_label(df, scope_name):
@@ -175,14 +183,14 @@ for ip in IPs:
         flows_ip[ip] = combineScopes([flows_ip[ip], combined_scope])
 
         # update ts for ip
-        new_ts_matches = scopeToTS(combined_scope)
+        new_ts_matches = scopeToTS(combined_scope, scope.time_col)
         if len(new_ts_matches) == 0:
             continue
         new_ts_matches["scope_name"] = scope.name
         flows_ts_ip_scoped[ip] = combineScopes([flows_ts_ip_scoped[ip],
                                                 new_ts_matches])
     if len(flows_ip[ip]) > 0:
-        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip])
+        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip], scope.time_col)
 
         # order df by time
         flows_ip[ip] = flows_ip[ip].set_index('frame.time')

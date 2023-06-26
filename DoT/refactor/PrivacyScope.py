@@ -193,11 +193,12 @@ class PrivacyScope:
         self.df[self.time_col] = col
 
 
-def save_scopes(scopes):
+def save_scopes(scopes, ending=""):
     for scope in scopes:
-        with open(scope.name + '.pickle', 'wb') as file:
+        with open(scope.name + ending + '.pickle', 'wb') as file:
             pickle.dump(scope, file)
 
 
-def load_scopes(scope_names):
-    return [pickle.load(open(name + ".pickle", 'rb')) for name in scope_names]
+def load_scopes(scope_names, ending=""):
+    return [pickle.load(open(name + ending + ".pickle", 'rb'))
+            for name in scope_names]

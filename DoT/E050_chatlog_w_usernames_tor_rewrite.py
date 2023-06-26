@@ -569,8 +569,8 @@ def scopesToTS(dfs):
     return output
 
 
-def scopeToTS(df):
-    return df_to_ts(df.copy(deep=True)).set_index('frame.time')
+def scopeToTS(df, time_col):
+    return df_to_ts(df.copy(deep=True)).set_index(time_col)
 
 
 def scope_label(df, scope_name):
@@ -670,14 +670,14 @@ for ip in IPs:
         flows_ip[ip] = combineScopes([flows_ip[ip], combined_scope])
 
         # update ts for ip
-        new_ts_matches = scopeToTS(combined_scope)
+        new_ts_matches = scopeToTS(combined_scope, scope.time_col)
         if len(new_ts_matches) == 0:
             continue
         new_ts_matches["scope_name"] = scope.name
         flows_ts_ip_scoped[ip] = combineScopes([flows_ts_ip_scoped[ip],
                                                 new_ts_matches])
     if len(flows_ip[ip]) > 0:
-        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip])
+        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip], scope.time_col)
 
         # order df by time
         flows_ip[ip] = flows_ip[ip].set_index('frame.time')
