@@ -2,7 +2,7 @@ import bisect
 import re
 from datetime import datetime
 import yaml
-from timeScale import getFilenames
+from FileUtil import getFilenames
 
 
 class TimestampedDict:
@@ -152,9 +152,9 @@ def convert_to_map(logs, offset, onion_lut):
 
 # Rewrite tor ips into GNS3 data
 # Create map of client to (tor entry, tor exit) with time stamps
-def generate_tor_maps(Shadow_offset):
+def generate_tor_maps(Shadow_offset, onion_lut):
     circ_regex = r".*CIRC \d+ EXTENDED \$([0-9A-Za-z~]+),.*,\$([0-9A-Za-z~]+).*TIME_CREATED=(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+)"
     user_logs = read_oniontraces()
     filtered_logs = filter_log(user_logs, circ_regex)
 
-    return convert_to_map(filtered_logs, Shadow_offset)
+    return convert_to_map(filtered_logs, Shadow_offset, onion_lut)

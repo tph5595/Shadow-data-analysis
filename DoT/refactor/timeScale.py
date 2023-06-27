@@ -1,16 +1,8 @@
 import re
-import os
-from PrivacyScope import PrivacyScope, load_scopes, save_scopes
 import pandas as pd
 import yaml
-
-
-def getFilenames(path):
-    filenames = []
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            filenames.append(os.path.join(root, file))
-    return filenames
+from PrivacyScope import PrivacyScope, load_scopes, save_scopes
+from FileUtil import getFilenames
 
 
 def df_to_ts(df, time_col='frame.time'):
@@ -143,7 +135,7 @@ def time_scale(cache=False):
     assert chatlog.start_time() - ar.index.min() == pd.Timedelta(seconds=0)
     if cache:
         save_scopes(GNS3_scopes, "time_scaled")
-    return GNS3_scopes
+    return GNS3_scopes, Shadow_offset
 
 
 if __name__ == "__main__":

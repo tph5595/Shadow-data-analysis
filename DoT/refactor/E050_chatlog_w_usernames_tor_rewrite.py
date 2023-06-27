@@ -28,10 +28,10 @@ from timeScale import time_scale, df_to_ts
 
 window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
 
-GNS3_scopes = time_scale(cache=True)
+GNS3_scopes, Shadow_offset = time_scale(cache=True)
 
 onion_lut = onion_map_maker()
-src_map, dst_map = generate_tor_maps()
+src_map, dst_map = generate_tor_maps(Shadow_offset, onion_lut)
 
 # go through GNS3 data and rewrite based on map
 for scope in GNS3_scopes:
