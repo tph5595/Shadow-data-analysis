@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[71]:
 
 
 #!/usr/bin/env python
@@ -37,11 +37,11 @@ def getFilenames(path):
 # argusCSVs = getFilenames(arguspath)
 
 # Get pcap data
-pcappath = "../data/csv/"
+pcappath = "data/csv/"
 pcapCSVs = getFilenames(pcappath)
 
 # Get server logs
-logpath = "../data/experiment0-0.01/shadow.data/hosts/mymarkovservice0/"
+logpath = "data/experiment0-0.01/shadow.data/hosts/mymarkovservice0/"
 logs = getFilenames(logpath)
 
 # Combine all locations
@@ -273,7 +273,7 @@ print("Scopes created")
 
 def get_GNS3_offset():
     # Read the YAML file
-    with open('../data/experiment0-0.01/shadow.config.yaml', 'r') as file:
+    with open('data/experiment0-0.01/shadow.config.yaml', 'r') as file:
         data = yaml.safe_load(file)
 
     # Extract the value
@@ -300,14 +300,14 @@ for scope in GNS3_scopes:
 GNS3_starttime = get_start_time(GNS3_scopes)
 
 
-# In[2]:
+# In[72]:
 
 
 Access_resolver.pcap_df()
 Access_resolver.adjust_time_scale(GNS3_offset, scale)
 
 
-# In[3]:
+# In[73]:
 
 
 ar = Access_resolver.as_df()
@@ -318,7 +318,7 @@ delay = start_http - GNS3_starttime
 delay
 
 
-# In[4]:
+# In[74]:
 
 
 # service log scope
@@ -342,13 +342,13 @@ assert chatlog.start_time() - ar.index.min() == pd.Timedelta(seconds=0)
 chatlog.start_time() - ar.index.min() == pd.Timedelta(seconds=0)
 
 
-# In[5]:
+# In[75]:
 
 
 ar
 
 
-# In[6]:
+# In[76]:
 
 
 # # Viz
@@ -380,7 +380,7 @@ ar
 # plt.legend()
 
 
-# In[7]:
+# In[77]:
 
 
 # detect and remove solo quries
@@ -558,7 +558,7 @@ for ip in IPs:
 
 
 
-# In[8]:
+# In[78]:
 
 
 # Viz
@@ -586,37 +586,6 @@ plt.ylabel('Requests (seconds)')
 
 # adding legend to the curve
 plt.legend()
-
-
-# In[9]:
-
-
-flows_ts_ip_total['102.0.0.94']
-
-
-# In[10]:
-
-
-root_df = root.as_df()
-root_df[~root_df['ip.len'].isna() & root_df['dns.qry.name']].head(50)
-
-
-# In[11]:
-
-
-root_df[root_df['dns.qry.name'] == 'dne']
-
-
-# In[12]:
-
-
-chatlog.as_df()
-
-
-# In[ ]:
-
-
-
 
 
 # In[ ]:
@@ -984,56 +953,6 @@ from scipy.spatial.distance import squareform
 
 #     return labels
 
-import heapq
-
-def recall_at_k(heap, k, value):
-    """
-    Checks if a value is in the top k elements of a heap.
-
-    Args:
-        heap (list): Binary heap.
-        value: Value to check.
-        k (int): Number of top elements to consider.
-
-    Returns:
-        bool: True if value is in the top k elements, False otherwise.
-    """
-    top_k_elements = heapq.nsmallest(k, heap, key=lambda x: x[0])
-    return value in [elem[1] for elem in top_k_elements]
-
-def get_value_position(heap, value):
-    """
-    Returns the position (index) of a value in a binary heap.
-
-    Args:
-        heap (list): Binary heap.
-        value: Value to find the position of.
-
-    Returns:
-        int: Position (index) of the value in the heap. Returns -1 if the value is not found.
-    """
-    try:
-        position = next(idx for idx, element in enumerate(heap) if element[1] == value)
-    except StopIteration:
-        position = -1
-    return position + 1
-
-
-def heap_to_ordered_list(heap):
-    """
-    Converts a binary heap into an ordered list.
-
-    Args:
-        heap (list): Binary heap.
-
-    Returns:
-        list: Ordered list representing the heap elements.
-    """
-    ordered_list = []
-    while heap:
-        ordered_list.append(heapq.heappop(heap))
-    return ordered_list
-
 
 def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
     src = {}
@@ -1042,42 +961,19 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
     for user in dst_raw:
         dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
-
     correct = 0.0
-    rank_list = []
-    score_list = []
-    recall_2 = 0
-    recall_4 = 0
-    recall_8 = 0
-    rank = 0
     for user in dst:
         best_score = 0
-        best_user = 0
-        heap = []
+        best_ip = 0
         for ip in src:
             score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
-            heapq.heappush(heap, (score, ip_to_user(ip)))
             if score < best_score:
                 best_score = score
-                best_user = ip_to_user(ip)
-        if user == best_user:
+                best_ip = ip
+        if user == ip_to_user(best_ip):
             correct += 1
-        if recall_at_k(heap, 2, user):
-            recall_2 +=1
-        if recall_at_k(heap, 4, user):
-            recall_4 +=1
-        if recall_at_k(heap, 8, user):
-            recall_8 +=1
-        rank += get_value_position(heap, user)
-        rank_list += [(get_value_position(heap, user), user)]
-        score_list += [(heap_to_ordered_list(heap), user)]
     accuracy = correct / len(src)
-    recall_2 = recall_2 / len(src)
-    recall_4 = recall_4 / len(src)
-    recall_8 = recall_8 / len(src)
-    rank = rank / len(src)
-    return accuracy, recall_2, recall_4, recall_8, rank, rank_list, score_list
-
+    return accuracy
 # Find best features
 import itertools
 from tqdm import tqdm
@@ -1091,7 +987,10 @@ def findsubsets(s, n):
 
 
 def evaluate_subset(src_df, dst_df, src_features, dst_feaures, tda_config=None):
-    score = evaluate(src_df, dst_df, list(src_features), list(dst_feaures), params=tda_config)
+    try:
+        score = evaluate(src_df, dst_df, list(src_features), list(dst_feaures), params=tda_config)
+    except: 
+        score = -1
     return score, src_features
 
 
@@ -1184,7 +1083,7 @@ def eval_model(src_raw, dst_raw, src_features, dst_feaures):
 # In[ ]:
 
 
-num_cpus = 1#os.cpu_count()/2
+num_cpus = os.cpu_count()/2
 skip = 1
 dim = 0
 window = 3
