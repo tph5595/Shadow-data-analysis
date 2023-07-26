@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "e051-dot"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "e051_dot"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+matplotlib = "^3.7.1"
+pandas = "^2.0.1"
+scikit-learn = "^1.2.2"
+fast-pl-py = "^0.3.2"
+ripser = "^0.6.4"
+fastdtw = "^0.3.4"
+statsmodels = "^0.14.0"
+tqdm = "^4.65.0"
+
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
