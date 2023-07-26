@@ -1,5 +1,8 @@
-# %%
 #!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
 
 from os.path import isfile, join
 import matplotlib.pyplot as plt
@@ -23,13 +26,11 @@ import fast_pl_py
 import statsmodels.api as sm
 
 
+# In[2]:
+
+
 def getFilenames(path):
     return [path+f for f in listdir(path) if isfile(join(path, f))]
-
-
-# Get argus data
-# arguspath = "data/argus/csv/"
-# argusCSVs = getFilenames(arguspath)
 
 # Get pcap data
 pcappath = "../data/csv/"
@@ -43,7 +44,16 @@ logs = getFilenames(logpath)
 # data = argusCSVs + pcapCSVs + logs
 data = pcapCSVs + logs
 
-df = pd.read_csv(pcapCSVs[0])
+#df = pd.read_csv(pcapCSVs[0])
+
+
+# In[3]:
+
+
+pcapCSVs
+
+
+# In[4]:
 
 
 class PrivacyScope:
@@ -124,6 +134,7 @@ class PrivacyScope:
                     self.df[self.time_col].apply(
                             lambda x: datetime.strptime(
                                 x[:self.time_cut_tail], self.time_format))
+        self.set_time_to_idx()
         return self.df
 
     def pcap_only(self):
@@ -195,9 +206,12 @@ class PrivacyScope:
         df.drop(bad_features, inplace=True, axis=1)
         self.df = df
 
+    def set_time_to_idx(self):
+        self.df = self.df.set_index(self.time_col)
+
     def adjust_time_scale(self, offset, scale):
         df = self.as_df()
-        print("before adjust", df, self.time_col in df.columns, df.columns)
+        # print("before adjust", df, self.time_col in df.columns, df.columns)
         df[self.time_col] = df[self.time_col].apply(lambda x: int(x.timestamp()))
         df[self.time_col] = (df[self.time_col] - offset) * scale + offset
         col = df[self.time_col]
@@ -206,7 +220,10 @@ class PrivacyScope:
         self.format_time_col()
         self.df = self.df.set_index(self.time_col)
         self.df[self.time_col] = col
-        print("after adjust", self.df)
+        # print("after adjust", self.df)
+
+
+# In[5]:
 
 
 # Basic Scopes
@@ -249,7 +266,7 @@ def df_to_ts(df):
 #    tmp = df.index.to_frame()
     if not isinstance(df.index, pd.DatetimeIndex):
         print(df)
-    tmp = df.resample('1S').sum(numeric_only=True).infer_objects()
+    tmp = df.resample('100ms').sum(numeric_only=True).infer_objects()
     tmp = tmp.reset_index()
     return tmp
 
@@ -257,49 +274,55 @@ def df_to_ts(df):
 print("Scopes created")
 
 
-def get_GNS3_offset():
-    # get gns3 offset from clients
-    directory = "../data/100_5_15s_30s_time_scaled_with_logs_07_15/"
-    files = [f for f in listdir(directory) if isfile(join(directory, f)) and f.endswith(".csv")]
-    min_time = float("inf")
-    for f in files:
-        df = pd.read_csv(directory + f, header=0)
-        min_time_for_file = df['timestamp'].min()
-        if min_time_for_file < min_time:
-            min_time = min_time_for_file
+# In[6]:
+
+
+# # def get_GNS3_offset():
+# #     # get gns3 offset from clients
+# #     directory = "../data/100_5_15s_30s_time_scaled_with_logs_07_15/"
+# #     files = [f for f in listdir(directory) if isfile(join(directory, f)) and f.endswith(".csv")]
+# #     min_time = float("inf")
+# #     for f in files:
+# #         df = pd.read_csv(directory + f, header=0)
+# #         min_time_for_file = df['timestamp'].min()
+# #         if min_time_for_file < min_time:
+# #             min_time = min_time_for_file
     
-    return int(min_time)
+# #     return int(min_time)
 
 
-    # # Read the YAML file
-    # with open('../data/experiment0-0.01/shadow.config.yaml', 'r') as file:
-    #     data = yaml.safe_load(file)
+#     # # Read the YAML file
+#     # with open('../data/experiment0-0.01/shadow.config.yaml', 'r') as file:
+#     #     data = yaml.safe_load(file)
 
-    # # Extract the value
-    # time = data['hosts']['group0user0']['processes'][2]['args'].split()[1]
-    # return int(time)
-
-
-def get_start_time(scopes):
-    df = pd.concat([scope.as_df() for scope in scopes])
-    print("get start time df: ", df)
-    start_time = df.head(1).index.to_numpy()[0]
-    return pd.to_datetime(start_time)
+#     # # Extract the value
+#     # time = data['hosts']['group0user0']['processes'][2]['args'].split()[1]
+#     # return int(time)
 
 
-GNS3_scopes = [resolver,
-               sld,
-               tld,
-               root,
-               ISP_scope,]
+# def get_start_time(scopes):
+#     df = pd.concat([scope.as_df() for scope in scopes])
+#     print("get start time df: ", df)
+#     start_time = df.head(1).index.to_numpy()[0]
+#     return pd.to_datetime(start_time)
 
-GNS3_offset = get_GNS3_offset()
-print("GNS3_offset: " + str(GNS3_offset))
-scale = 10
-for scope in GNS3_scopes:
-    scope.pcap_df()
-    scope.adjust_time_scale(GNS3_offset, scale)
-GNS3_starttime = get_start_time(GNS3_scopes)
+
+# GNS3_scopes = [resolver,
+#                sld,
+#                tld,
+#                root,
+#                ISP_scope,]
+
+# GNS3_offset = 0#get_GNS3_offset()
+# print("GNS3_offset: " + str(GNS3_offset))
+# scale = 10
+# for scope in GNS3_scopes:
+#     scope.pcap_df()
+#     scope.adjust_time_scale(GNS3_offset, scale)
+# GNS3_starttime = get_start_time(GNS3_scopes)
+
+
+# In[7]:
 
 
 # %%
@@ -307,13 +330,13 @@ GNS3_starttime = get_start_time(GNS3_scopes)
 # Access_resolver.adjust_time_scale(GNS3_offset, scale)
 
 # %%
-ar = ISP_scope.as_df()
-start_exp = ar.index.min()
-ar = ar[(ar['ip.proto'] == 6) & (ar['tcp.dstport'] == 80) & (ar['ip.len']>200)]
-start_http = ar.index.min()
-delay = start_http - GNS3_starttime
-print("delay: " + str(delay))
-delay
+# ar = ISP_scope.as_df()
+# start_exp = ar.index.min()
+# ar = ar[(ar['ip.proto'] == 6) & (ar['tcp.dstport'] == 80) & (ar['ip.len']>200)]
+# start_http = ar.index.min()
+# delay = start_http - GNS3_starttime
+# print("delay: " + str(delay))
+# delay
 
 # %%
 # service log scope
@@ -324,63 +347,77 @@ chatlog.time_col = "time"
 chatlog.time_cut_tail = 0
 chatlog.time_format = 'epoch'
 
+
+# In[8]:
+
+
 # Subtract an extra second for buffer room to ensure chatlog happens after DNS
 # chatlog.set_index(chatlog.time_col)
 # chatlog.set_offset(GNS3_starttime - chatlog.start_time() + delay) # TODO: possibly remove this because we don't have to offset in case of outside of shadow?
 
 chatlog.as_df() # process chatlog
 #INFO: adjust time scale, because we are using the same time scale as the pcap files (outside of shadow)
-chatlog.adjust_time_scale(GNS3_offset, scale)
+# chatlog.adjust_time_scale(GNS3_offset, scale)
 
-window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
+window = pd.Timedelta("30 seconds")  # cache size but maybe smaller
 
-print("GNS3_starttime: " + str(GNS3_starttime))
-print("chatlog.start_time(): " + str(chatlog.start_time()))
+# print("GNS3_starttime: " + str(GNS3_starttime))
+# print("chatlog.start_time(): " + str(chatlog.start_time()))
 # Ensure chat happens after DNS traffic
-assert chatlog.start_time() - GNS3_starttime > pd.Timedelta(seconds=0)
-assert chatlog.start_time() - ar.index.min() == pd.Timedelta(seconds=0)
-chatlog.start_time() - ar.index.min() == pd.Timedelta(seconds=0)
+# assert chatlog.start_time() - GNS3_starttime > pd.Timedelta(seconds=0)
+# assert chatlog.start_time() - ar.index.min() == pd.Timedelta(seconds=0)
+# chatlog.start_time() - ar.index.min() == pd.Timedelta(seconds=0)
 
 # %%
-ar
+# ar
+
+
+# In[9]:
+
 
 # %%
 # # Viz
 # # importing Libraries
-# plt.style.use('default')
-# # code
-# # Visualizing The Open Price of all the stocks
-# # to set the plot size
-# plt.figure(figsize=(16, 8), dpi=150)
-# # using plot method to plot open prices.
-# # in plot method we set the label and color of the curve.
-# chat_ts = df_to_ts(chatlog.as_df())['count']
+plt.style.use('default')
+# code
+# Visualizing The Open Price of all the stocks
+# to set the plot size
+plt.figure(figsize=(16, 8), dpi=150)
+# using plot method to plot open prices.
+# in plot method we set the label and color of the curve.
+chat_ts = df_to_ts(chatlog.as_df())['count']
 
 # r_ts = df_to_ts(ar)['count']
 
-# chat_ts /= chat_ts.max()
+chat_ts /= chat_ts.max()
 # r_ts /= r_ts.max()
 
 # r_ts.plot(label="resolver")
-# chat_ts.plot(label="chat")
+chat_ts.plot(label="chat")
 
-# plt.title('Requests per second')
+plt.title('Requests per second')
 
-# # adding Label to the x-axis
-# plt.xlabel('Time')
-# plt.ylabel('Requests (seconds)')
+# adding Label to the x-axis
+plt.xlabel('Time')
+plt.ylabel('Requests (seconds)')
 
-# # adding legend to the curve
-# plt.legend()
+# adding legend to the curve
+plt.legend()
+
+
+# In[10]:
+
 
 # %%
 # detect and remove solo quries
 # these can easily be handled on their own
 # as only 1 device is accessing the network at that moment
 def detect_solo(df_list):
+    print(df_list)
     new_df = df_list[df_list['ip.src'].ne(df_list['ip.src'].shift())]
     new_df['index_col'] = new_df.index
     new_df['diff'] = new_df['index_col'].diff()
+    print(new_df)
     new_df = new_df[new_df['diff'] > window]
     solo_ips = new_df['ip.src'].unique()
     return solo_ips
@@ -510,8 +547,11 @@ IPs = list(set(ips_seen) - set(infra_ip))
 flows_ip = {}
 flows_ts_ip_scoped = {}
 flows_ts_ip_total = {}
-first_pass = resolv_df_filtered[((~resolv_df_filtered['ip.src'].isin(infra_ip)))
-                                & (resolv_df_filtered['dns.qry.name'] == evil_domain)]
+first_pass = resolv_df_filtered[((~resolv_df_filtered['ip.src'].isin(infra_ip)))]
+                                #& (resolv_df_filtered['dns.qry.name'] == evil_domain)]
+print("===============")
+print(first_pass)
+print("===============")
 solo = solo_pipeline(first_pass)
 
 # Add all scope data to IPs found in resolver address space
@@ -1117,7 +1157,7 @@ def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
         results = []
         for subset in subsets:
             results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset, dst_features, tda_config)))
-        with open(filename, 'a') as f:
+        with open(filename, 'a+') as f:
             for result in tqdm(results, total=len(subsets)):
                 score, subset = result.get()
                 out = str(score) + "\t" + str(subset) + "\n"
@@ -1216,12 +1256,14 @@ for output_size in range(1, len(dst_df)+1):
 #             assert dst_arr[single_user].ndim == 2
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "./with-dot-change-without-shadow/" + "chatlog_tda_match_dns_all_" + str(n) +
+                                            "with-dot-change-without-shadow_" + "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
 
-# %%
+
+# In[ ]:
+
 
 
 
