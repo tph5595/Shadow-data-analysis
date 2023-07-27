@@ -953,7 +953,9 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     ts1 = ts1.loc[(ts1.index >= range[0]) & (ts1.index <= range[1])]
     # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
     #           (ts1['frame.time'] <= int(range[1]))]
-    ts1 = ts1.loc[:, 'tda_pl']
+    # print(ts1)
+    # ts1 = ts1.loc[:, 'tda_pl']
+    ts1 = ts1.values[:, 0]
 
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
@@ -1092,8 +1094,10 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     dst = {}
     for ip in src_raw:
         src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        # src[ip] = src_raw[ip][src_features].copy(deep=True)
     for user in dst_raw:
-        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        # dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
 
     correct = 0.0
     rank_list = []
@@ -1248,7 +1252,7 @@ src_df = flows_ts_ip_total
 dst_df = client_chat_logs
 
 for output_size in range(1, len(dst_df)+1):
-    for n in range(1, 4):
+    for n in range(1, 2):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
 #             dst_arr = {}
 #             for ip in dst_df:
@@ -1256,7 +1260,7 @@ for output_size in range(1, len(dst_df)+1):
 #             assert dst_arr[single_user].ndim == 2
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "with-dot-change-without-shadow_" + "chatlog_tda_match_dns_all_" + str(n) +
+                                            "with-dot-change-without-shadow_" + "chatlog_tdaSrc_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
