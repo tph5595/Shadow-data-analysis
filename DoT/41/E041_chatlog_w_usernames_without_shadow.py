@@ -1040,6 +1040,7 @@ from scipy.spatial.distance import squareform
 
 import heapq
 
+
 def recall_at_k(heap, k, value):
     """
     Checks if a value is in the top k elements of a heap.
@@ -1052,8 +1053,11 @@ def recall_at_k(heap, k, value):
     Returns:
         bool: True if value is in the top k elements, False otherwise.
     """
-    top_k_elements = heapq.nsmallest(k, heap, key=lambda x: x[0])
-    return value in [elem[1] for elem in top_k_elements]
+    # top_k_elements = heapq.nsmallest(k, heap, key=lambda x: x[0])
+    top_k_elements = heapq.nsmallest(k, heap)
+    # print(top_k_elements)
+    return value in [elem[2] for elem in top_k_elements]
+
 
 def get_value_position(heap, value):
     """
@@ -1067,7 +1071,7 @@ def get_value_position(heap, value):
         int: Position (index) of the value in the heap. Returns -1 if the value is not found.
     """
     try:
-        position = next(idx for idx, element in enumerate(heap) if element[1] == value)
+        position = next(idx for idx, element in enumerate(heap) if element[2] == value)
     except StopIteration:
         position = -1
     return position + 1
@@ -1093,8 +1097,8 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     src = {}
     dst = {}
     for ip in src_raw:
-        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
-        # src[ip] = src_raw[ip][src_features].copy(deep=True)
+        # src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        src[ip] = src_raw[ip][src_features].copy(deep=True)
     for user in dst_raw:
         # dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
         dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
@@ -1110,29 +1114,45 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         best_score = 0
         best_user = 0
         heap = []
+        counter = 0
+        r2 = False
+        r4 = False
+        r8 = False
         for ip in src:
+            counter += 1
             score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
-            heapq.heappush(heap, (score, ip_to_user(ip)))
+            if not math.isnan(score) and not math.isinf(score):
+                heapq.heappush(heap, (score, counter, ip_to_user(ip)))
             if score < best_score:
                 best_score = score
                 best_user = ip_to_user(ip)
         if user == best_user:
             correct += 1
-        if recall_at_k(heap, 2, user):
-            recall_2 +=1
-        if recall_at_k(heap, 4, user):
-            recall_4 +=1
-        if recall_at_k(heap, 8, user):
-            recall_8 +=1
+        # print(user)
+        if recall_at_k(heap.copy(), 2, user):
+            recall_2 += 1
+            r2 = True
+        if recall_at_k(heap.copy(), 4, user):
+            recall_4 += 1
+            r4 = True
+        if recall_at_k(heap.copy(), 8, user):
+            recall_8 += 1
+            r8 = True
+        if (r2 and (not r4 or not r8)) or (r4 and not r8):
+            print("r2: " + str(r2))
+            print("r4: " + str(r4))
+            print("r8: " + str(r8))
+            raise Exception("Bad recall")
         rank += get_value_position(heap, user)
-        rank_list += [(get_value_position(heap, user), user)]
-        score_list += [(heap_to_ordered_list(heap), user)]
+        # rank_list += [(get_value_position(heap, user), user)]
+        # score_list += [(heap_to_ordered_list(heap), user)]
     accuracy = correct / len(src)
     recall_2 = recall_2 / len(src)
     recall_4 = recall_4 / len(src)
     recall_8 = recall_8 / len(src)
     rank = rank / len(src)
-    return accuracy, recall_2, recall_4, recall_8, rank, rank_list, score_list
+    return accuracy, recall_2, recall_4, recall_8, rank
+    # , rank_list, score_list
 
 # Find best features
 import itertools
@@ -1260,7 +1280,7 @@ for output_size in range(1, len(dst_df)+1):
 #             assert dst_arr[single_user].ndim == 2
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "with-dot-change-without-shadow_" + "chatlog_tdaSrc_match_dns_all_" + str(n) +
+                                            "with-dot-change-without-shadow_" + "chatlog_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
