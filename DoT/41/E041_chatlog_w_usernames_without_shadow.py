@@ -12,6 +12,7 @@ import pandas as pd
 import json
 import yaml
 import re
+from tqdm import tqdm
 
 import numpy as np
 import math
@@ -84,24 +85,24 @@ class PrivacyScope:
         self.timeoffset = timeoffset
         self.as_df()
         self.df.index += timeoffset
-        print("after offset", self.df)
+        # print("after offset", self.df)
 
     def set_index(self, col_name):
         df = self.as_df()
-        print("after as_df", df, df.columns)
+        # print("after as_df", df, df.columns)
         df.set_index(col_name, inplace=True)
         self.df = df
-        print("after set_index", self.df, self.df.columns)
+        # print("after set_index", self.df, self.df.columns)
         return df
 
     def process_log(self, fn, sep='\t', cols=["time", "format", "data"]):
-        print("processing log: " + fn)
+        # print("processing log: " + fn)
         df = pd.read_csv(fn, sep=sep, names=cols)
-        print("before format", df)
+        # print("before format", df)
         m = pd.json_normalize(df["data"].apply(json.loads))
         df.drop(["data"], axis=1, inplace=True)
         df = pd.concat([df, m], axis=1, sort=False)
-        print("after format", df)
+        # print("after format", df)
         return df
 
     def as_df(self, filenames=None):
@@ -549,9 +550,9 @@ flows_ts_ip_scoped = {}
 flows_ts_ip_total = {}
 first_pass = resolv_df_filtered[((~resolv_df_filtered['ip.src'].isin(infra_ip)))]
                                 #& (resolv_df_filtered['dns.qry.name'] == evil_domain)]
-print("===============")
-print(first_pass)
-print("===============")
+# print("===============")
+# print(first_pass)
+# print("===============")
 solo = solo_pipeline(first_pass)
 
 # Add all scope data to IPs found in resolver address space
@@ -561,7 +562,8 @@ scopes = [resolver, root, tld, sld]  # , Access_tor]
 # scopes = [resolver, root, tld, sld, Access_resolver]
 
 # bad_features = ['tcp.dstport', 'tcp.srcport', 'udp.port', 'tcp.seq']
-bad_features = ['tcp.srcport', 'udp.port', 'tcp.seq']
+bad_features = ['tcp.srcport', 'udp.port', 'tcp.seq',
+                'frame.number', 'frame.time_relative', 'frame.time_delta']
 for scope in scopes:
     scope.remove_features(bad_features)
     scope.remove_zero_var()
@@ -571,8 +573,8 @@ cache_window = window  # see above
 print("scopes: " + str(scopes))
 print("cache window: " + str(cache_window))
 
-for ip in IPs:
-    print("Processing IP: " + str(ip)) # print progress
+for ip in tqdm(IPs):
+    # print("Processing IP: " + str(ip)) # print progress
     # Don't add known infra IPs or users that can are solo communicaters
     if ip in infra_ip or ip in solo:
         continue
@@ -582,6 +584,8 @@ for ip in IPs:
     for scope in scopes:
         # Find matches
         matches = scope.search(ip, flows_ip[ip])
+        if not matches[0].empty:
+            matches[0]['count'] = 1
 
         # Update df for ip
         combined_scope = combineScopes(matches)
@@ -954,8 +958,8 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
     #           (ts1['frame.time'] <= int(range[1]))]
     # print(ts1)
-    # ts1 = ts1.loc[:, 'tda_pl']
-    ts1 = ts1.values[:, 0]
+    ts1 = ts1.loc[:, 'tda_pl']
+    # ts1 = ts1.values[:, 0]
 
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
@@ -1097,11 +1101,11 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     src = {}
     dst = {}
     for ip in src_raw:
-        # src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
-        src[ip] = src_raw[ip][src_features].copy(deep=True)
+        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        # src[ip] = src_raw[ip][src_features].copy(deep=True)
     for user in dst_raw:
-        # dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
-        dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
+        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        # dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
 
     correct = 0.0
     rank_list = []
@@ -1156,7 +1160,6 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
 
 # Find best features
 import itertools
-from tqdm import tqdm
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
 import os
@@ -1280,7 +1283,7 @@ for output_size in range(1, len(dst_df)+1):
 #             assert dst_arr[single_user].ndim == 2
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "with-dot-change-without-shadow_" + "chatlog_match_dns_all_" + str(n) +
+                                            "with-dot-change-without-shadow_" + "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
