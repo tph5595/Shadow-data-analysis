@@ -34,11 +34,11 @@ def getFilenames(path):
     return [path+f for f in listdir(path) if isfile(join(path, f))]
 
 # Get pcap data
-pcappath = "../data/csv/"
+pcappath = "../vanilla_data/data/csv/"
 pcapCSVs = getFilenames(pcappath)
 
 # Get server logs
-logpath = "../data/server-log/"
+logpath = "../vanilla_data/data/server_log/"
 logs = getFilenames(logpath)
 
 # Combine all locations
@@ -257,7 +257,7 @@ print("Files for access-service: " + str(list(filter(r.match, data))))
 Access_service = PrivacyScope(list(filter(r.match, data)), "Access_service")
 
 # service scope
-r = re.compile(r".*service.csv")
+r = re.compile(r".*/service.csv")
 print("Files for service: " + str(list(filter(r.match, data))))
 Service = PrivacyScope(list(filter(r.match, data)), "Service")
 
@@ -463,9 +463,12 @@ def scope_label(df, scope_name):
 
 # Setup filters for different scopes
 evil_domain = 'evil.dne'
-DNS_PORT = 17.0
+UDP_PROTO = 17
+DNS_PORT = 53
 DOT_PORT = 853
+DOH_PORT = 443
 HTTP_PORT = 80
+
 
 def dns_filter(df, ip):
     if ('dns.qry.name' in df.columns and 'tcp.dstport' in df.columns):
@@ -476,35 +479,37 @@ def dns_filter(df, ip):
         return df[(df['dns.qry.name'] == evil_domain)
                   | (df['dns.qry.name'].isna())]
 
+
 def dot_filter(df, ip):
     # for dot, we check if tcp port is 853, we cannot check for dns.qry.name in this case
     # if it is upstream DNS, i.e for eg. from resolver to root, tld, etc then we cannot check for tcp.dstport because it is udp (Plain DNS)
     # so, we check if either dns.qry.name is evil.dne or tcp.dstport is 853
     if ('dns.qry.name' not in df.columns and 'tcp.dstport' not in df.columns):
         raise Exception("No DNS or TCP port column found")
-    
+
     if ('dns.qry.name' in df.columns and 'tcp.dstport' not in df.columns):
         return df[(df['dns.qry.name'] == evil_domain)
-                | (df['dns.qry.name'].isna())]
-    
+                  | (df['dns.qry.name'].isna())]
+
     return df[(df['dns.qry.name'] == evil_domain)
-                | (df['dns.qry.name'].isna())
-                | (df['tcp.dstport'] == DOT_PORT)]
-    
+              | (df['dns.qry.name'].isna())
+              | (df['udp.dstport'] == DNS_PORT)]
+
 
 def isp_filter(df, ip):
     # for isp traffic, we filter out DoT and HTTP traffic from the dataframe for analysis
     if ('tcp.dstport' not in df.columns):
         raise Exception("No TCP port column found")
-    
-    return df[(df['tcp.dstport'] == DOT_PORT) | (df['tcp.dstport'] == HTTP_PORT)] # filter out DoT and HTTP traffic
+
+    return df[(df['udp.dstport'] == DNS_PORT) | (df['tcp.dstport'] == HTTP_PORT)] # filter out DoT and HTTP traffic
+
 
 # resolver.set_filter(dns_filter)
 # root.set_filter(dns_filter)
 # tld.set_filter(dns_filter)
 # sld.set_filter(dns_filter)
 resolver.set_filter(dot_filter)
-root.set_filter(dot_filter) 
+root.set_filter(dot_filter)
 tld.set_filter(dot_filter)
 sld.set_filter(dot_filter)
 
@@ -541,7 +546,8 @@ TCP_PROTO = 6
 # Cluster DNS
 # Create ts for each IP
 resolv_df = resolver.as_df()
-resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
+print(resolv_df)
+resolv_df_filtered = resolv_df[resolv_df['udp.dstport'] == DNS_PORT]
 infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
 ips_seen = resolv_df_filtered['ip.src'].unique()
 IPs = list(set(ips_seen) - set(infra_ip))
@@ -562,7 +568,7 @@ scopes = [resolver, root, tld, sld]  # , Access_tor]
 # scopes = [resolver, root, tld, sld, Access_resolver]
 
 # bad_features = ['tcp.dstport', 'tcp.srcport', 'udp.port', 'tcp.seq']
-bad_features = ['tcp.srcport', 'udp.port', 'tcp.seq',
+bad_features = ['tcp.srcport', 'udp.srcport', 'tcp.seq',
                 'frame.number', 'frame.time_relative', 'frame.time_delta']
 for scope in scopes:
     scope.remove_features(bad_features)
@@ -958,8 +964,8 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
     #           (ts1['frame.time'] <= int(range[1]))]
     # print(ts1)
-    ts1 = ts1.loc[:, 'tda_pl']
-    # ts1 = ts1.values[:, 0]
+    # ts1 = ts1.loc[:, 'tda_pl']
+    ts1 = ts1.values[:, 0]
 
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
@@ -1101,11 +1107,11 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     src = {}
     dst = {}
     for ip in src_raw:
-        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
-        # src[ip] = src_raw[ip][src_features].copy(deep=True)
+        # src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        src[ip] = src_raw[ip][src_features].copy(deep=True)
     for user in dst_raw:
-        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
-        # dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
+        # dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
 
     correct = 0.0
     rank_list = []
@@ -1275,7 +1281,7 @@ src_df = flows_ts_ip_total
 dst_df = client_chat_logs
 
 for output_size in range(1, len(dst_df)+1):
-    for n in range(1, 2):
+    for n in range(1, 3):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
 #             dst_arr = {}
 #             for ip in dst_df:
@@ -1283,7 +1289,7 @@ for output_size in range(1, len(dst_df)+1):
 #             assert dst_arr[single_user].ndim == 2
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "with-dot-change-without-shadow_" + "chatlog_tda_match_dns_all_" + str(n) +
+                                            "with-vanilla-change-without-shadow_" + "chatlog_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")

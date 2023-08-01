@@ -1,2 +1,4 @@
 *.pickle
 refactor/__pycache__/*
+./doh_data/*
+./vanilla_data/*
