@@ -34,11 +34,11 @@ def getFilenames(path):
     return [path+f for f in listdir(path) if isfile(join(path, f))]
 
 # Get pcap data
-pcappath = "../vanilla_data/data/csv/"
+pcappath = "../doh_data/data/csv/"
 pcapCSVs = getFilenames(pcappath)
 
 # Get server logs
-logpath = "../vanilla_data/data/server_log/"
+logpath = "../doh_data/data/server_log/"
 logs = getFilenames(logpath)
 
 # Combine all locations
@@ -493,6 +493,8 @@ def dot_filter(df, ip):
 
     return df[(df['dns.qry.name'] == evil_domain)
               | (df['dns.qry.name'].isna())
+              | (df['tcp.dstport'] == DOT_PORT)
+              | (df['tcp.dstport'] == DOH_PORT)
               | (df['udp.dstport'] == DNS_PORT)]
 
 
@@ -547,7 +549,7 @@ TCP_PROTO = 6
 # Create ts for each IP
 resolv_df = resolver.as_df()
 print(resolv_df)
-resolv_df_filtered = resolv_df[resolv_df['udp.dstport'] == DNS_PORT]
+resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOH_PORT]
 infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
 ips_seen = resolv_df_filtered['ip.src'].unique()
 IPs = list(set(ips_seen) - set(infra_ip))
@@ -964,8 +966,8 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
     #           (ts1['frame.time'] <= int(range[1]))]
     # print(ts1)
-    # ts1 = ts1.loc[:, 'tda_pl']
-    ts1 = ts1.values[:, 0]
+    ts1 = ts1.loc[:, 'tda_pl']
+    # ts1 = ts1.values[:, 0]
 
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
@@ -1107,11 +1109,11 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     src = {}
     dst = {}
     for ip in src_raw:
-        # src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
-        src[ip] = src_raw[ip][src_features].copy(deep=True)
+        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        # src[ip] = src_raw[ip][src_features].copy(deep=True)
     for user in dst_raw:
-        # dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
-        dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
+        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        # dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
 
     correct = 0.0
     rank_list = []
@@ -1289,7 +1291,7 @@ for output_size in range(1, len(dst_df)+1):
 #             assert dst_arr[single_user].ndim == 2
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "with-vanilla-change-without-shadow_" + "chatlog_match_dns_all_" + str(n) +
+                                            "with-doh-change-without-shadow_" + "chatlog_tda_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
