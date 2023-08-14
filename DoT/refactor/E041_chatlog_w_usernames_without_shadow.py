@@ -1,56 +1,122 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[214]:
-
-
-import matplotlib.pyplot as plt
-from datetime import datetime
-import pandas as pd
+from os.path import isfile, join
+import itertools
+import multiprocessing as mp
 import os
-
+from scipy.spatial.distance import squareform
+import heapq
+from datetime import datetime
+from os import listdir
+import pandas as pd
+import re
+from tqdm import tqdm
 import numpy as np
 import math
 from sklearn import metrics
 from sklearn.metrics import (adjusted_rand_score,
-                             normalized_mutual_info_score,
-                             fowlkes_mallows_score,
                              homogeneity_completeness_v_measure)
 from ripser import ripser
 from fastdtw import fastdtw
 import fast_pl_py
 import statsmodels.api as sm
 
-from PrivacyScope import save_scopes, load_scopes
-from TorCache import onion_map_maker, generate_tor_maps
+# Local Imports
+from PrivacyScope import PrivacyScope
+from ScopeFilters import dot_filter, getPossibleIPs
 
-from timeScale import time_scale, df_to_ts
 
-window = pd.Timedelta("300 seconds")  # cache size but maybe smaller
+# ==============================================================================
+# Static variables
+# ==============================================================================
+IP_SEARCH = (True, False)
+IP_AND_CACHE_SEARCH = (True, True)
+# ==============================================================================
+# END Static variables
+# ==============================================================================
 
-GNS3_scopes, Shadow_offset = time_scale(cache=True)
 
-onion_lut = onion_map_maker()
-src_map, dst_map = generate_tor_maps(Shadow_offset, onion_lut)
+# ==============================================================================
+# Config
+# ==============================================================================
+DEBUG = False
+pcappath = "../doh_data/data/csv/"
+logpath = "../doh_data/data/server_log/"
+DEFUALT_FILTER = dot_filter
+defualt_ip_search = True
+window = pd.Timedelta("30 seconds")  # cache size but maybe smaller
+# Scopes will be proccessed in order. Ensure order takes path most likely for
+# communication
+scope_config = [
+    # (r".*isp.*.csv", "ISP"),
+    (r"(.*tld).*.csv", "TLD", DEFUALT_FILTER, IP_SEARCH),
+    (r"(.*root).*.csv", "root", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
+    (r"(.*sld).*.csv", "SLD", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
+    (r".*resolver.*", "resolver", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
+    # (r".*access-service.csv", "Access_service"),
+    # (r".*/service.csv", "Service"),
+]
+# Optional
+infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
+evil_domain = 'evil.dne'
+bad_features = ['tcp.srcport', 'udp.srcport', 'tcp.seq',
+                'frame.number', 'frame.time_relative', 'frame.time_delta']
+# ==============================================================================
+# END Config
+# ==============================================================================
 
-# go through GNS3 data and rewrite based on map
-for scope in GNS3_scopes:
-    print(scope)
-    scope.ip_map(src_map, dst_map)
 
-ending = "tor_map"
-save_scopes(GNS3_scopes, ending=ending)
-GNS3_scopes_names = [scope.name for scope in GNS3_scopes]
-GNS3_scopes = load_scopes(GNS3_scopes_names, ending=ending)
+def getFilenames(path):
+    return [path+f for f in listdir(path) if isfile(join(path, f))]
+
+
+def createScope(data, regex, name, debug=False):
+    r = re.compile(regex)
+    files = list(filter(r.match, data))
+    if debug:
+        print("Files for " + name + ": " + str(files))
+    return PrivacyScope(files, name)
+
+
+def df_to_ts(df):
+    df.loc[:, 'count'] = 1
+    if not isinstance(df.index, pd.DatetimeIndex):
+        print(df)
+    tmp = df.resample('100ms').sum(numeric_only=True).infer_objects()
+    tmp = tmp.reset_index()
+    return tmp
+
+
+# Get data
+pcapCSVs = getFilenames(pcappath)
+logs = getFilenames(logpath)
+data = pcapCSVs + logs
+
+scopes = [createScope(data, regex, name, debug=DEBUG)
+          .set_filter(filter)
+          .set_search(search_options)
+          for (regex, name, filter, search_options) in scope_config]
+if DEBUG:
+    print("Scopes created")
+
+# Set up chatlog scopes
+chatlog = createScope(data, ".*pythonServerThread.stdout", "chatlogs",
+                      debug=DEBUG)
+chatlog.time_col = "time"
+chatlog.time_cut_tail = 0
+chatlog.time_format = 'epoch'
+chatlog.as_df()
 
 
 # detect and remove solo quries
 # these can easily be handled on their own
 # as only 1 device is accessing the network at that moment
 def detect_solo(df_list):
+    if DEBUG:
+        print(df_list)
     new_df = df_list[df_list['ip.src'].ne(df_list['ip.src'].shift())]
     new_df['index_col'] = new_df.index
     new_df['diff'] = new_df['index_col'].diff()
+    if DEBUG:
+        print(new_df)
     new_df = new_df[new_df['diff'] > window]
     solo_ips = new_df['ip.src'].unique()
     return solo_ips
@@ -61,7 +127,7 @@ def handle_solo(solo):
 
 
 def solo_pipeline(df_list):
-    fil = df_list[['ip.src', 'frame.time']]
+    fil = df_list.loc[:, ['ip.src']]
     solo = detect_solo(fil)
     handle_solo(solo)
     return solo
@@ -93,79 +159,31 @@ def scope_label(df, scope_name):
     return df
 
 
-# Setup filters for different scopes
-evil_domain = 'evil.dne'
-DNS_PORT = 17.0
-DOT_PORT = 853
-
-
-def dns_filter(df, ip):
-    if ('dns.qry.name' in df.columns and 'tcp.dstport' in df.columns):
-        return df[(df['dns.qry.name'] == evil_domain)
-                  | (df['dns.qry.name'].isna())
-                  & (df['tcp.dstport'] == DOT_PORT)]
-    else:
-        return df[(df['dns.qry.name'] == evil_domain)
-                  | (df['dns.qry.name'].isna())]
-
-
-resolver.set_filter(dns_filter)
-root.set_filter(dns_filter)
-tld.set_filter(dns_filter)
-sld.set_filter(dns_filter)
-
-resolver.ip_search_enabled = True
-resolver.cache_search_enabled = False
-
-root.ip_search_enabled = True
-root.cache_search_enabled = True
-
-sld.ip_search_enabled = True
-sld.cache_search_enabled = True
-
-tld.ip_search_enabled = True
-tld.cache_search_enabled = True
-
-TCP_PROTO = 6
-
-
-def tor_filter(df, ip):
-    return df[(df['tcp.len'] > 500) & (df['ip.proto'] == TCP_PROTO)]
-
-
-Access_tor.set_filter(tor_filter)
-
-Access_tor.ip_search_enabled = True
-Access_tor.cache_search_enabled = True
-
-
-# Cluster DNS
-# Create ts for each IP
-resolv_df = resolver.pcap_df()
-resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
-infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
-ips_seen = resolv_df_filtered['ip.src'].unique()
+ips_seen = getPossibleIPs(scopes)
 IPs = list(set(ips_seen) - set(infra_ip))
 flows_ip = {}
 flows_ts_ip_scoped = {}
 flows_ts_ip_total = {}
-first_pass = resolv_df_filtered[((~resolv_df_filtered['ip.src'].isin(infra_ip)))
-                                & (resolv_df_filtered['dns.qry.name'] == evil_domain)]
-solo = solo_pipeline(first_pass)
+solo = [solo_pipeline(scope.as_df()) for scope in scopes]
+solo = [item for sublist in solo for item in sublist]
+if DEBUG:
+    print(solo)
 
 # Add all scope data to IPs found in resolver address space
 # This should be a valid topo sorted list
 # of the scopes (it will be proccessed in order)
-scopes = [resolver, root, tld, sld]  # , Access_tor]
-bad_features = ['tcp.dstport', 'tcp.srcport', 'udp.port', 'tcp.seq']
+
 for scope in scopes:
     scope.remove_features(bad_features)
     scope.remove_zero_var()
-cache_window = window  # see above
-print("scopes: " + str(scopes))
-print("cache window: " + str(cache_window))
 
-for ip in IPs:
+
+cache_window = window  # see above
+if DEBUG:
+    print("scopes: " + str(scopes))
+    print("cache window: " + str(cache_window))
+
+for ip in tqdm(IPs):
     # Don't add known infra IPs or users that can are solo communicaters
     if ip in infra_ip or ip in solo:
         continue
@@ -174,7 +192,10 @@ for ip in IPs:
     flows_ts_ip_total[ip] = pd.DataFrame()
     for scope in scopes:
         # Find matches
-        matches = scope.search(ip, flows_ip[ip])
+        matches = scope.search(ip, flows_ip[ip], args=(evil_domain))
+        print(matches)
+        if not matches[0].empty:
+            matches[0]['count'] = 1
 
         # Update df for ip
         combined_scope = combineScopes(matches)
@@ -191,9 +212,6 @@ for ip in IPs:
                                                 new_ts_matches])
     if len(flows_ip[ip]) > 0:
         flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip], scope.time_col)
-
-        # order df by time
-        flows_ip[ip] = flows_ip[ip].set_index('frame.time')
 
         # sort combined df by timestamp
         flows_ip[ip].sort_index(inplace=True)
@@ -212,36 +230,6 @@ for ip in IPs:
         # label scope col as category
         flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
         flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
-
-
-# In[28]:
-
-
-# Viz
-# importing Libraries
-plt.style.use('default')
-# code
-# Visualizing The Open Price of all the stocks
-# to set the plot size
-plt.figure(figsize=(16, 8), dpi=150)
-# using plot method to plot open prices.
-# in plot method we set the label and color of the curve.
-
-total = 0
-for f in flows_ts_ip_total:
-    if total > 10:
-        break
-    total += 1
-    flows_ts_ip_total[f]['count'].plot(label=f)
-
-plt.title('Requests per second')
-
-# adding Label to the x-axis
-plt.xlabel('Time')
-plt.ylabel('Requests (seconds)')
-
-# adding legend to the curve
-plt.legend()
 
 
 def ip_to_group(ip):
@@ -417,12 +405,11 @@ def get_chat_logs(scope):
     users = df["username"].unique()
     client_log = {}
     for user in users:
-        client_log[user] = df_to_ts(df[df["username"] == user], time_col='time').set_index('time')
+        client_log[user] = df_to_ts(df[df["username"] == user]).set_index('time')
     return client_log
 
 
 client_chat_logs = get_chat_logs(chatlog)
-
 
 def ip_to_user(ip, group_size=5, starting=10):
     local_net = int(ip.split(".")[-1]) - starting
@@ -443,26 +430,6 @@ def ccf_values(series1, series2):
     return c
 
 
-def ccf_plot(lags, ccf):
-    fig, ax = plt.subplots(figsize=(9, 6))
-    ax.plot(lags, ccf)
-    ax.axhline(-2/np.sqrt(23), color='red', label='5% \
-    confidence interval')
-    ax.axhline(2/np.sqrt(23), color='red')
-    ax.axvline(x=0, color='black', lw=1)
-    ax.axhline(y=0, color='black', lw=1)
-    ax.axhline(y=np.max(ccf), color='blue', lw=1,
-               linestyle='--', label='highest +/- correlation')
-    ax.axhline(y=np.min(ccf), color='blue', lw=1,
-               linestyle='--')
-    ax.set(ylim=[-1, 1])
-    ax.set_title('Cross Correlation', weight='bold', fontsize=15)
-    ax.set_ylabel('Correlation Coefficients', weight='bold',
-                  fontsize=12)
-    ax.set_xlabel('Time Lags', weight='bold', fontsize=12)
-    plt.legend()
-
-
 def ccf_calc(sig1, sig2):
     corr = sm.tsa.stattools.ccf(sig2, sig1, adjusted=False)
 
@@ -471,24 +438,7 @@ def ccf_calc(sig1, sig2):
 
 
 def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
-    # ensure format is correct (only keep first col
-    # ts1_values = ts1['count'] # ts1.iloc[:,0]
-    # ts2_values = ts2['count'] # ts2.iloc[:,0]
-
-    # Calculate values
-    # print(ts1)
     ccf = ccf_calc(ts1, ts2)
-    # lags = signal.correlation_lags(len(ts1_values), len(ts2_values))
-
-    # keep only positive lag values
-    # Not needed with stats packate
-    # if only_positive:
-    #     ccf = ccf[lags >= 0]
-    #     lags = lags[lags >= 0]
-
-    # ccf = ccf[:min(len(ccf), max_offset)]
-
-    # find best
     best_cor = max(ccf)
     best_lag = np.argmax(ccf)
 
@@ -497,8 +447,6 @@ def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
         print(len(ccf))
         print(ccf)
         ccf_plot(range(len(ccf)), ccf)
-    # print(ccf)
-    # assert best_cor >= -1 and best_cor <= 1
     return best_cor, best_lag
 
 
@@ -527,7 +475,9 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     ts1 = ts1.loc[(ts1.index >= range[0]) & (ts1.index <= range[1])]
     # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
     #           (ts1['frame.time'] <= int(range[1]))]
-    ts1 = ts1.loc[:, 'tda_pl']
+    # print(ts1)
+    # ts1 = ts1.loc[:, 'tda_pl']
+    ts1 = ts1.values[:, 0]
 
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
@@ -559,80 +509,115 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     return score, lag
 
 
-def plot_ts(ts1, ts2):
-    # to set the plot size
-    plt.figure(figsize=(16, 8), dpi=150)
+def recall_at_k(heap, k, value):
+    """
+    Checks if a value is in the top k elements of a heap.
 
-    # normalize_ts(ts1['count']).plot(label='ts1')
-    # normalize_ts(ts2['count']).plot(label='ts2')
-    ts1['count'].plot(label='ts1')
-    ts2['count'].plot(label='ts2')
+    Args:
+        heap (list): Binary heap.
+        value: Value to check.
+        k (int): Number of top elements to consider.
 
-    plt.title('Requests per second')
-
-    # adding Label to the x-axis
-    plt.xlabel('Time')
-    plt.ylabel('Requests (seconds)')
-
-    # adding legend to the curve
-    plt.legend()
-plot_ts(client_chat_logs['/tordata/config/group_0_user_0'], flows_ts_ip_total['102.0.0.10'])
+    Returns:
+        bool: True if value is in the top k elements, False otherwise.
+    """
+    top_k_elements = heapq.nsmallest(k, heap)
+    return value in [elem[2] for elem in top_k_elements]
 
 
-# In[ ]:
+def get_value_position(heap, value):
+    """
+    Returns the position (index) of a value in a binary heap.
+
+    Args:
+        heap (list): Binary heap.
+        value: Value to find the position of.
+
+    Returns:
+        int: Position (index) of the value in the heap. Returns -1 if the value is not found.
+    """
+    try:
+        position = next(idx for idx, element in enumerate(heap) if element[2] == value)
+    except StopIteration:
+        position = -1
+    return position + 1
 
 
-# from scipy.cluster.hierarchy import dendrogram, linkage
-# from scipy.cluster.hierarchy import fcluster
-from sklearn.metrics import silhouette_score
-from scipy.spatial.distance import squareform
+def heap_to_ordered_list(heap):
+    """
+    Converts a binary heap into an ordered list.
 
+    Args:
+        heap (list): Binary heap.
 
-# def cluster(samples, max_clust, display=False, multi_to_single=lambda x: x):
-#     dist_mat = calc_dist_matrix(samples,
-#                                 my_dist,
-#                                 multi_to_single=multi_to_single)
-
-#     # Perform hierarchical clustering using the computed distances
-#     Z = linkage(dist_mat, method='single')
-
-#     # Plot a dendrogram to visualize the clustering
-#     if display:
-#         dendrogram(Z)
-
-#     # Extract the cluster assignments using the threshold
-#     labels = fcluster(Z, max_clust, criterion='maxclust')
-# #     print(labels)
-
-#     return labels
+    Returns:
+        list: Ordered list representing the heap elements.
+    """
+    ordered_list = []
+    while heap:
+        ordered_list.append(heapq.heappop(heap))
+    return ordered_list
 
 
 def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
     src = {}
     dst = {}
     for ip in src_raw:
-        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        # src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        src[ip] = src_raw[ip][src_features].copy(deep=True)
     for user in dst_raw:
-        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        # dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
+
     correct = 0.0
+    rank_list = []
+    score_list = []
+    recall_2 = 0
+    recall_4 = 0
+    recall_8 = 0
+    rank = 0
     for user in dst:
         best_score = 0
-        best_ip = 0
+        best_user = 0
+        heap = []
+        counter = 0
+        r2 = False
+        r4 = False
+        r8 = False
         for ip in src:
+            counter += 1
             score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            if not math.isnan(score) and not math.isinf(score):
+                heapq.heappush(heap, (score, counter, ip))
             if score < best_score:
                 best_score = score
-                best_ip = ip
-        if user == ip_to_user(best_ip):
+                best_user = ip_to_user(ip)
+        if user == best_user:
             correct += 1
+        # print(user)
+        if recall_at_k(heap.copy(), 2, user):
+            recall_2 += 1
+            r2 = True
+        if recall_at_k(heap.copy(), 4, user):
+            recall_4 += 1
+            r4 = True
+        if recall_at_k(heap.copy(), 8, user):
+            recall_8 += 1
+            r8 = True
+        if (r2 and (not r4 or not r8)) or (r4 and not r8):
+            print("r2: " + str(r2))
+            print("r4: " + str(r4))
+            print("r8: " + str(r8))
+            raise Exception("Bad recall")
+        rank += get_value_position(heap, user)
+        rank_list += [(get_value_position(heap, user), user)]
+        score_list += [(heap_to_ordered_list(heap), user)]
     accuracy = correct / len(src)
-    return accuracy
-# Find best features
-import itertools
-from tqdm import tqdm
-import multiprocessing as mp
-from concurrent.futures import ProcessPoolExecutor
-import os
+    recall_2 = recall_2 / len(src)
+    recall_4 = recall_4 / len(src)
+    recall_8 = recall_8 / len(src)
+    rank = rank / len(src)
+    return accuracy, recall_2, recall_4, recall_8, rank, rank_list, score_list
 
 
 def findsubsets(s, n):
@@ -640,10 +625,7 @@ def findsubsets(s, n):
 
 
 def evaluate_subset(src_df, dst_df, src_features, dst_feaures, tda_config=None):
-    try:
-        score = evaluate(src_df, dst_df, list(src_features), list(dst_feaures), params=tda_config)
-    except: 
-        score = -1
+    score = evaluate(src_df, dst_df, list(src_features), list(dst_feaures), params=tda_config)
     return score, src_features
 
 
@@ -651,13 +633,13 @@ def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
     features = src_df[next(iter(src_df))].columns
     subsets = findsubsets(features, n)
     results = []
-    num_cpus = int(os.cpu_count())
+    num_cpus = int(os.cpu_count()/2)
     print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
     with mp.Pool(processes=num_cpus) as pool:
         results = []
         for subset in subsets:
             results.append(pool.apply_async(evaluate_subset, args=(src_df, dst_df, subset, dst_features, tda_config)))
-        with open(filename, 'a') as f:
+        with open(filename, 'a+') as f:
             for result in tqdm(results, total=len(subsets)):
                 score, subset = result.get()
                 out = str(score) + "\t" + str(subset) + "\n"
@@ -679,17 +661,6 @@ dst_df_count = {}
 for user in dst_df:
     dst_df_count[user] = dst_df[user]['count']
 
-single_user = '/tordata/config/group_0_user_0'
-single_ip = '102.0.0.10'
-dst_single = {single_user: dst_df_count[single_user]}
-src_single = {single_ip: flows_ts_ip_total[single_ip]}
-# plot_ts(client_chat_logs['/tordata/config/group_0_user_0'],
-#                           flows_ts_ip_total['102.0.0.10'])
-
-# purity = evaluate(src_single, dst_single, ['count'], display=True)
-# purity = evaluate(src_df, dst_df_count, ['count'], display=True)
-# print("Accuracy: " + str(purity*100) + "%")
-
 
 def evaluate_tda(src_df, dst_df, tda_params):
     try:
@@ -704,11 +675,6 @@ def evaluate_tda(src_df, dst_df, tda_params):
     except Exception:
         result = -1
     return result, tda_params.thresh
-
-
-
-
-# In[29]:
 
 
 def eval_model(src_raw, dst_raw, src_features, dst_feaures):
@@ -733,10 +699,7 @@ def eval_model(src_raw, dst_raw, src_features, dst_feaures):
     return accuracy
 
 
-# In[ ]:
-
-
-num_cpus = os.cpu_count()
+num_cpus = os.cpu_count()/2
 skip = 1
 dim = 0
 window = 3
@@ -750,56 +713,9 @@ dst_df = client_chat_logs
 for output_size in range(1, len(dst_df)+1):
     for n in range(1, 3):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
-#             dst_arr = {}
-#             for ip in dst_df:
-#                 dst_arr[ip] = ts_to_tda(dst_df[ip].loc[:, features], params=tda_config)
-#             assert dst_arr[single_user].ndim == 2
+            print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                             "post_tor_chatlog_tda_match_dns_all_" + str(n) +
+                                            "with-doh-change-without-shadow_" + "chatlog_all_noTDA_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
-
-
-# In[4]:
-
-
-# for n in range(2,3):
-#     best_features = iterate_features(src_df, dst_df, n,
-#                                      "chatlog_dtw_dns_all_" + str(n) +
-#                                      "_" + str(datetime.now()) + ".output")
-
-
-# In[5]:
-
-
-ts1 = flows_ts_ip_total['102.0.0.107'][['count']]
-ts2 = client_chat_logs['/tordata/config/group_19_user_2'][['count']]
-ts1 = ts_to_tda(ts1, params=tda_config)
-ts2 = ts_to_tda(ts2, params=tda_config)
-compare_ts_reshape(ts1, ts2, debug=True)
-
-
-# In[17]:
-
-
-eval_model(flows_ts_ip_total, client_chat_logs, ['count'], ['count'])
-
-
-# In[7]:
-
-
-ip_to_user(best_ip)
-
-
-# In[8]:
-
-
-# plot_ts(client_chat_logs['/tordata/config/group_0_user_2'], flows_ts_ip_total['102.0.0.99'])
-
-
-# In[9]:
-
-
-# client_chat_logs['/tordata/config/group_0_user_2']
-
