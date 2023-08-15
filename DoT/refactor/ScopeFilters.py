@@ -30,16 +30,14 @@ def dot_filter(df, evil_domain):
     # this case if it is upstream DNS, i.e for eg. from resolver to root, tld,
     # etc then we cannot check for tcp.dstport because it is udp (Plain DNS)
     # so, we check if either dns.qry.name is evil.dne or tcp.dstport is 853
-    print(df)
     if ('dns.qry.name' not in df.columns and 'tcp.dstport' not in df.columns):
         raise Exception("No DNS or TCP port column found")
 
+    # TODO: This is incorrect and should check for udp.dstport as well
     if ('dns.qry.name' in df.columns and 'tcp.dstport' not in df.columns):
-        print(1)
         return df[(df['dns.qry.name'] == evil_domain)
                   | (df['dns.qry.name'].isna())]
 
-    print(2)
     return df[(df['dns.qry.name'] == evil_domain)
               | (df['dns.qry.name'].isna())
               | (df['tcp.dstport'] == DOT_PORT)

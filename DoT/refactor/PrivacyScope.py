@@ -59,7 +59,7 @@ class PrivacyScope:
             filenames = self.filenames
         df = pd.DataFrame()
         for f in filenames:
-            print("processing file: " + f)
+            # print("processing file: " + f)
             if f.endswith(".csv"):
                 ddf = pd.read_csv(f)
             elif f.endswith("stdout"):

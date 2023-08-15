@@ -47,13 +47,14 @@ window = pd.Timedelta("30 seconds")  # cache size but maybe smaller
 # communication
 scope_config = [
     # (r".*isp.*.csv", "ISP"),
-    (r"(.*tld).*.csv", "TLD", DEFUALT_FILTER, IP_SEARCH),
+    (r".*resolver.*", "resolver", DEFUALT_FILTER, IP_SEARCH),
     (r"(.*root).*.csv", "root", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
     (r"(.*sld).*.csv", "SLD", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
-    (r".*resolver.*", "resolver", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
+    (r"(.*tld).*.csv", "TLD", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
     # (r".*access-service.csv", "Access_service"),
     # (r".*/service.csv", "Service"),
-]
+    ]
+server_logs = (".*pythonServerThread.stdout", "chatlogs")
 # Optional
 infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
 evil_domain = 'evil.dne'
@@ -85,6 +86,15 @@ def df_to_ts(df):
     return tmp
 
 
+def createLogScope(logs):
+    chatlog = createScope(data, logs[0], logs[1], debug=DEBUG)
+    chatlog.time_col = "time"
+    chatlog.time_cut_tail = 0
+    chatlog.time_format = 'epoch'
+    chatlog.as_df()
+    return chatlog
+
+
 # Get data
 pcapCSVs = getFilenames(pcappath)
 logs = getFilenames(logpath)
@@ -98,12 +108,7 @@ if DEBUG:
     print("Scopes created")
 
 # Set up chatlog scopes
-chatlog = createScope(data, ".*pythonServerThread.stdout", "chatlogs",
-                      debug=DEBUG)
-chatlog.time_col = "time"
-chatlog.time_cut_tail = 0
-chatlog.time_format = 'epoch'
-chatlog.as_df()
+chatlog = createLogScope(server_logs)
 
 
 # detect and remove solo quries
@@ -164,10 +169,9 @@ IPs = list(set(ips_seen) - set(infra_ip))
 flows_ip = {}
 flows_ts_ip_scoped = {}
 flows_ts_ip_total = {}
+
 solo = [solo_pipeline(scope.as_df()) for scope in scopes]
 solo = [item for sublist in solo for item in sublist]
-if DEBUG:
-    print(solo)
 
 # Add all scope data to IPs found in resolver address space
 # This should be a valid topo sorted list
@@ -193,7 +197,7 @@ for ip in tqdm(IPs):
     for scope in scopes:
         # Find matches
         matches = scope.search(ip, flows_ip[ip], args=(evil_domain))
-        print(matches)
+        # print(matches)
         if not matches[0].empty:
             matches[0]['count'] = 1
 
