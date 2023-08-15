@@ -22,6 +22,9 @@ import statsmodels.api as sm
 # Local Imports
 from PrivacyScope import PrivacyScope
 from ScopeFilters import dot_filter, getPossibleIPs
+from Solo import Solo
+from Packets2TS import Packets2TS
+from DFutil import df_to_ts
 
 
 # ==============================================================================
@@ -77,15 +80,6 @@ def createScope(data, regex, name, debug=False):
     return PrivacyScope(files, name)
 
 
-def df_to_ts(df):
-    df.loc[:, 'count'] = 1
-    if not isinstance(df.index, pd.DatetimeIndex):
-        print(df)
-    tmp = df.resample('100ms').sum(numeric_only=True).infer_objects()
-    tmp = tmp.reset_index()
-    return tmp
-
-
 def createLogScope(logs):
     chatlog = createScope(data, logs[0], logs[1], debug=DEBUG)
     chatlog.time_col = "time"
@@ -99,141 +93,34 @@ def createLogScope(logs):
 pcapCSVs = getFilenames(pcappath)
 logs = getFilenames(logpath)
 data = pcapCSVs + logs
-
+# Setup Input scopes
 scopes = [createScope(data, regex, name, debug=DEBUG)
           .set_filter(filter)
           .set_search(search_options)
           for (regex, name, filter, search_options) in scope_config]
-if DEBUG:
-    print("Scopes created")
-
 # Set up chatlog scopes
 chatlog = createLogScope(server_logs)
-
-
-# detect and remove solo quries
-# these can easily be handled on their own
-# as only 1 device is accessing the network at that moment
-def detect_solo(df_list):
-    if DEBUG:
-        print(df_list)
-    new_df = df_list[df_list['ip.src'].ne(df_list['ip.src'].shift())]
-    new_df['index_col'] = new_df.index
-    new_df['diff'] = new_df['index_col'].diff()
-    if DEBUG:
-        print(new_df)
-    new_df = new_df[new_df['diff'] > window]
-    solo_ips = new_df['ip.src'].unique()
-    return solo_ips
-
-
-def handle_solo(solo):
-    print("IPs that must trigger a cache miss: " + str(solo))
-
-
-def solo_pipeline(df_list):
-    fil = df_list.loc[:, ['ip.src']]
-    solo = detect_solo(fil)
-    handle_solo(solo)
-    return solo
-
-
-def combineScopes(dfs):
-    if len(dfs) < 1:
-        return dfs
-    return pd.concat(dfs)
-
-
-def scopesToTS(dfs):
-    output = []
-    for df in dfs:
-        if len(df) < 2:
-            continue
-        output += scopeToTS(df)
-    return output
-
-
-def scopeToTS(df, time_col):
-    return df_to_ts(df.copy(deep=True)).set_index(time_col)
-
-
-def scope_label(df, scope_name):
-    for col in df.columns:
-        df[col + "_" + scope_name] = df[col]
-    df["scope_name"] = scope_name
-    return df
+if DEBUG:
+    print("Scopes created")
+    print(str(scopes))
 
 
 ips_seen = getPossibleIPs(scopes)
 IPs = list(set(ips_seen) - set(infra_ip))
-flows_ip = {}
-flows_ts_ip_scoped = {}
-flows_ts_ip_total = {}
 
-solo = [solo_pipeline(scope.as_df()) for scope in scopes]
-solo = [item for sublist in solo for item in sublist]
+solo = Solo(window, debug=DEBUG).run(scopes)
 
 # Add all scope data to IPs found in resolver address space
 # This should be a valid topo sorted list
 # of the scopes (it will be proccessed in order)
-
 for scope in scopes:
     scope.remove_features(bad_features)
     scope.remove_zero_var()
 
 
-cache_window = window  # see above
-if DEBUG:
-    print("scopes: " + str(scopes))
-    print("cache window: " + str(cache_window))
-
-for ip in tqdm(IPs):
-    # Don't add known infra IPs or users that can are solo communicaters
-    if ip in infra_ip or ip in solo:
-        continue
-    flows_ip[ip] = pd.DataFrame()
-    flows_ts_ip_scoped[ip] = pd.DataFrame()
-    flows_ts_ip_total[ip] = pd.DataFrame()
-    for scope in scopes:
-        # Find matches
-        matches = scope.search(ip, flows_ip[ip], args=(evil_domain))
-        # print(matches)
-        if not matches[0].empty:
-            matches[0]['count'] = 1
-
-        # Update df for ip
-        combined_scope = combineScopes(matches)
-        combined_scope = scope_label(combined_scope, scope.name)
-        combined_scope["scope_name"] = scope.name
-        flows_ip[ip] = combineScopes([flows_ip[ip], combined_scope])
-
-        # update ts for ip
-        new_ts_matches = scopeToTS(combined_scope, scope.time_col)
-        if len(new_ts_matches) == 0:
-            continue
-        new_ts_matches["scope_name"] = scope.name
-        flows_ts_ip_scoped[ip] = combineScopes([flows_ts_ip_scoped[ip],
-                                                new_ts_matches])
-    if len(flows_ip[ip]) > 0:
-        flows_ts_ip_total[ip] = scopeToTS(flows_ip[ip], scope.time_col)
-
-        # sort combined df by timestamp
-        flows_ip[ip].sort_index(inplace=True)
-        flows_ts_ip_scoped[ip].sort_index(inplace=True)
-        flows_ts_ip_total[ip].sort_index(inplace=True)
-
-        # Preserve time col to be used for automated feautre engineering
-        flows_ip[ip]['frame.time'] = flows_ip[ip].index
-        flows_ts_ip_total[ip]['frame.time'] = flows_ts_ip_total[ip].index
-
-        # remove nans with 0
-        flows_ip[ip].fillna(0, inplace=True)
-        flows_ts_ip_scoped[ip].fillna(0, inplace=True)
-        flows_ts_ip_total[ip].fillna(0, inplace=True)
-
-        # label scope col as category
-        flows_ip[ip]["scope_name"] = flows_ip[ip]["scope_name"].astype('category')
-        flows_ts_ip_scoped[ip]["scope_name"] = flows_ts_ip_scoped[ip]["scope_name"].astype('category')
+# ADD me here
+flows_ts_ip_total = Packets2TS(evil_domain, ignored_ips=[infra_ip + solo])\
+                    .run(IPs, scopes)
 
 
 def ip_to_group(ip):
@@ -249,22 +136,22 @@ def get_real_label(dic):
 
 
 # compute cluster purity
-def purity_score(y_true, y_pred):
-    # compute contingency matrix (also called confusion matrix)
-    contingency_matrix = metrics.cluster.contingency_matrix(y_true, y_pred)
-    # return purity
-    return np.sum(np.amax(contingency_matrix, axis=0)) / np.sum(contingency_matrix)
+# def purity_score(y_true, y_pred):
+#     # compute contingency matrix (also called confusion matrix)
+#     contingency_matrix = metrics.cluster.contingency_matrix(y_true, y_pred)
+#     # return purity
+#     return np.sum(np.amax(contingency_matrix, axis=0)) / np.sum(contingency_matrix)
 
 
-def weighted_purity(true_labels, found_labels):
-    s = 0
-    total = 0
-    for c in true_labels.unique():
-        selection = df[df['cluster'] == c]
-        p = purity_score(selection['real_label'], selection['cluster'])
-        total += len(selection)
-        s += p * len(selection)
-    return s/total
+# def weighted_purity(true_labels, found_labels):
+#     s = 0
+#     total = 0
+#     for c in true_labels.unique():
+#         selection = df[df['cluster'] == c]
+#         p = purity_score(selection['real_label'], selection['cluster'])
+#         total += len(selection)
+#         s += p * len(selection)
+#     return s/total
 
 
 answers = get_real_label(flows_ts_ip_total)
@@ -414,6 +301,7 @@ def get_chat_logs(scope):
 
 
 client_chat_logs = get_chat_logs(chatlog)
+
 
 def ip_to_user(ip, group_size=5, starting=10):
     local_net = int(ip.split(".")[-1]) - starting
