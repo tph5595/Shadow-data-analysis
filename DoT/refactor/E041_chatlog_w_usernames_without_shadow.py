@@ -63,6 +63,7 @@ infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
 evil_domain = 'evil.dne'
 bad_features = ['tcp.srcport', 'udp.srcport', 'tcp.seq',
                 'frame.number', 'frame.time_relative', 'frame.time_delta']
+output_file = "output.csv"
 # ==============================================================================
 # END Config
 # ==============================================================================
@@ -605,13 +606,11 @@ dst_df = client_chat_logs
 dst_features = ['count']
 src_features = ['count']
 n = 1
-# best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-#                                  "test.out")
-data = evaluate_subset(src_df, dst_df, src_features, dst_features)[-2]
-print(data)
-print("==================================")
-for i in data:
-    print(i)
+data = evaluate_subset(src_df, dst_df, src_features, dst_features)[-2][-1]
+with open(output_file, 'w') as f:
+    for i in data:
+        out = str(i[-1]) + ", " + str(i[0]) + "\n"
+        f.write(out)
 
 # for output_size in range(1, len(dst_df)+1):
 #     for n in range(1, 3):
