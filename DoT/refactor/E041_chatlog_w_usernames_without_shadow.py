@@ -602,10 +602,16 @@ tda_config = TDA_Parameters(dim, window, skip, k, thresh)
 src_df = flows_ts_ip_total
 dst_df = client_chat_logs
 
-features = ['count']
+dst_features = ['count']
+src_features = ['count']
 n = 1
-best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                 "test.out")
+# best_features = iterate_features(src_df, dst_df, n, features, tda_config,
+#                                  "test.out")
+data = evaluate_subset(src_df, dst_df, src_features, dst_features)[-2]
+print(data)
+print("==================================")
+for i in data:
+    print(i)
 
 # for output_size in range(1, len(dst_df)+1):
 #     for n in range(1, 3):
