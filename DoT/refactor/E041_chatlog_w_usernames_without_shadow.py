@@ -591,7 +591,7 @@ def eval_model(src_raw, dst_raw, src_features, dst_feaures):
     return accuracy
 
 
-num_cpus = os.cpu_count()/2
+num_cpus = (os.cpu_count() or 1)/2
 skip = 1
 dim = 0
 window = 3
@@ -602,12 +602,17 @@ tda_config = TDA_Parameters(dim, window, skip, k, thresh)
 src_df = flows_ts_ip_total
 dst_df = client_chat_logs
 
-for output_size in range(1, len(dst_df)+1):
-    for n in range(1, 3):
-        for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
-            print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
-            best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "with-doh-change-without-shadow_" + "chatlog_all_noTDA_match_dns_all_" + str(n) +
-                                             "_outputFeatures_" + str(features) +
-                                             "_" + str(datetime.now()) +
-                                             ".output")
+features = ['count']
+n = 1
+best_features = iterate_features(src_df, dst_df, n, features, tda_config,
+                                 "test.out")
+
+# for output_size in range(1, len(dst_df)+1):
+#     for n in range(1, 3):
+#         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
+#             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
+#             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
+#                                             "with-doh-change-without-shadow_" + "chatlog_all_noTDA_match_dns_all_" + str(n) +
+#                                              "_outputFeatures_" + str(features) +
+#                                              "_" + str(datetime.now()) +
+#                                              ".output")
