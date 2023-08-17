@@ -59,14 +59,32 @@ scope_config = [
     ]
 server_logs = (".*pythonServerThread.stdout", "chatlogs")
 # Optional
-infra_ip = ['172.20.0.11', '172.20.0.12', '192.168.150.10', '172.20.0.10']
+infra_ip = []
 evil_domain = 'evil.dne'
 bad_features = ['tcp.srcport', 'udp.srcport', 'tcp.seq',
                 'frame.number', 'frame.time_relative', 'frame.time_delta']
 output_file = "output.csv"
+num_cpus = int((os.cpu_count() or 1)/2)
+skip = 1
+dim = 0
+tda_window = 3
+k = 9
+thresh = float("inf")
 # ==============================================================================
 # END Config
 # ==============================================================================
+
+
+class TDA_Parameters:
+    def __init__(self, dim, window, skip, k, thresh):
+        self.dim = dim
+        self.window = tda_window
+        self.skip = skip
+        self.k = k
+        self.thresh = thresh
+
+
+tda_config = TDA_Parameters(dim, window, skip, k, thresh)
 
 
 def getFilenames(path):
@@ -208,15 +226,6 @@ def rip_ts(window, dim, skip, data, thresh=float("inf")):
 def tda_trans(pairs, k=2, debug=False):
     pairs = [(x[0], x[1]) for x in pairs]
     return fast_pl_py.pairs_to_l2_norm(pairs, k, debug)
-
-
-class TDA_Parameters:
-    def __init__(self, dim, window, skip, k, thresh):
-        self.dim = dim
-        self.window = window
-        self.skip = skip
-        self.k = k
-        self.thresh = thresh
 
 
 def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False):
@@ -555,19 +564,19 @@ for user in dst_df:
     dst_df_count[user] = dst_df[user]['count']
 
 
-def evaluate_tda(src_df, dst_df, tda_params):
-    try:
-        dst_arr = {}
-        for ip in dst_df:
-            dst_arr[ip] = np.array(
-                    ts_to_tda(
-                        dst_df[ip].loc[:, features],
-                        tda_params))
-        assert dst_arr[single_user].ndim == 1
-        result = evaluate(src_df, dst_arr, ['count'], display=True, params=tda_params)
-    except Exception:
-        result = -1
-    return result, tda_params.thresh
+# def evaluate_tda(src_df, dst_df, tda_params):
+#     try:
+#         dst_arr = {}
+#         for ip in dst_df:
+#             dst_arr[ip] = np.array(
+#                     ts_to_tda(
+#                         dst_df[ip].loc[:, features],
+#                         tda_params))
+#         assert dst_arr[single_user].ndim == 1
+#         result = evaluate(src_df, dst_arr, ['count'], display=True, params=tda_params)
+#     except Exception:
+#         result = -1
+#     return result, tda_params.thresh
 
 
 def eval_model(src_raw, dst_raw, src_features, dst_feaures):
@@ -592,32 +601,24 @@ def eval_model(src_raw, dst_raw, src_features, dst_feaures):
     return accuracy
 
 
-num_cpus = (os.cpu_count() or 1)/2
-skip = 1
-dim = 0
-window = 3
-k = 9
-thresh = float("inf")
-tda_config = TDA_Parameters(dim, window, skip, k, thresh)
-
 src_df = flows_ts_ip_total
 dst_df = client_chat_logs
 
-dst_features = ['count']
-src_features = ['count']
-n = 1
-data = evaluate_subset(src_df, dst_df, src_features, dst_features)[-2][-1]
-with open(output_file, 'w') as f:
-    for i in data:
-        out = str(i[-1]) + ", " + str(i[0]) + "\n"
-        f.write(out)
+# dst_features = ['count']
+# src_features = ['count']
+# n = 1
+# data = evaluate_subset(src_df, dst_df, src_features, dst_features)[-2][-1]
+# with open(output_file, 'w') as f:
+#     for i in data:
+#         out = str(i[-1]) + ", " + str(i[0]) + "\n"
+#         f.write(out)
 
-# for output_size in range(1, len(dst_df)+1):
-#     for n in range(1, 3):
-#         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
-#             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
-#             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-#                                             "with-doh-change-without-shadow_" + "chatlog_all_noTDA_match_dns_all_" + str(n) +
-#                                              "_outputFeatures_" + str(features) +
-#                                              "_" + str(datetime.now()) +
-#                                              ".output")
+for output_size in range(1, len(dst_df)+1):
+    for n in range(1, 3):
+        for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
+            print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
+            best_features = iterate_features(src_df, dst_df, n, features, tda_config,
+                                            "with-doh-change-without-shadow_" + "chatlog_all_noTDA_match_dns_all_" + str(n) +
+                                             "_outputFeatures_" + str(features) +
+                                             "_" + str(datetime.now()) +
+                                             ".output")
