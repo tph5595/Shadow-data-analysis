@@ -7,24 +7,19 @@ import heapq
 from datetime import datetime
 from os import listdir
 import pandas as pd
-import re
 from tqdm import tqdm
 import numpy as np
 import math
-from sklearn import metrics
-from sklearn.metrics import (adjusted_rand_score,
-                             homogeneity_completeness_v_measure)
-from ripser import ripser
 from fastdtw import fastdtw
-import fast_pl_py
 import statsmodels.api as sm
 
 # Local Imports
-from PrivacyScope import PrivacyScope
+from PrivacyScope import createScope, createLogScope
 from ScopeFilters import dot_filter, getPossibleIPs
 from Solo import Solo
 from Packets2TS import Packets2TS
 from DFutil import df_to_ts
+from TDA import TDA_Parameters, ts_to_tda
 
 
 # ==============================================================================
@@ -75,37 +70,11 @@ thresh = float("inf")
 # ==============================================================================
 
 
-class TDA_Parameters:
-    def __init__(self, dim, window, skip, k, thresh):
-        self.dim = dim
-        self.window = tda_window
-        self.skip = skip
-        self.k = k
-        self.thresh = thresh
-
-
 tda_config = TDA_Parameters(dim, window, skip, k, thresh)
 
 
 def getFilenames(path):
     return [path+f for f in listdir(path) if isfile(join(path, f))]
-
-
-def createScope(data, regex, name, debug=False):
-    r = re.compile(regex)
-    files = list(filter(r.match, data))
-    if debug:
-        print("Files for " + name + ": " + str(files))
-    return PrivacyScope(files, name)
-
-
-def createLogScope(logs):
-    chatlog = createScope(data, logs[0], logs[1], debug=DEBUG)
-    chatlog.time_col = "time"
-    chatlog.time_cut_tail = 0
-    chatlog.time_format = 'epoch'
-    chatlog.as_df()
-    return chatlog
 
 
 # Get data
@@ -118,7 +87,7 @@ scopes = [createScope(data, regex, name, debug=DEBUG)
           .set_search(search_options)
           for (regex, name, filter, search_options) in scope_config]
 # Set up chatlog scopes
-chatlog = createLogScope(server_logs)
+chatlog = createLogScope(data, server_logs, debug=DEBUG)
 if DEBUG:
     print("Scopes created")
     print(str(scopes))
@@ -176,36 +145,6 @@ def get_real_label(dic):
 answers = get_real_label(flows_ts_ip_total)
 
 
-def gpt_cluster_metrics(true_labels, found_labels):
-    # Calculate the Adjusted Rand Index
-    ari = adjusted_rand_score(true_labels, found_labels)
-    ari_range = (-1, 1)
-    ari_ideal = 1
-
-    # Calculate the Normalized Mutual Information
-    nmi = normalized_mutual_info_score(true_labels, found_labels)
-    nmi_range = (0, 1)
-    nmi_ideal = 1
-
-    # Calculate the Fowlkes-Mallows Index
-    fmi = fowlkes_mallows_score(true_labels, found_labels)
-    fmi_range = (0, 1)
-    fmi_ideal = 1
-
-    # Calculate homogeneity, completeness, and V-measure
-    homogeneity, completeness, v_measure = homogeneity_completeness_v_measure(true_labels, found_labels)
-    hcv_range = (0, 1)
-    hcv_ideal = 1
-
-    # Print the results
-    print(f"Adjusted Rand Index: {ari:.4f} [range: {ari_range}, ideal: {ari_ideal}]")
-    print(f"Normalized Mutual Information: {nmi:.4f} [range: {nmi_range}, ideal: {nmi_ideal}]")
-    print(f"Fowlkes-Mallows Index: {fmi:.4f} [range: {fmi_range}, ideal: {fmi_ideal}]")
-    print(f"Homogeneity: {homogeneity:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
-    print(f"Completeness: {completeness:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
-    print(f"V-measure: {v_measure:.4f} [range: {hcv_range}, ideal: {hcv_ideal}]")
-
-
 def my_dtw(ts1, ts2):
     distance, path = fastdtw(ts1, ts2)
     return distance
@@ -213,28 +152,6 @@ def my_dtw(ts1, ts2):
 
 def my_dist(ts1, ts2, ip1="", ip2=""):
     return my_pl_ts(ts1, ts2, ip1, ip2)
-
-
-def rip_ts(window, dim, skip, data, thresh=float("inf")):
-    for_pl = {}
-    for i in range(0, len(data)-window+1, skip):
-        diagrams = ripser(data[i:i+window], maxdim=dim, thresh=thresh)['dgms']
-        for_pl[i] = diagrams[dim]
-    return for_pl
-
-
-def tda_trans(pairs, k=2, debug=False):
-    pairs = [(x[0], x[1]) for x in pairs]
-    return fast_pl_py.pairs_to_l2_norm(pairs, k, debug)
-
-
-def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), debug=False):
-    data = data.astype(float)
-
-    # compute birth death pairs
-    rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
-    new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
-    return pd.DataFrame({'tda_pl': new_ts}, index=data.index[:len(new_ts)])
 
 
 def my_pl_ts(ts1, ts2, ip1, ip2):
@@ -348,7 +265,7 @@ def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
         print('best cross correlation: ' + str(best_cor) + " at time lag: " + str(best_lag))
         print(len(ccf))
         print(ccf)
-        ccf_plot(range(len(ccf)), ccf)
+        # ccf_plot(range(len(ccf)), ccf)
     return best_cor, best_lag
 
 

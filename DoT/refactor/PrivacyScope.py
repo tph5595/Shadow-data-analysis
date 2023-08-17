@@ -1,7 +1,25 @@
 import pandas as pd
+import re
 import numpy as np
 from datetime import datetime
 import json
+
+
+def createScope(data, regex, name, debug=False):
+    r = re.compile(regex)
+    files = list(filter(r.match, data))
+    if debug:
+        print("Files for " + name + ": " + str(files))
+    return PrivacyScope(files, name)
+
+
+def createLogScope(data, logs, debug=False):
+    chatlog = createScope(data, logs[0], logs[1], debug=debug)
+    chatlog.time_col = "time"
+    chatlog.time_cut_tail = 0
+    chatlog.time_format = 'epoch'
+    chatlog.as_df()
+    return chatlog
 
 
 class PrivacyScope:
