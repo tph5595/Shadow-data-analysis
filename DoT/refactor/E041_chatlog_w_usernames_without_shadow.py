@@ -20,6 +20,7 @@ from Solo import Solo
 from Packets2TS import Packets2TS
 from DFutil import df_to_ts
 from TDA import TDA_Parameters, ts_to_tda
+from CrossCorrelation import cross_cor
 
 
 # ==============================================================================
@@ -123,25 +124,6 @@ def get_real_label(dic):
     return result
 
 
-# compute cluster purity
-# def purity_score(y_true, y_pred):
-#     # compute contingency matrix (also called confusion matrix)
-#     contingency_matrix = metrics.cluster.contingency_matrix(y_true, y_pred)
-#     # return purity
-#     return np.sum(np.amax(contingency_matrix, axis=0)) / np.sum(contingency_matrix)
-
-
-# def weighted_purity(true_labels, found_labels):
-#     s = 0
-#     total = 0
-#     for c in true_labels.unique():
-#         selection = df[df['cluster'] == c]
-#         p = purity_score(selection['real_label'], selection['cluster'])
-#         total += len(selection)
-#         s += p * len(selection)
-#     return s/total
-
-
 answers = get_real_label(flows_ts_ip_total)
 
 
@@ -237,36 +219,36 @@ def ip_to_user(ip, group_size=5, starting=10):
     return '/tordata/config/group_' + str(group) + "_user_" + str(user)
 
 
-# https://www.datainsightonline.com/post/cross-correlation-with-two-time-series-in-python
-# from scipy import signal
+# # https://www.datainsightonline.com/post/cross-correlation-with-two-time-series-in-python
+# # from scipy import signal
 
-def ccf_values(series1, series2):
-    p = series1
-    q = series2
-    p = (p - np.mean(p)) / (np.std(p) * len(p))
-    q = (q - np.mean(q)) / (np.std(q))
-    c = np.correlate(p, q, 'full')
-    return c
-
-
-def ccf_calc(sig1, sig2):
-    corr = sm.tsa.stattools.ccf(sig2, sig1, adjusted=False)
-
-    # Remove padding and reverse the order
-    return corr[0:(len(sig2)+1)][::-1]
+# def ccf_values(series1, series2):
+#     p = series1
+#     q = series2
+#     p = (p - np.mean(p)) / (np.std(p) * len(p))
+#     q = (q - np.mean(q)) / (np.std(q))
+#     c = np.correlate(p, q, 'full')
+#     return c
 
 
-def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
-    ccf = ccf_calc(ts1, ts2)
-    best_cor = max(ccf)
-    best_lag = np.argmax(ccf)
+# def ccf_calc(sig1, sig2):
+#     corr = sm.tsa.stattools.ccf(sig2, sig1, adjusted=False)
 
-    if debug:
-        print('best cross correlation: ' + str(best_cor) + " at time lag: " + str(best_lag))
-        print(len(ccf))
-        print(ccf)
-        # ccf_plot(range(len(ccf)), ccf)
-    return best_cor, best_lag
+#     # Remove padding and reverse the order
+#     return corr[0:(len(sig2)+1)][::-1]
+
+
+# def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
+#     ccf = ccf_calc(ts1, ts2)
+#     best_cor = max(ccf)
+#     best_lag = np.argmax(ccf)
+
+#     if debug:
+#         print('best cross correlation: ' + str(best_cor) + " at time lag: " + str(best_lag))
+#         print(len(ccf))
+#         print(ccf)
+#         # ccf_plot(range(len(ccf)), ccf)
+#     return best_cor, best_lag
 
 
 def compare_ts(ts1, ts2, debug=False):
