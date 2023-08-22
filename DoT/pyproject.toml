@@ -16,6 +16,7 @@ ripser = "^0.6.4"
 fastdtw = "^0.3.4"
 statsmodels = "^0.14.0"
 tqdm = "^4.65.0"
+pyyaml = "^6.0.1"
 
 
 [tool.poetry.group.dev.dependencies]

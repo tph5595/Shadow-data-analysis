@@ -25,6 +25,10 @@ def dns_filter(df, evil_domain):
                   | (df['dns.qry.name'].isna())]
 
 
+def none(df, evil_domain):
+    return df
+
+
 def dot_filter(df, evil_domain):
     # for dot, we check if tcp port is 853, we cannot check for dns.qry.name in
     # this case if it is upstream DNS, i.e for eg. from resolver to root, tld,

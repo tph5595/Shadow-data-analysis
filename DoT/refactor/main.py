@@ -1,7 +1,9 @@
 import itertools
+import importlib
+import yaml
+import sys
 import pickle
 import multiprocessing as mp
-import os
 import heapq
 from datetime import datetime
 import pandas as pd
@@ -11,8 +13,7 @@ import math
 from fastdtw import fastdtw
 
 # Local Imports
-from ScopeFilters import dot_filter
-from TDA import TDA_Parameters
+from TDA import TDA_Parameters, ts_to_tda
 from CrossCorrelation import cross_cor
 from Metrics import recall_at_k, heap_to_ordered_list, get_value_position
 from Preprocess import preprocess
@@ -31,55 +32,38 @@ IP_AND_CACHE_SEARCH = (True, True)
 # ==============================================================================
 # Config
 # ==============================================================================
-experiment_name = "doh_dns_only"
-DEBUG = False
-pcappath = "../doh_data/data/csv/"
-logpath = "../doh_data/data/server_log/"
-DEFUALT_FILTER = dot_filter
-defualt_ip_search = True
-window = pd.Timedelta("30 seconds")  # cache size but maybe smaller
-# Scopes will be proccessed in order. Ensure order takes path most likely for
-# communication
-scope_config = [
-    # (r".*isp.*.csv", "ISP"),
-    (r".*resolver.*", "resolver", DEFUALT_FILTER, IP_SEARCH),
-    (r"(.*root).*.csv", "root", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
-    (r"(.*sld).*.csv", "SLD", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
-    (r"(.*tld).*.csv", "TLD", DEFUALT_FILTER, IP_AND_CACHE_SEARCH),
-    # (r".*access-service.csv", "Access_service"),
-    # (r".*/service.csv", "Service"),
-    ]
-server_logs = (".*pythonServerThread.stdout", "chatlogs")
-evil_domain = 'evil.dne'
-bad_features = ['tcp.srcport', 'udp.srcport', 'tcp.seq',
-                'frame.number', 'frame.time_relative', 'frame.time_delta']
-output_file = "output.csv"
-num_cpus = int((os.cpu_count() or 1)/2)
-skip = 1
-dim = 0
-tda_window = 3
-k = 9
-thresh = float("inf")
-# Optional
-# Will be removed from search
-infra_ip = []
+if len(sys.argv) < 2:
+    print("Usage: python {} <config.yaml>".format(sys.argv[0]))
+    sys.exit(1)
+
+config_file = sys.argv[1]
+with open(config_file, 'r') as file:
+    config = yaml.safe_load(file)
 # ==============================================================================
 # END Config
 # ==============================================================================
 
+window = pd.Timedelta(config['window'])
+num_cpus = config['num_cpus']
 
-tda_config = TDA_Parameters(dim, window, skip, k, thresh)
-src, dst = preprocess(pcappath,
-                      logpath,
-                      scope_config,
-                      server_logs,
-                      infra_ip,
+tda_config = TDA_Parameters(config['dim'], config['window'], config['skip'],
+                            config['k'], float(config['thresh']))
+
+module = importlib.import_module('ScopeFilters')
+for scope in config['scope_config']:
+    scope[2] = getattr(module, scope[2])
+
+src, dst = preprocess(config['pcappath'],
+                      config['logpath'],
+                      config['scope_config'],
+                      config['server_logs'],
+                      config['infra_ip'],
                       window,
-                      evil_domain,
-                      bad_features,
-                      debug=DEBUG)
+                      config['evil_domain'],
+                      config['bad_features'],
+                      debug=config['DEBUG'])
 
-p_filename = experiment_name + "_ts.pkl"
+p_filename = config['experiment_name'] + "_ts.pkl"
 with open(p_filename, 'wb') as file:
     pickle.dump(src, file)
     pickle.dump(dst, file)
@@ -189,11 +173,15 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     src = {}
     dst = {}
     for ip in src_raw:
-        # src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
-        src[ip] = src_raw[ip][src_features].copy(deep=True)
+        if config['tda']:
+            src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        else:
+            src[ip] = src_raw[ip][src_features].copy(deep=True)
     for user in dst_raw:
-        # dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
-        dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
+        if config['tda']:
+            dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        else:
+            dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
 
     correct = 0.0
     rank_list = []
@@ -288,7 +276,7 @@ for output_size in range(1, len(dst_df)+1):
         for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "with-doh-change-without-shadow_" + "chatlog_all_noTDA_match_dns_all_" + str(n) +
+                                             config['experiment_name'] + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
