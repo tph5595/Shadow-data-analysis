@@ -21,6 +21,8 @@ from Packets2TS import Packets2TS
 from DFutil import df_to_ts
 from TDA import TDA_Parameters, ts_to_tda
 from CrossCorrelation import cross_cor
+from Metrics import recall_at_k, heap_to_ordered_list, get_value_position
+from CastCol import cast_columns
 
 
 # ==============================================================================
@@ -54,8 +56,6 @@ scope_config = [
     # (r".*/service.csv", "Service"),
     ]
 server_logs = (".*pythonServerThread.stdout", "chatlogs")
-# Optional
-infra_ip = []
 evil_domain = 'evil.dne'
 bad_features = ['tcp.srcport', 'udp.srcport', 'tcp.seq',
                 'frame.number', 'frame.time_relative', 'frame.time_delta']
@@ -66,6 +66,9 @@ dim = 0
 tda_window = 3
 k = 9
 thresh = float("inf")
+# Optional
+# Will be removed from search
+infra_ip = []
 # ==============================================================================
 # END Config
 # ==============================================================================
@@ -107,7 +110,6 @@ for scope in scopes:
     scope.remove_zero_var()
 
 
-# ADD me here
 flows_ts_ip_total = Packets2TS(evil_domain, ignored_ips=[infra_ip + solo])\
                     .run(IPs, scopes)
 
@@ -132,71 +134,12 @@ def my_dtw(ts1, ts2):
     return distance
 
 
-def my_dist(ts1, ts2, ip1="", ip2=""):
-    return my_pl_ts(ts1, ts2, ip1, ip2)
-
-
 def my_pl_ts(ts1, ts2, ip1, ip2):
     return my_dtw(ts1, ts2)
 
 
-def calc_dist_matrix(samples, my_dist, multi_to_single=lambda x: x):
-    # create a list of dataframe values
-    X = [multi_to_single(df.to_numpy(), ip) for ip, df in samples.items()]
-    n_samples = len(X)
-    dist_mat = np.zeros((n_samples, n_samples))
-    for i in range(n_samples):
-        for j in range(i+1, n_samples):
-            d = my_dist(X[i], X[j], i, j)
-            dist_mat[i, j] = d
-            dist_mat[j, i] = d
-    return squareform(dist_mat)
-
-
-def cast_col(col: pd.Series) -> pd.Series:
-    if col.dtype == 'object':
-        if all([is_float(x) for x in col]):
-            return col.astype(float)
-        elif all([is_int(x) for x in col]):
-            return col.astype(float)
-        elif all([is_date(x) for x in col]):
-            return pd.Series(pd.to_datetime(col)).astype(float)
-        else:
-            return col.astype(str)
-    elif np.issubdtype(col.dtype, np.datetime64):
-        return col.astype(np.int64)
-    else:
-        return col.astype(float)
-
-
-def is_float(s: str) -> bool:
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
-
-
-def is_int(s: str) -> bool:
-    try:
-        int(s)
-        return True
-    except ValueError:
-        return False
-
-
-def is_date(s: str) -> bool:
-    try:
-        pd.to_datetime(s)
-        return True
-    except ValueError:
-        return False
-
-
-def cast_columns(df):
-    for col in df.columns:
-        df[col] = cast_col(df[col])
-    return df
+def my_dist(ts1, ts2, ip1="", ip2=""):
+    return my_pl_ts(ts1, ts2, ip1, ip2)
 
 
 def get_chat_logs(scope):
@@ -217,38 +160,6 @@ def ip_to_user(ip, group_size=5, starting=10):
     user = local_net % group_size
     group = math.floor(local_net/group_size)
     return '/tordata/config/group_' + str(group) + "_user_" + str(user)
-
-
-# # https://www.datainsightonline.com/post/cross-correlation-with-two-time-series-in-python
-# # from scipy import signal
-
-# def ccf_values(series1, series2):
-#     p = series1
-#     q = series2
-#     p = (p - np.mean(p)) / (np.std(p) * len(p))
-#     q = (q - np.mean(q)) / (np.std(q))
-#     c = np.correlate(p, q, 'full')
-#     return c
-
-
-# def ccf_calc(sig1, sig2):
-#     corr = sm.tsa.stattools.ccf(sig2, sig1, adjusted=False)
-
-#     # Remove padding and reverse the order
-#     return corr[0:(len(sig2)+1)][::-1]
-
-
-# def cross_cor(ts1, ts2, debug=False, max_offset=300, only_positive=True):
-#     ccf = ccf_calc(ts1, ts2)
-#     best_cor = max(ccf)
-#     best_lag = np.argmax(ccf)
-
-#     if debug:
-#         print('best cross correlation: ' + str(best_cor) + " at time lag: " + str(best_lag))
-#         print(len(ccf))
-#         print(ccf)
-#         # ccf_plot(range(len(ccf)), ccf)
-#     return best_cor, best_lag
 
 
 def compare_ts(ts1, ts2, debug=False):
@@ -308,56 +219,6 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     score, lag = compare_ts(ts1_norm, ts2_norm, debug=debug)
 
     return score, lag
-
-
-def recall_at_k(heap, k, value):
-    """
-    Checks if a value is in the top k elements of a heap.
-
-    Args:
-        heap (list): Binary heap.
-        value: Value to check.
-        k (int): Number of top elements to consider.
-
-    Returns:
-        bool: True if value is in the top k elements, False otherwise.
-    """
-    top_k_elements = heapq.nsmallest(k, heap)
-    return value in [elem[2] for elem in top_k_elements]
-
-
-def get_value_position(heap, value):
-    """
-    Returns the position (index) of a value in a binary heap.
-
-    Args:
-        heap (list): Binary heap.
-        value: Value to find the position of.
-
-    Returns:
-        int: Position (index) of the value in the heap. Returns -1 if the value is not found.
-    """
-    try:
-        position = next(idx for idx, element in enumerate(heap) if element[2] == value)
-    except StopIteration:
-        position = -1
-    return position + 1
-
-
-def heap_to_ordered_list(heap):
-    """
-    Converts a binary heap into an ordered list.
-
-    Args:
-        heap (list): Binary heap.
-
-    Returns:
-        list: Ordered list representing the heap elements.
-    """
-    ordered_list = []
-    while heap:
-        ordered_list.append(heapq.heappop(heap))
-    return ordered_list
 
 
 def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
@@ -461,21 +322,6 @@ dst_df = chat_log
 dst_df_count = {}
 for user in dst_df:
     dst_df_count[user] = dst_df[user]['count']
-
-
-# def evaluate_tda(src_df, dst_df, tda_params):
-#     try:
-#         dst_arr = {}
-#         for ip in dst_df:
-#             dst_arr[ip] = np.array(
-#                     ts_to_tda(
-#                         dst_df[ip].loc[:, features],
-#                         tda_params))
-#         assert dst_arr[single_user].ndim == 1
-#         result = evaluate(src_df, dst_arr, ['count'], display=True, params=tda_params)
-#     except Exception:
-#         result = -1
-#     return result, tda_params.thresh
 
 
 def eval_model(src_raw, dst_raw, src_features, dst_feaures):
