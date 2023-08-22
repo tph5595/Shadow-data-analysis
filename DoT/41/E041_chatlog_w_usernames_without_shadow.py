@@ -966,8 +966,8 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
     #           (ts1['frame.time'] <= int(range[1]))]
     # print(ts1)
-    ts1 = ts1.loc[:, 'tda_pl']
-    # ts1 = ts1.values[:, 0]
+    # ts1 = ts1.loc[:, 'tda_pl']
+    ts1 = ts1.values[:, 0]
 
     ts1_norm = np.array(ts1.copy())
     ts2_norm = np.array(ts2.copy())
@@ -1109,11 +1109,11 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     src = {}
     dst = {}
     for ip in src_raw:
-        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
-        # src[ip] = src_raw[ip][src_features].copy(deep=True)
+        # src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+        src[ip] = src_raw[ip][src_features].copy(deep=True)
     for user in dst_raw:
-        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
-        # dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
+        # dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+        dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
 
     correct = 0.0
     rank_list = []
@@ -1134,7 +1134,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
             counter += 1
             score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
             if not math.isnan(score) and not math.isinf(score):
-                heapq.heappush(heap, (score, counter, ip_to_user(ip)))
+                heapq.heappush(heap, (score, counter, ip))
             if score < best_score:
                 best_score = score
                 best_user = ip_to_user(ip)
@@ -1156,15 +1156,14 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
             print("r8: " + str(r8))
             raise Exception("Bad recall")
         rank += get_value_position(heap, user)
-        # rank_list += [(get_value_position(heap, user), user)]
-        # score_list += [(heap_to_ordered_list(heap), user)]
+        rank_list += [(get_value_position(heap, user), user)]
+        score_list += [(heap_to_ordered_list(heap), user)]
     accuracy = correct / len(src)
     recall_2 = recall_2 / len(src)
     recall_4 = recall_4 / len(src)
     recall_8 = recall_8 / len(src)
     rank = rank / len(src)
-    return accuracy, recall_2, recall_4, recall_8, rank
-    # , rank_list, score_list
+    return accuracy, recall_2, recall_4, recall_8, rank, rank_list, score_list
 
 # Find best features
 import itertools
@@ -1291,7 +1290,7 @@ for output_size in range(1, len(dst_df)+1):
 #             assert dst_arr[single_user].ndim == 2
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
-                                            "with-doh-change-without-shadow_" + "chatlog_tda_match_dns_all_" + str(n) +
+                                            "with-doh-change-without-shadow_" + "chatlog_all_noTDA_match_dns_all_" + str(n) +
                                              "_outputFeatures_" + str(features) +
                                              "_" + str(datetime.now()) +
                                              ".output")
