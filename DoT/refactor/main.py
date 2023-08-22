@@ -1,28 +1,21 @@
-from os.path import isfile, join
 import itertools
+import pickle
 import multiprocessing as mp
 import os
-from scipy.spatial.distance import squareform
 import heapq
 from datetime import datetime
-from os import listdir
 import pandas as pd
 from tqdm import tqdm
 import numpy as np
 import math
 from fastdtw import fastdtw
-import statsmodels.api as sm
 
 # Local Imports
-from PrivacyScope import createScope, createLogScope
-from ScopeFilters import dot_filter, getPossibleIPs
-from Solo import Solo
-from Packets2TS import Packets2TS
-from DFutil import df_to_ts
-from TDA import TDA_Parameters, ts_to_tda
+from ScopeFilters import dot_filter
+from TDA import TDA_Parameters
 from CrossCorrelation import cross_cor
 from Metrics import recall_at_k, heap_to_ordered_list, get_value_position
-from CastCol import cast_columns
+from Preprocess import preprocess
 
 
 # ==============================================================================
@@ -38,6 +31,7 @@ IP_AND_CACHE_SEARCH = (True, True)
 # ==============================================================================
 # Config
 # ==============================================================================
+experiment_name = "doh_dns_only"
 DEBUG = False
 pcappath = "../doh_data/data/csv/"
 logpath = "../doh_data/data/server_log/"
@@ -75,43 +69,24 @@ infra_ip = []
 
 
 tda_config = TDA_Parameters(dim, window, skip, k, thresh)
+src, dst = preprocess(pcappath,
+                      logpath,
+                      scope_config,
+                      server_logs,
+                      infra_ip,
+                      window,
+                      evil_domain,
+                      bad_features,
+                      debug=DEBUG)
 
+p_filename = experiment_name + "_ts.pkl"
+with open(p_filename, 'wb') as file:
+    pickle.dump(src, file)
+    pickle.dump(dst, file)
 
-def getFilenames(path):
-    return [path+f for f in listdir(path) if isfile(join(path, f))]
-
-
-# Get data
-pcapCSVs = getFilenames(pcappath)
-logs = getFilenames(logpath)
-data = pcapCSVs + logs
-# Setup Input scopes
-scopes = [createScope(data, regex, name, debug=DEBUG)
-          .set_filter(filter)
-          .set_search(search_options)
-          for (regex, name, filter, search_options) in scope_config]
-# Set up chatlog scopes
-chatlog = createLogScope(data, server_logs, debug=DEBUG)
-if DEBUG:
-    print("Scopes created")
-    print(str(scopes))
-
-
-ips_seen = getPossibleIPs(scopes)
-IPs = list(set(ips_seen) - set(infra_ip))
-
-solo = Solo(window, debug=DEBUG).run(scopes)
-
-# Add all scope data to IPs found in resolver address space
-# This should be a valid topo sorted list
-# of the scopes (it will be proccessed in order)
-for scope in scopes:
-    scope.remove_features(bad_features)
-    scope.remove_zero_var()
-
-
-flows_ts_ip_total = Packets2TS(evil_domain, ignored_ips=[infra_ip + solo])\
-                    .run(IPs, scopes)
+with open(p_filename, 'rb') as file:
+    flows_ts_ip_total = pickle.load(file)
+    client_chat_logs = pickle.load(file)
 
 
 def ip_to_group(ip):
@@ -142,17 +117,6 @@ def my_dist(ts1, ts2, ip1="", ip2=""):
     return my_pl_ts(ts1, ts2, ip1, ip2)
 
 
-def get_chat_logs(scope):
-    df = scope.as_df()
-    df["text_len"] = df["text"].apply(len)
-    users = df["username"].unique()
-    client_log = {}
-    for user in users:
-        client_log[user] = df_to_ts(df[df["username"] == user]).set_index('time')
-    return client_log
-
-
-client_chat_logs = get_chat_logs(chatlog)
 
 
 def ip_to_user(ip, group_size=5, starting=10):
@@ -295,7 +259,6 @@ def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
     features = src_df[next(iter(src_df))].columns
     subsets = findsubsets(features, n)
     results = []
-    num_cpus = int(os.cpu_count()/2)
     print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
     with mp.Pool(processes=num_cpus) as pool:
         results = []
@@ -306,44 +269,6 @@ def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
                 score, subset = result.get()
                 out = str(score) + "\t" + str(subset) + "\n"
                 f.write(out)
-
-
-flows_ts_ip_total_str_int = {}
-for ip in flows_ts_ip_total:
-    flows_ts_ip_total_str_int[ip] = cast_columns(flows_ts_ip_total[ip])
-
-chat_log = {}
-for user in client_chat_logs:
-    chat_log[user] = cast_columns(client_chat_logs[user])
-
-src_df = flows_ts_ip_total_str_int
-dst_df = chat_log
-
-dst_df_count = {}
-for user in dst_df:
-    dst_df_count[user] = dst_df[user]['count']
-
-
-def eval_model(src_raw, dst_raw, src_features, dst_feaures):
-    src = {}
-    dst = {}
-    for ip in src_raw:
-        src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
-    for user in dst_raw:
-        dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
-    correct = 0.0
-    for user in tqdm(dst):
-        best_score = 0
-        best_ip = 0
-        for ip in src:
-            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
-            if score < best_score:
-                best_score = score
-                best_ip = ip
-        if user == ip_to_user(best_ip):
-            correct += 1
-    accuracy = correct / len(src)
-    return accuracy
 
 
 src_df = flows_ts_ip_total
