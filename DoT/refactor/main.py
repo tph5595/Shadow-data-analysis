@@ -46,12 +46,16 @@ with open(config_file, 'r') as file:
 window = pd.Timedelta(config['window'])
 num_cpus = config['num_cpus']
 
-tda_config = TDA_Parameters(config['dim'], config['window'], config['skip'],
-                            config['k'], float(config['thresh']))
-
 module = importlib.import_module('ScopeFilters')
 for scope in config['scope_config']:
     scope[2] = getattr(module, scope[2])
+
+tda_config = TDA_Parameters(config['dim'],
+                            config['tda_window'],
+                            config['skip'],
+                            config['k'],
+                            float(config['thresh']))
+
 
 src, dst = preprocess(config['pcappath'],
                       config['logpath'],
