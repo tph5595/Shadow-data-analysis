@@ -38,12 +38,13 @@ def preprocess(pcappath, logpath, scope_config, server_logs, infra_ip, window,
     # Set up chatlog scopes
     client_chat_logs = get_chat_logs(data, server_logs, debug=debug)
 
+    ips_seen = getPossibleIPs(scopes)
+    IPs = list(set(ips_seen) - set(infra_ip))
+
     if debug:
         print("Scopes created")
         print(str(scopes))
-
-    ips_seen = getPossibleIPs(scopes)
-    IPs = list(set(ips_seen) - set(infra_ip))
+        print(ips_seen)
 
     solo = Solo(window, debug=debug).run(scopes)
 

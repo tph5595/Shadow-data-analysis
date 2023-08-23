@@ -17,16 +17,7 @@ from TDA import TDA_Parameters, ts_to_tda
 from CrossCorrelation import cross_cor
 from Metrics import recall_at_k, heap_to_ordered_list, get_value_position
 from Preprocess import preprocess
-
-
-# ==============================================================================
-# Static variables
-# ==============================================================================
-IP_SEARCH = (True, False)
-IP_AND_CACHE_SEARCH = (True, True)
-# ==============================================================================
-# END Static variables
-# ==============================================================================
+from CastCol import cast_columns
 
 
 # ==============================================================================
@@ -75,6 +66,12 @@ with open(p_filename, 'wb') as file:
 with open(p_filename, 'rb') as file:
     flows_ts_ip_total = pickle.load(file)
     client_chat_logs = pickle.load(file)
+
+for ip in flows_ts_ip_total:
+    cast_columns(flows_ts_ip_total[ip])
+
+for user in client_chat_logs:
+    cast_columns(client_chat_logs[user])
 
 
 def ip_to_group(ip):

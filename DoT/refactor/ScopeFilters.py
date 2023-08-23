@@ -11,7 +11,7 @@ def getPossibleIPs(scopes):
     assert len(resolver) == 1
     resolver = resolver[0]
     resolv_df = resolver.as_df()
-    resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOH_PORT]
+    resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
     return resolv_df_filtered['ip.src'].unique()
 
 
@@ -45,8 +45,7 @@ def dot_filter(df, evil_domain):
     return df[(df['dns.qry.name'] == evil_domain)
               | (df['dns.qry.name'].isna())
               | (df['tcp.dstport'] == DOT_PORT)
-              | (df['tcp.dstport'] == DOH_PORT)
-              | (df['udp.dstport'] == DNS_PORT)]
+              | (df['tcp.dstport'] == DOH_PORT)]
 
 
 def isp_filter(df, evil_domain):
