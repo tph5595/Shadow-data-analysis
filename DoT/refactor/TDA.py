@@ -36,5 +36,3 @@ def ts_to_tda(data, header="", params=TDA_Parameters(0, 3, 1, 2, float("inf")), 
     rip_data = rip_ts(params.window, params.dim, params.skip, data, thresh=params.thresh)
     new_ts = [tda_trans(pairs, params.k, debug) for i, pairs in rip_data.items()]
     return pd.DataFrame({'tda_pl': new_ts}, index=data.index[:len(new_ts)])
-
-
