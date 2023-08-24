@@ -203,7 +203,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
             counter += 1
             score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
             if not math.isnan(score) and not math.isinf(score):
-                heapq.heappush(heap, (score, counter, ip))
+                heapq.heappush(heap, (score, counter, ip_to_user(ip)))
             if score < best_score:
                 best_score = score
                 best_user = ip_to_user(ip)
@@ -232,7 +232,8 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     recall_4 = recall_4 / len(src)
     recall_8 = recall_8 / len(src)
     rank = rank / len(src)
-    return accuracy, recall_2, recall_4, recall_8, rank, rank_list, score_list
+    return accuracy, recall_2, recall_4, recall_8, rank
+    # , rank_list, score_list
 
 
 def findsubsets(s, n):

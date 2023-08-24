@@ -11,7 +11,7 @@ def getPossibleIPs(scopes):
     assert len(resolver) == 1
     resolver = resolver[0]
     resolv_df = resolver.as_df()
-    resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOT_PORT]
+    resolv_df_filtered = resolv_df[resolv_df['tcp.dstport'] == DOH_PORT]
     return resolv_df_filtered['ip.src'].unique()
 
 

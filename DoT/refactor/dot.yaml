@@ -1,10 +1,10 @@
 ---
-experiment_name: "dot_all_scopes_noTDA"
-DEBUG: True
+experiment_name: "dot_all_scopes"
+DEBUG: False
 pcappath: "../dot_data/csv/"
 logpath: "../dot_data/server-log/"
 window: "30 seconds" # cache size but maybe smaller
-tda: False
+tda: True
 # Scopes will be proccessed in order. Ensure order takes path most likely for
 # communication
 scope_config:
