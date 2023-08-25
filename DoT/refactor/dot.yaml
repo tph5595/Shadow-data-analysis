@@ -1,8 +1,8 @@
 ---
-experiment_name: "dot_all_scopes"
+experiment_name: "dot_all_scopes_https_tda"
 DEBUG: False
-pcappath: "../dot_data/csv/"
-logpath: "../dot_data/server-log/"
+pcappath: "../https/dot_data/csv/"
+logpath: "../https/dot_data/server_log/"
 window: "30 seconds" # cache size but maybe smaller
 tda: True
 # Scopes will be proccessed in order. Ensure order takes path most likely for
@@ -13,9 +13,9 @@ scope_config:
   - ["(.*root).*.csv", "root", dot_filter, [True, True] ]
   - ["(.*sld).*.csv", "SLD", dot_filter, [True, True] ]
   - ["(.*tld).*.csv", "TLD", dot_filter, [True, True] ]
-  - [".*access-service.csv", "Access_service", none, [True, False]]
+  - [".*access-to-service.csv", "Access_service", none, [True, False]]
   - [".*/service.csv", "Service", none, [True, False]]
-server_logs: [".*pythonServerThread.stdout", "chatlogs"]
+server_logs: [".*pythonServerThread.log", "chatlogs"]
 evil_domain: 'evil.dne'
 bad_features: ['tcp.srcport', 'tcp.seq',
                 'frame.number', 'frame.time_relative', 'frame.time_delta']

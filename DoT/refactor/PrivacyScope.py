@@ -80,7 +80,7 @@ class PrivacyScope:
             # print("processing file: " + f)
             if f.endswith(".csv"):
                 ddf = pd.read_csv(f)
-            elif f.endswith("stdout"):
+            elif f.endswith("stdout") or f.endswith("log"):
                 ddf = self.process_log(f)
             df = pd.concat([df, ddf])
         self.df = df
