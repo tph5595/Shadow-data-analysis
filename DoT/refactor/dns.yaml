@@ -1,10 +1,10 @@
 ---
-experiment_name: "dns_all_scopes_https"
+experiment_name: "dns_all_scopes_https_tda"
 DEBUG: False
 pcappath: "../https/dns_data/csv/"
 logpath: "../https/dns_data/server_log/"
 window: "30 seconds" # cache size but maybe smaller
-tda: False
+tda: True
 # Scopes will be proccessed in order. Ensure order takes path most likely for
 # communication
 scope_config:
