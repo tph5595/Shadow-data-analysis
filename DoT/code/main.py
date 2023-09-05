@@ -75,7 +75,7 @@ for user in client_chat_logs:
 
 
 def ip_to_group(ip):
-    if ip.split(".")[0] != '101':
+    if isinstance(ip, float) or ip.split(".")[0] != '102':
         return -1
     return math.floor((int(ip.split(".")[-1])-2) / 5)
 

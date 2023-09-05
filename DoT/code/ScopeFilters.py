@@ -7,12 +7,11 @@ TCP_PROTO = 6
 
 
 def getPossibleIPs(scopes):
-    resolver = [scope for scope in scopes if "resolver" in scope.name.lower()]
-    assert len(resolver) == 1
+    resolver = [scope for scope in scopes if "isp" in scope.name.lower()]
+    assert len(resolver) >= 1
     resolver = resolver[0]
     resolv_df = resolver.as_df()
-    resolv_df_filtered = resolv_df[resolv_df['udp.dstport'] == DNS_PORT]
-    return resolv_df_filtered['ip.src'].unique()
+    return resolv_df['ip.src'].unique()
 
 
 def dns_filter(df, evil_domain):

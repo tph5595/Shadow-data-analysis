@@ -43,6 +43,7 @@ class Packets2TS(Pipeline):
                                        args=(self.evil_domain))
                 if matches[0].empty:
                     print("No matches for {} at {}".format(ip, scope))
+                    continue
                 if not matches[0].empty:
                     matches[0]['count'] = 1
 
