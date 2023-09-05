@@ -102,8 +102,6 @@ def my_dist(ts1, ts2, ip1="", ip2=""):
     return my_pl_ts(ts1, ts2, ip1, ip2)
 
 
-
-
 def ip_to_user(ip, group_size=5, starting=10):
     local_net = int(ip.split(".")[-1]) - starting
     user = local_net % group_size

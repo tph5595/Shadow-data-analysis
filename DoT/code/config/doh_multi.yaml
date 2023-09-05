@@ -38,4 +38,4 @@ k: 9
 thresh: "inf"
 # Optional
 # Will be removed from search
-infra_ip: []
+infra_ip: ['192.168.150.10']

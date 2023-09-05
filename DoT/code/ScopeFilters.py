@@ -11,7 +11,9 @@ def getPossibleIPs(scopes):
     assert len(resolver) >= 1
     resolver = resolver[0]
     resolv_df = resolver.as_df()
-    return resolv_df['ip.src'].unique()
+    r = resolv_df['ip.src'].unique()
+    r = [x for x in r if str(x) != 'nan']
+    return r
 
 
 def dns_filter(df, evil_domain):
