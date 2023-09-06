@@ -74,19 +74,19 @@ for user in client_chat_logs:
     cast_columns(client_chat_logs[user])
 
 
-def ip_to_group(ip):
-    if isinstance(ip, float) or ip.split(".")[0] != '102':
-        return -1
-    return math.floor((int(ip.split(".")[-1])-2) / 5)
+# def ip_to_group(ip):
+#     if isinstance(ip, float) or ip.split(".")[0] != '102':
+#         return -1
+#     return math.floor((int(ip.split(".")[-1])-2) / 5)
 
 
-def get_real_label(dic):
-    data = dic.keys()
-    result = np.array([ip_to_group(xi) for xi in data])
-    return result
+# def get_real_label(dic):
+#     data = dic.keys()
+#     result = np.array([ip_to_group(xi) for xi in data])
+#     return result
 
 
-answers = get_real_label(flows_ts_ip_total)
+# answers = get_real_label(flows_ts_ip_total)
 
 
 def my_dtw(ts1, ts2):
@@ -102,10 +102,10 @@ def my_dist(ts1, ts2, ip1="", ip2=""):
     return my_pl_ts(ts1, ts2, ip1, ip2)
 
 
-def ip_to_user(ip, group_size=5, starting=10):
+def ip_to_user(ip, group_size=5, starting=5):
+    group = int(ip.split(".")[-2]) / 10
     local_net = int(ip.split(".")[-1]) - starting
-    user = local_net % group_size
-    group = math.floor(local_net/group_size)
+    user = (local_net - (group * 10)) % group_size
     return '/tordata/config/group_' + str(group) + "_user_" + str(user)
 
 
@@ -172,15 +172,23 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     src = {}
     dst = {}
     for ip in src_raw:
+        try:
+            data = src_raw[ip][src_features].copy(deep=True)
+        except Exception:
+            data = pd.DataFrame(0, index=src_features[ip].index, columns=src_features)
         if config['tda']:
-            src[ip] = ts_to_tda(src_raw[ip][src_features].copy(deep=True), params=tda_config)
+            src[ip] = ts_to_tda(data)
         else:
-            src[ip] = src_raw[ip][src_features].copy(deep=True)
+            src[ip] = data
     for user in dst_raw:
+        try:
+            data = dst_raw[user][dst_feaures].copy(deep=True)
+        except Exception:
+            data = pd.DataFrame(0, index=dst_feaures[user].index, columns=dst_feaures)
         if config['tda']:
-            dst[user] = ts_to_tda(dst_raw[user][dst_feaures].copy(deep=True), params=tda_config)
+            dst[user] = ts_to_tda(data)
         else:
-            dst[user] = dst_raw[user][dst_feaures].copy(deep=True)
+            dst[user] = data
 
     correct = 0.0
     rank_list = []
