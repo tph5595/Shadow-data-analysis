@@ -103,7 +103,7 @@ def my_dist(ts1, ts2, ip1="", ip2=""):
 
 
 def ip_to_user(ip, group_size=5, starting=5):
-    group = int(ip.split(".")[-2]) / 10
+    group = int(int(ip.split(".")[-2]) / 10)
     local_net = int(ip.split(".")[-1]) - starting
     user = (local_net - (group * 10)) % group_size
     return '/tordata/config/group_' + str(group) + "_user_" + str(user)
@@ -175,7 +175,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         try:
             data = src_raw[ip][src_features].copy(deep=True)
         except Exception:
-            data = pd.DataFrame(0, index=src_features[ip].index, columns=src_features)
+            data = pd.DataFrame(0, index=src_raw[ip].index, columns=src_features)
         if config['tda']:
             src[ip] = ts_to_tda(data)
         else:
@@ -184,7 +184,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         try:
             data = dst_raw[user][dst_feaures].copy(deep=True)
         except Exception:
-            data = pd.DataFrame(0, index=dst_feaures[user].index, columns=dst_feaures)
+            data = pd.DataFrame(0, index=dst_raw[user].index, columns=dst_feaures)
         if config['tda']:
             dst[user] = ts_to_tda(data)
         else:
@@ -238,8 +238,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     recall_4 = recall_4 / len(src)
     recall_8 = recall_8 / len(src)
     rank = rank / len(src)
-    return accuracy, recall_2, recall_4, recall_8, rank
-    # , rank_list, score_list
+    return accuracy, recall_2, recall_4, recall_8, rank, rank_list, score_list
 
 
 def findsubsets(s, n):
@@ -251,8 +250,15 @@ def evaluate_subset(src_df, dst_df, src_features, dst_feaures, tda_config=None):
     return score, src_features
 
 
+def get_features(df):
+    features = []
+    for src in df:
+        features += df[src].columns.tolist()
+    return list(set(features))
+
+
 def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
-    features = src_df[next(iter(src_df))].columns
+    features = get_features(src_df)
     subsets = findsubsets(features, n)
     results = []
     print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
@@ -281,7 +287,7 @@ dst_df = client_chat_logs
 
 for output_size in range(1, len(dst_df)+1):
     for n in range(1, 3):
-        for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
+        for features in findsubsets(get_features(dst_df), output_size):
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
                                              config['experiment_name'] + str(n) +
