@@ -103,9 +103,10 @@ def my_dist(ts1, ts2, ip1="", ip2=""):
 
 
 def ip_to_user(ip, group_size=5, starting=5):
-    group = int(int(ip.split(".")[-2]) / 10)
-    local_net = int(ip.split(".")[-1]) - starting
-    user = (local_net - (group * 10)) % group_size
+    isp = int(int(ip.split(".")[-2]))
+    node_number = int(ip.split(".")[-1]) - starting - isp
+    user = node_number % group_size
+    group = math.floor(node_number / group_size)
     return '/tordata/config/group_' + str(group) + "_user_" + str(user)
 
 

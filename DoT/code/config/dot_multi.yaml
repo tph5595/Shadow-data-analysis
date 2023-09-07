@@ -1,10 +1,10 @@
 ---
-experiment_name: "dot_all_scopes_https_multiISP"
-DEBUG: False
+experiment_name: "dot_all_scopes_https_multiISP_tda"
+DEBUG: True
 pcappath: "../data/multiISP/dot_data/csv/"
 logpath: "../data/multiISP/dot_data/server_log/"
 window: "30 seconds" # cache size but maybe smaller
-tda: False
+tda: True
 # Scopes will be proccessed in order. Ensure order takes path most likely for
 # communication
 scope_config:
@@ -38,4 +38,4 @@ k: 9
 thresh: "inf"
 # Optional
 # Will be removed from search
-infra_ip: ['192.168.150.10']
+infra_ip: ['192.168.150.10', '101.0.0.10', '101.0.0.20']
