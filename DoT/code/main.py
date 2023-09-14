@@ -139,8 +139,8 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     # ts1 = ts1.loc[:, 'tda_pl']
     ts1 = ts1.values[:, 0]
 
-    ts1_norm = np.array(ts1.copy())
-    ts2_norm = np.array(ts2.copy())
+    ts1_norm = np.array(ts1)
+    ts2_norm = np.array(ts2)
 
     # delay = 0
 
@@ -208,7 +208,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         r8 = False
         for ip in src:
             counter += 1
-            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            score, _ = compare_ts_reshape(src[ip], dst[user])
             if not math.isnan(score) and not math.isinf(score):
                 heapq.heappush(heap, (score, counter, ip_to_user(ip)))
             if score < best_score:
