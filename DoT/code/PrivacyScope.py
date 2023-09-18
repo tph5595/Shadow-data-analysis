@@ -150,18 +150,19 @@ class PrivacyScope:
             diff = input_times[idx] - df_times[i]
             if diff <= pd.Timedelta(0):
                 idx += 1
-            elif diff < self.cache_timing:
+            elif diff <= self.cache_timing:
                 keepers[i] = True
 
         return df[keepers]
 
     def search(self, ip=None, cache_data=None, args=None):
-        matches = []
+        matches_ip = pd.DataFrame()
+        matches_cache = pd.DataFrame()
         if self.ip_search_enabled and ip is not None:
-            matches += [self.filterByIP(ip, args=args)]
+            matches_ip = self.filterByIP(ip, args=args)
         if self.cache_search_enabled and cache_data is not None:
-            matches += [self.filterByCache(ip, cache_data, args=args)]
-        return matches
+            matches_cache = self.filterByCache(ip, cache_data, args=args)
+        return [matches_ip, matches_cache]
 
     def remove_zero_var(self, cutoff=0.01):
         df = self.as_df()

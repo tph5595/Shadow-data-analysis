@@ -1,3 +1,4 @@
+from os import error
 import pandas as pd
 from tqdm import tqdm
 from Pipeline import Pipeline
@@ -39,13 +40,16 @@ class Packets2TS(Pipeline):
             flows_ts_ip_total[ip] = pd.DataFrame()
             for scope in scopes:
                 # Find matches
-                matches = scope.search(ip, flows_ip[ip],
+                matches = scope.search(ip=ip, cache_data=flows_ip[ip],
                                        args=(self.evil_domain))
-                if matches[0].empty:
+                if matches[0].empty and matches[1].empty:
                     print("No matches for {} at {}".format(ip, scope))
+                    raise error
                     continue
                 if not matches[0].empty:
                     matches[0]['count'] = 1
+                if not matches[1].empty:
+                    matches[1]['count_cache'] = 1
 
                 # Update df for ip
                 combined_scope = self.combineScopes(matches)

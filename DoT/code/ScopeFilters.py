@@ -18,11 +18,11 @@ def getPossibleIPs(scopes):
 
 def dns_filter(df, evil_domain):
     if ('dns.qry.name' in df.columns and 'tcp.dstport' in df.columns):
-        return df[(df['dns.qry.name'] == evil_domain)
-                  | (df['dns.qry.name'].isna())
-                  & (df['tcp.dstport'] == DOT_PORT)]
+        return df[(df['dns.qry.name'].isin(evil_domain))
+                  | ((df['dns.qry.name'].isna())
+                  & (df['tcp.dstport'].isin([DOT_PORT, DOH_PORT])))]
     else:
-        return df[(df['dns.qry.name'] == evil_domain)
+        return df[(df['dns.qry.name'].isin(evil_domain))
                   | (df['dns.qry.name'].isna())]
 
 
@@ -31,6 +31,7 @@ def none(df, evil_domain):
 
 
 def dot_filter(df, evil_domain):
+    evil_domain = [evil_domain] + evil_domain.split('.')
     # for dot, we check if tcp port is 853, we cannot check for dns.qry.name in
     # this case if it is upstream DNS, i.e for eg. from resolver to root, tld,
     # etc then we cannot check for tcp.dstport because it is udp (Plain DNS)
@@ -40,10 +41,10 @@ def dot_filter(df, evil_domain):
 
     # TODO: This is incorrect and should check for udp.dstport as well
     if ('dns.qry.name' in df.columns and 'tcp.dstport' not in df.columns):
-        return df[(df['dns.qry.name'] == evil_domain)
+        return df[(df['dns.qry.name'].isin(evil_domain))
                   | (df['dns.qry.name'].isna())]
 
-    return df[(df['dns.qry.name'] == evil_domain)
+    return df[(df['dns.qry.name'].isin(evil_domain))
               | (df['dns.qry.name'].isna())
               | (df['tcp.dstport'] == DOT_PORT)
               | (df['tcp.dstport'] == DOH_PORT)]
