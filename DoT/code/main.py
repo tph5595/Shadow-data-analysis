@@ -67,16 +67,16 @@ with open(p_filename, 'rb') as file:
     flows_ts_ip_total = pickle.load(file)
     client_chat_logs = pickle.load(file)
 
-bad_features = ['ip', 'udp.dstport', 'frame', 'tcp.dstport', 'tcp.ack',
-                'tcp.time_relative', 'tcp.reassembled.length']
+# bad_features = ['ip', 'udp.dstport', 'frame', 'tcp.dstport', 'tcp.ack',
+#                 'tcp.time_relative', 'tcp.reassembled.length']
 
 for ip in flows_ts_ip_total:
     cast_columns(flows_ts_ip_total[ip])
-    df = flows_ts_ip_total[ip]
-    cols_to_remove = []
-    for pattern in bad_features:
-        cols_to_remove += [c for c in df.columns if pattern in c.lower()]
-    df.drop(columns=cols_to_remove, inplace=True)
+    # df = flows_ts_ip_total[ip]
+    # cols_to_remove = []
+    # for pattern in bad_features:
+    #     cols_to_remove += [c for c in df.columns if pattern in c.lower()]
+    # df.drop(columns=cols_to_remove, inplace=True)
 
 for user in client_chat_logs:
     cast_columns(client_chat_logs[user])
