@@ -167,8 +167,8 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     #     ts2_norm = ts2_norm.tolist()
 
     score, lag = compare_ts(ts1_norm, ts2_norm, debug=debug)
-
-    return score, lag
+    adj_score = score + (((lag+1)**1.1)/1000.0)
+    return adj_score, lag
 
 def norm(df):
     # Initialize a new DataFrame to store the normalized values
@@ -200,6 +200,7 @@ def add_buff(ts, n):
 
 
 def new_tda_2(ts, buff=False):
+    ts = ts.fillna(0)
     ts = norm(ts)
     
     dim = 0
@@ -335,7 +336,7 @@ dst_df = client_chat_logs
 #         f.write(out)
 
 for output_size in range(1, len(dst_df)+1):
-    for n in range(3, 4):
+    for n in range(2, 4):
         for features in findsubsets(get_features(dst_df), output_size):
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,

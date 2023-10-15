@@ -67,8 +67,16 @@ with open(p_filename, 'rb') as file:
     flows_ts_ip_total = pickle.load(file)
     client_chat_logs = pickle.load(file)
 
+bad_features = ['ip', 'udp.dstport', 'frame', 'tcp.dstport', 'tcp.ack']
+                # 'tcp.time_relative', 'tcp.reassembled.length']
+
 for ip in flows_ts_ip_total:
     cast_columns(flows_ts_ip_total[ip])
+    df = flows_ts_ip_total[ip]
+    cols_to_remove = []
+    for pattern in bad_features:
+        cols_to_remove += [c for c in df.columns if pattern in c.lower()]
+    df.drop(columns=cols_to_remove, inplace=True)
 
 for user in client_chat_logs:
     cast_columns(client_chat_logs[user])
@@ -103,9 +111,10 @@ def my_dist(ts1, ts2, ip1="", ip2=""):
 
 
 def ip_to_user(ip, group_size=5, starting=5):
-    group = int(ip.split(".")[-2]) / 10
-    local_net = int(ip.split(".")[-1]) - starting
-    user = (local_net - (group * 10)) % group_size
+    isp = int(int(ip.split(".")[-2]))
+    node_number = int(ip.split(".")[-1]) - starting - isp
+    user = node_number % group_size
+    group = math.floor(node_number / group_size)
     return '/tordata/config/group_' + str(group) + "_user_" + str(user)
 
 
@@ -121,25 +130,19 @@ def compare_ts(ts1, ts2, debug=False):
     dist = dist * -1  # flip for use as distance metric
     # assert dist >= -1 and dist <= 1
     return dist, lag
-
-
-def normalize_ts(ts):
-    ts = (ts-ts.min())/(ts.max()-ts.min())
-    return ts.fillna(0)
-
-
+    
 def compare_ts_reshape(ts1, ts2, debug=False):
-    # buffer_room = 120  # in seconds
+    ts1 = ts1.fillna(0)
+    ts2 = ts2.fillna(0)
+
     range = min(ts2.index.values), max(ts2.index.values)
     ts1 = ts1.loc[(ts1.index >= range[0]) & (ts1.index <= range[1])]
-    # ts1 = ts1[(ts1['frame.time'] >= int(range[0])) &
-    #           (ts1['frame.time'] <= int(range[1]))]
-    # print(ts1)
+
     # ts1 = ts1.loc[:, 'tda_pl']
     ts1 = ts1.values[:, 0]
 
-    ts1_norm = np.array(ts1.copy())
-    ts2_norm = np.array(ts2.copy())
+    ts1_norm = np.array(ts1)
+    ts2_norm = np.array(ts2)
 
     # delay = 0
 
@@ -164,8 +167,55 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     #     ts2_norm = ts2_norm.tolist()
 
     score, lag = compare_ts(ts1_norm, ts2_norm, debug=debug)
+    adj_score = score + (((lag+1)^1.1)/1000.0)
+    return adj_score, lag
 
-    return score, lag
+def norm(df):
+    # Initialize a new DataFrame to store the normalized values
+    normalized_df = pd.DataFrame()
+
+    # Loop through each column and normalize it using min-max scaling
+    for column in df.columns:
+        min_val = df[column].min()
+        max_val = df[column].max()
+        normalized_values = (df[column] - min_val) / (max_val - min_val)
+        normalized_df[column] = normalized_values
+
+    return normalized_df
+    
+def diff_me(ts):
+    return ts.diff().abs()
+    
+def add_buff(ts, n):
+    # Calculate the new timestamp for the last row
+    last_timestamp = ts.index[-1]#.timestamp()
+    #print(ts.index[-1])
+    
+    # Create new rows with timestamps in seconds
+    new_rows = pd.DataFrame(0, index=pd.date_range(start=last_timestamp, periods=n, freq='S'), columns=ts.columns)
+    #print(new_rows)
+    # Concatenate the original DataFrame with the new rows
+    ts = pd.concat([new_rows, ts, new_rows])
+    return ts
+
+
+def new_tda_2(ts, buff=False):
+    ts = ts.fillna(0)
+    ts = norm(ts)
+    
+    dim = 0
+    window = 50
+    skip = 1
+    k = 1
+    thresh = float("inf")
+    
+    params=TDA_Parameters(dim, window, skip, k, thresh)
+    if buff:
+        ts = add_buff(ts, window+10)
+    tda = ts_to_tda(ts, params=params)
+    return diff_me(tda)
+ 
+#compare_ts_reshape(new_tda_2(src_ip[features]), new_tda_2(dst_ip, buff=True))
 
 
 def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
@@ -177,7 +227,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         except Exception:
             data = pd.DataFrame(0, index=src_raw[ip].index, columns=src_features)
         if config['tda']:
-            src[ip] = ts_to_tda(data)
+            src[ip] = new_tda_2(data)
         else:
             src[ip] = data
     for user in dst_raw:
@@ -186,7 +236,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         except Exception:
             data = pd.DataFrame(0, index=dst_raw[user].index, columns=dst_feaures)
         if config['tda']:
-            dst[user] = ts_to_tda(data)
+            dst[user] = new_tda_2(data, buff=True)
         else:
             dst[user] = data
 
@@ -207,7 +257,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         r8 = False
         for ip in src:
             counter += 1
-            score, _ = compare_ts_reshape(src[ip].copy(deep=True), dst[user].copy(deep=True))
+            score, _ = compare_ts_reshape(src[ip], dst[user])
             if not math.isnan(score) and not math.isinf(score):
                 heapq.heappush(heap, (score, counter, ip_to_user(ip)))
             if score < best_score:
@@ -238,8 +288,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     recall_4 = recall_4 / len(src)
     recall_8 = recall_8 / len(src)
     rank = rank / len(src)
-    return accuracy, recall_2, recall_4, recall_8, rank
-    # , rank_list, score_list
+    return accuracy, recall_2, recall_4, recall_8, rank #  , rank_list, score_list
 
 
 def findsubsets(s, n):
@@ -251,8 +300,15 @@ def evaluate_subset(src_df, dst_df, src_features, dst_feaures, tda_config=None):
     return score, src_features
 
 
+def get_features(df):
+    features = []
+    for src in df:
+        features += df[src].columns.tolist()
+    return list(set(features))
+
+
 def iterate_features(src_df, dst_df, n, dst_features, tda_config, filename):
-    features = src_df[next(iter(src_df))].columns
+    features = get_features(src_df)
     subsets = findsubsets(features, n)
     results = []
     print("Using " + str(num_cpus) + " cpus for " + str(len(subsets)) + " subsets")
@@ -280,8 +336,8 @@ dst_df = client_chat_logs
 #         f.write(out)
 
 for output_size in range(1, len(dst_df)+1):
-    for n in range(1, 3):
-        for features in findsubsets(dst_df[next(iter(dst_df))].columns, output_size):
+    for n in range(2, 4):
+        for features in findsubsets(get_features(dst_df), output_size):
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
                                              config['experiment_name'] + str(n) +

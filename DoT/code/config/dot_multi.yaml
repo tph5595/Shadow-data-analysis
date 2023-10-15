@@ -1,5 +1,5 @@
 ---
-experiment_name: "dot_all_scopes_https_multiISP_tda_less_copy"
+experiment_name: "dot_all_scopes_https_multiISP_min_tda"
 DEBUG: False
 pcappath: "../data/multiISP/dot_data/csv/"
 logpath: "../data/multiISP/dot_data/server_log/"

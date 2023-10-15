@@ -1,5 +1,5 @@
 ---
-experiment_name: "doh_all_scopes_https_multiISP_tda_copyTest"
+experiment_name: "doh_all_scopes_https_multiISP_min_tda"
 DEBUG: False
 pcappath: "../data/multiISP/doh_data/csv/"
 logpath: "../data/multiISP/doh_data/server_log/"
