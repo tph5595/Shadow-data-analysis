@@ -1,5 +1,6 @@
 from os import listdir
 from os.path import isfile, join
+from tqdm import tqdm
 
 from PrivacyScope import createScope, createLogScope
 from ScopeFilters import getPossibleIPs
@@ -48,15 +49,16 @@ def preprocess(pcappath, logpath, scope_config, server_logs, infra_ip, window,
         print(str(scopes))
         print(ips_seen)
 
-    solo = Solo(window, debug=debug).run(scopes)
-
     # Add all scope data to IPs found in resolver address space
     # This should be a valid topo sorted list
     # of the scopes (it will be proccessed in order)
-    for scope in scopes:
+    for scope in tqdm(scopes):
         scope.remove_features(bad_features)
         scope.remove_zero_var()
 
-    flows_ts_ip_total = Packets2TS(evil_domain, ignored_ips=[infra_ip + solo])\
+    # solo = Solo(window, debug=debug).run(scopes)
+
+    # flows_ts_ip_total = Packets2TS(evil_domain, ignored_ips=[infra_ip + solo])\
+    flows_ts_ip_total = Packets2TS(evil_domain, ignored_ips=[infra_ip])\
         .run(IPs, scopes)
     return flows_ts_ip_total, client_chat_logs

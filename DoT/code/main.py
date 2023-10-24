@@ -59,9 +59,12 @@ src, dst = preprocess(config['pcappath'],
                       debug=config['DEBUG'])
 
 p_filename = config['experiment_name'] + "_ts.pkl"
+
 with open(p_filename, 'wb') as file:
     pickle.dump(src, file)
     pickle.dump(dst, file)
+
+# exit(1)
 
 with open(p_filename, 'rb') as file:
     flows_ts_ip_total = pickle.load(file)
@@ -167,8 +170,9 @@ def compare_ts_reshape(ts1, ts2, debug=False):
     #     ts2_norm = ts2_norm.tolist()
 
     score, lag = compare_ts(ts1_norm, ts2_norm, debug=debug)
-    adj_score = score + (((lag+1)**1.1)/1000.0)
-    return adj_score, lag
+    # adj_score = score + (((lag+1)**1.1)/1000.0)
+    return score, lag
+
 
 def norm(df):
     # Initialize a new DataFrame to store the normalized values
@@ -182,10 +186,12 @@ def norm(df):
         normalized_df[column] = normalized_values
 
     return normalized_df
-    
+
+
 def diff_me(ts):
     return ts.diff().abs()
-    
+
+
 def add_buff(ts, n):
     # Calculate the new timestamp for the last row
     last_timestamp = ts.index[-1]#.timestamp()
@@ -200,22 +206,22 @@ def add_buff(ts, n):
 
 
 def new_tda_2(ts, buff=False):
-    ts = ts.fillna(0)
     ts = norm(ts)
-    
+
     dim = 0
     window = 50
     skip = 1
     k = 1
     thresh = float("inf")
-    
-    params=TDA_Parameters(dim, window, skip, k, thresh)
+
+    params = TDA_Parameters(dim, window, skip, k, thresh)
     if buff:
         ts = add_buff(ts, window+10)
+    ts = ts.fillna(0)
     tda = ts_to_tda(ts, params=params)
     return diff_me(tda)
- 
-#compare_ts_reshape(new_tda_2(src_ip[features]), new_tda_2(dst_ip, buff=True))
+
+# compare_ts_reshape(new_tda_2(src_ip[features]), new_tda_2(dst_ip, buff=True))
 
 
 def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=TDA_Parameters(0, 3, 1, 1, 1)):
@@ -227,7 +233,8 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         except Exception:
             data = pd.DataFrame(0, index=src_raw[ip].index, columns=src_features)
         if config['tda']:
-            src[ip] = new_tda_2(data)
+            # src[ip] = new_tda_2(data)
+            src[ip] = ts_to_tda(data)
         else:
             src[ip] = data
     for user in dst_raw:
@@ -236,7 +243,8 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
         except Exception:
             data = pd.DataFrame(0, index=dst_raw[user].index, columns=dst_feaures)
         if config['tda']:
-            dst[user] = new_tda_2(data, buff=True)
+            # dst[user] = new_tda_2(data, buff=True)
+            dst[user] = ts_to_tda(data)
         else:
             dst[user] = data
 
@@ -335,8 +343,9 @@ dst_df = client_chat_logs
 #         out = str(i[-1]) + ", " + str(i[0]) + "\n"
 #         f.write(out)
 
-for output_size in range(1, len(dst_df)+1):
-    for n in range(2, 4):
+for n in range(1, 5):
+    for output_size in range(1, len(dst_df)+1):
+        # output_size = 2
         for features in findsubsets(get_features(dst_df), output_size):
             print("Evaluating " + str(n) + " features from " + str(output_size) + " output features")
             best_features = iterate_features(src_df, dst_df, n, features, tda_config,
