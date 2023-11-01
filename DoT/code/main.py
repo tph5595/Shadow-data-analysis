@@ -34,6 +34,26 @@ with open(config_file, 'r') as file:
 # END Config
 # ==============================================================================
 
+
+def ip_to_user_multi(ip, group_size=5, starting=5):
+    isp = int(int(ip.split(".")[-2]))
+    node_number = int(ip.split(".")[-1]) - starting - isp
+    user = node_number % group_size
+    group = math.floor(node_number / group_size)
+    return '/tordata/config/group_' + str(group) + "_user_" + str(user)
+
+
+def ip_to_user_single(ip, group_size=5, starting=10):
+    local_net = int(ip.split(".")[-1]) - starting
+    user = local_net % group_size
+    group = math.floor(local_net/group_size)
+    return '/tordata/config/group_' + str(group) + "_user_" + str(user)
+
+
+ip_to_user = ip_to_user_single
+if config['multiISP']:
+    ip_to_user = ip_to_user_multi
+
 window = pd.Timedelta(config['window'])
 num_cpus = config['num_cpus']
 
@@ -48,21 +68,21 @@ tda_config = TDA_Parameters(config['dim'],
                             float(config['thresh']))
 
 
-src, dst = preprocess(config['pcappath'],
-                      config['logpath'],
-                      config['scope_config'],
-                      config['server_logs'],
-                      config['infra_ip'],
-                      window,
-                      config['evil_domain'],
-                      config['bad_features'],
-                      debug=config['DEBUG'])
+# src, dst = preprocess(config['pcappath'],
+#                       config['logpath'],
+#                       config['scope_config'],
+#                       config['server_logs'],
+#                       config['infra_ip'],
+#                       window,
+#                       config['evil_domain'],
+#                       config['bad_features'],
+#                       debug=config['DEBUG'])
 
 p_filename = config['experiment_name'] + "_ts.pkl"
 
-with open(p_filename, 'wb') as file:
-    pickle.dump(src, file)
-    pickle.dump(dst, file)
+# with open(p_filename, 'wb') as file:
+#     pickle.dump(src, file)
+#     pickle.dump(dst, file)
 
 # exit(1)
 
@@ -70,15 +90,17 @@ with open(p_filename, 'rb') as file:
     flows_ts_ip_total = pickle.load(file)
     client_chat_logs = pickle.load(file)
 
-bad_features = ['ip', 'udp.dstport', 'frame', 'tcp.dstport', 'tcp.ack']
-                # 'tcp.time_relative', 'tcp.reassembled.length']
+# bad_features = [
+#                 # 'ip',
+#                 'udp.dstport', 'frame', 'tcp.dstport', 'tcp.ack']
+#                 # 'tcp.time_relative', 'tcp.reassembled.length']
 
 for ip in flows_ts_ip_total:
     cast_columns(flows_ts_ip_total[ip])
     df = flows_ts_ip_total[ip]
     cols_to_remove = []
-    for pattern in bad_features:
-        cols_to_remove += [c for c in df.columns if pattern in c.lower()]
+    # for pattern in bad_features:
+    #     cols_to_remove += [c for c in df.columns if pattern in c.lower()]
     df.drop(columns=cols_to_remove, inplace=True)
 
 for user in client_chat_logs:
@@ -113,12 +135,6 @@ def my_dist(ts1, ts2, ip1="", ip2=""):
     return my_pl_ts(ts1, ts2, ip1, ip2)
 
 
-def ip_to_user(ip, group_size=5, starting=5):
-    isp = int(int(ip.split(".")[-2]))
-    node_number = int(ip.split(".")[-1]) - starting - isp
-    user = node_number % group_size
-    group = math.floor(node_number / group_size)
-    return '/tordata/config/group_' + str(group) + "_user_" + str(user)
 
 
 def compare_ts(ts1, ts2, debug=False):
@@ -133,7 +149,8 @@ def compare_ts(ts1, ts2, debug=False):
     dist = dist * -1  # flip for use as distance metric
     # assert dist >= -1 and dist <= 1
     return dist, lag
-    
+
+
 def compare_ts_reshape(ts1, ts2, debug=False):
     ts1 = ts1.fillna(0)
     ts2 = ts2.fillna(0)

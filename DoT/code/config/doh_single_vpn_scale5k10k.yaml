@@ -1,15 +1,16 @@
 ---
-experiment_name: "dns_new_scale1000_tda_"
+experiment_name: "doh_single_vpn_scale1000_5_10_tda_"
 DEBUG: True
-pcappath: "../data/data/100_clients_podns_https_multi_isp_without_conversion_5k-10k/csv/"
-logpath: "../data/data/100_clients_podns_https_multi_isp_without_conversion_5k-10k/server_log/"
+pcappath: "../data/data/100_clients_doh_https_single_isp_vpn_without_conversion_5k-10k/csv/"
+logpath: "../data/data/100_clients_doh_https_single_isp_vpn_without_conversion_5k-10k/server_log/"
 window: "1 seconds" # cache size but maybe smaller
 tda: True
+multiISP: False
 # Scopes will be proccessed in order. Ensure order takes path most likely for
 # communication
 scope_config:
   - [".*isp.*.csv", "ISPAll", none, [True, False]]
-  - [".*isp-1.csv", "ISP1", none, [True, False]]
+  - [".*vpn.csv", "vpn", none, [True, False]]
   - [".*resolver.*", "resolver", dot_filter, [True, False]]
   - ["(.*root).*.csv", "root", dot_filter, [True, True] ]
   - ["(.*sld).*.csv", "SLD", dot_filter, [True, True] ]
@@ -29,4 +30,4 @@ k: 9
 thresh: "inf"
 # Optional
 # Will be removed from search
-infra_ip: ['192.168.150.10', '101.0.0.10', '101.0.0.20', '172.20.0.1', '172.20.0.10', '172.20.0.11', '172.20.0.12']
+infra_ip: ['192.168.150.10', '101.0.0.10', '101.0.0.20', '172.20.0.1', '172.20.0.10', '172.20.0.11', '172.20.0.12', '172.21.0.10', '172.21.0.1']
