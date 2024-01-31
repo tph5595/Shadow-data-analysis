@@ -1,0 +1,10 @@
+{DEBUG: true, bad_features: [tcp.srcport, udp.srcport, tcp.seq, frame.number, frame.time_relative,
+    frame.time_delta], dim: 0, evil_domain: evil.dne, experiment_name: dot_multi_vpn_scale1000_5_10,
+  gzip: false, infra_ip: [], k: 9, pcappath: "../data/data/100_clients_dot_https_multi_isp_vpn_without_conversion_5k-10k/csv/", multiISP: true, num_cpus: 40, output_file: output.csv, logpath: "../data/data/100_clients_dot_https_multi_isp_vpn_without_conversion_5k-10k/server_log/",
+  scope_config: [[.*isp-1.csv, 1_isp, none, [true, false]], [./2_vpn/.*.csv,
+      2_vpn, none, [true, false]], [./3_resolver/.*.csv, 3_resolver, none, [true,
+        false]], [./7_access_to_service/.*.csv, 7_access_to_service, none, [true,
+        false]], [./8_service/.*.csv, 8_service, none, [true, false]], [./root/.*.csv,
+      root, dot_filter, [true, true]], [./sld/.*.csv, sld, dot_filter, [true, true]],
+    [./tld/.*.csv, tld, dot_filter, [true, true]]], server_logs: [.*pythonServerThread.stdout,
+    chatlogs], skip: 1, tda: false, tda_window: 3, thresh: inf, window: 1 seconds}

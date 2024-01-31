@@ -54,6 +54,10 @@ ip_to_user = ip_to_user_single
 if config['multiISP']:
     ip_to_user = ip_to_user_multi
 
+if config['gzip']:
+    import gzip
+    open = gzip.open
+
 window = pd.Timedelta(config['window'])
 num_cpus = config['num_cpus']
 
@@ -313,7 +317,7 @@ def evaluate(src_raw, dst_raw, src_features, dst_feaures, display=False, params=
     recall_4 = recall_4 / len(src)
     recall_8 = recall_8 / len(src)
     rank = rank / len(src)
-    return accuracy, recall_2, recall_4, recall_8, rank #  , rank_list, score_list
+    return accuracy, recall_2, recall_4, recall_8, rank, rank_list, score_list
 
 
 def findsubsets(s, n):

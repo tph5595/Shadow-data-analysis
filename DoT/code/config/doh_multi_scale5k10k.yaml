@@ -5,12 +5,13 @@ pcappath: "../data/data/100_clients_doh_https_multi_isp_without_conversion_5k-10
 logpath: "../data/data/100_clients_doh_https_multi_isp_without_conversion_5k-10k/server_log/"
 window: "1 seconds" # cache size but maybe smaller
 tda: False
+gzip: False
 # Scopes will be proccessed in order. Ensure order takes path most likely for
 # communication
 scope_config:
   - [".*isp.*.csv", "ISPAll", none, [True, False]]
   - [".*isp-1.csv", "ISP1", none, [True, False]]
-  - [".*resolver.*", "resolver", dot_filter, [True, False]]
+  - [".*resolver.*", "resolver", dot_filter, [True, True]]
   - ["(.*root).*.csv", "root", dot_filter, [True, True] ]
   - ["(.*sld).*.csv", "SLD", dot_filter, [True, True] ]
   - ["(.*tld).*.csv", "TLD", dot_filter, [True, True] ]
