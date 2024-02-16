@@ -1,5 +1,5 @@
 ---
-experiment_name: "dot_multi_vpn_scale1000_5_10_"
+experiment_name: "dot_multi_vpn_scale1000_5_10_USENIX_"
 DEBUG: True
 pcappath: "../data/data/100_clients_dot_https_multi_isp_vpn_without_conversion_5k-10k/csv/"
 logpath: "../data/data/100_clients_dot_https_multi_isp_vpn_without_conversion_5k-10k/server_log/"
@@ -12,13 +12,13 @@ gzip: False
 scope_config:
   - [".*isp.*.csv", "ISPAll", none, [True, False]]
   - [".*isp-1.csv", "ISP1", none, [True, False]]
-  # - [".*vpn.csv", "vpn", none, [True, False]]
-  # - [".*resolver.*", "resolver", dot_filter, [False, True]]
-  # - ["(.*root).*.csv", "root", dot_filter, [True, True] ]
-  # - ["(.*sld).*.csv", "SLD", dot_filter, [True, True] ]
-  # - ["(.*tld).*.csv", "TLD", dot_filter, [True, True] ]
-  # - [".*access-to-service.csv", "Access_service", none, [True, True]]
-  # - [".*/service.csv", "Service", none, [True, True]]
+  - [".*vpn.csv", "vpn", none, [True, False]]
+  - [".*resolver.*", "resolver", dot_filter, [True, False]]
+  - ["(.*root).*.csv", "root", dot_filter, [True, True] ]
+  - ["(.*sld).*.csv", "SLD", dot_filter, [True, True] ]
+  - ["(.*tld).*.csv", "TLD", dot_filter, [True, True] ]
+  - [".*access-to-service.csv", "Access_service", none, [True, False]]
+  - [".*/service.csv", "Service", none, [True, False]]
 server_logs: [".*pythonServerThread.stdout", "chatlogs"]
 evil_domain: 'evil.dne'
 bad_features: ['tcp.srcport', 'udp.srcport', 'tcp.seq',

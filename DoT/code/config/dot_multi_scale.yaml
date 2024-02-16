@@ -1,10 +1,12 @@
 ---
-experiment_name: "dot_new_scale1000_tda_"
+experiment_name: "dot_new_scale1000_tda_5k_10k_USENIX_"
 DEBUG: True
 pcappath: "../data/data/100_clients_dot_https_multi_isp_without_conversion_5k-10k/csv/"
 logpath: "../data/data/100_clients_dot_https_multi_isp_without_conversion_5k-10k/server_log/"
 window: "1 seconds" # cache size but maybe smaller
-tda: True
+gzip: False
+tda: False
+multiISP: True
 # Scopes will be proccessed in order. Ensure order takes path most likely for
 # communication
 scope_config:
