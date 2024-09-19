@@ -1,0 +1,10 @@
+(executable
+ (public_name metrics)
+ (name main)
+ (libraries core 
+            core_unix.sys_unix 
+            batteries 
+            metrics
+            pcre
+            )
+ (preprocess (pps ppx_jane)))
