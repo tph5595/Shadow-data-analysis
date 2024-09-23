@@ -99,7 +99,7 @@ let process_line line =
         |> List.fold_left ~init:empty_json ~f:(fun x y -> 
                 Yojson.Basic.Util.combine x y)
     in 
-    `Assoc[(scope, `List[`Assoc [(feature, `List[m])]])]
+    `Assoc [(scope^":"^feature, `List[(Yojson.Basic.Util.combine (`Assoc [("scope", `String scope)]) m)])]
 
 
 let process_file file = 
