@@ -111,8 +111,6 @@ let process_file file =
                 Yojson.Basic.Util.combine x y)
     in
     `Assoc [(file, `List[m])]
-        |> Yojson.Basic.pretty_to_channel stdout
-        |> ignore
 
 
 let get_files pattern dir = 
@@ -126,14 +124,17 @@ let () =
     |> get_files "USENIX"
 
     (* temp *)
-    |> List.hd
-    |> Option.value ~default:"None"
+    (* |> List.hd *)
+    (* |> Option.value ~default:"None" *)
     (* in *) 
     (* Printf.printf "%s\n" file; *)
 
     (* file *)
-    |> process_file
+    (* |> process_file *)
 
-    (* |> List.map ~f:(fun x -> file_metrics x) *)
+    |> List.map ~f:(fun x -> process_file x)
+    |> List.fold_left ~init:(`Assoc []) ~f:(fun x y -> 
+            Yojson.Basic.Util.combine x y)
+    |> Yojson.Basic.pretty_to_channel stdout
     |> ignore
 ;;
