@@ -8,6 +8,14 @@ let check_substring s1 s2 =
         true
     with _ -> false
 
+let extract_scope s = 
+    let rex = Pcre.regexp
+        {|(.*)_((?:A|root|IS|T|S|resol).*)$|} in
+    try
+        let parts = Pcre.exec ~rex s |> Pcre.get_substrings in 
+        parts.(1), parts.(2)
+    with _ -> s, "global"
+
 let get_feature line =
     line
     |> String.split_on_chars ~on:['\t']
@@ -15,13 +23,13 @@ let get_feature line =
     |> List.hd
     |> Option.value ~default:"ERROR could not find feature label"
     |> String.strip ~drop:(fun x -> List.mem ['('; ')'; ','; '\''] x ~equal:(Char.equal))
+    |> extract_scope
 
 let get_values line = 
     let rex = Pcre.regexp
         {|^\((?:\d+.\d+, ){5}\[((?:\(\S* \S* *){100})\],|} in
     try
         let parts = Pcre.exec ~rex line |> Pcre.get_substrings in 
-        (* Printf.printf "%s\n" parts.(1); *)
         parts.(1)
     with _ -> "ERROR: could not parse line"
 
@@ -63,7 +71,7 @@ let calc_f1_at_k k values =
 ;;
 
 let process_line line = 
-    let feature = get_feature line in 
+    let feature, scope = get_feature line in 
 
     let values = line
         |> get_values
@@ -84,7 +92,6 @@ let process_line line =
 
         json_result
     in
-    (* let (empty_json: Yojson.Basic.t) = `Assoc [("feature", `String feature)] in *) 
     let (empty_json: Yojson.Basic.t) = `Assoc [] in 
 
     let m = [1; 2; 4; 8;]
@@ -92,7 +99,7 @@ let process_line line =
         |> List.fold_left ~init:empty_json ~f:(fun x y -> 
                 Yojson.Basic.Util.combine x y)
     in 
-    `Assoc [(feature, `List[m])]
+    `Assoc[(scope, `List[`Assoc [(feature, `List[m])]])]
 
 
 let process_file file = 

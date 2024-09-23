@@ -14,7 +14,7 @@
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
           packages = with pkgs; 
-          [ ocaml ] ++
+          [ ocaml jq] ++
             (with pkgs.ocamlPackages; [ 
             dune_3 
             odoc 
