@@ -103,12 +103,14 @@ let process_line line =
 
 
 let process_file file = 
-    let (empty_json: Yojson.Basic.t) = `Assoc [("file", `String file)] in 
+    let (empty_json: Yojson.Basic.t) = `Assoc [] in 
 
-    In_channel.read_lines file
+    let m = In_channel.read_lines file
         |> List.map ~f:(fun x -> process_line x)
         |> List.fold_left ~init:empty_json ~f:(fun x y -> 
                 Yojson.Basic.Util.combine x y)
+    in
+    `Assoc [(file, `List[m])]
         |> Yojson.Basic.pretty_to_channel stdout
         |> ignore
 
