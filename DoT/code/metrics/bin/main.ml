@@ -24,20 +24,48 @@ let get_values line =
         parts.(1)
     with _ -> "ERROR: could not parse line"
 
-let parse_values values = 
+let parse_values data = 
     let rex = Pcre.regexp {|, '\S*|\(|} in 
     Pcre.replace ~rex data
     |> String.split_on_chars ~on:[' ']
     |> List.map ~f:(fun x -> int_of_string x)
 ;;
 
-let process_line line = 
-    let _feature = get_feature line in 
+let calc_recall_at_k k values = 
+    let len = values 
+    |> List.length
+    |> float_of_int in 
+    let good = values
+    |> List.filter ~f:(fun x -> x <= k)
+    |> List.length
+    |> float_of_int
+    in 
+    good /. len
+;;
 
-    line 
+let calc_precision_at_k _k _values = 
+    1.
+;;
+
+let calc_f1_at_k k values = 
+    let _recall = calc_recall_at_k k values in 
+    let _precision = calc_precision_at_k k values in 
+    0.
+;;
+
+let process_line line = 
+    let feature = get_feature line in 
+
+    let values = line
         |> get_values
-        |> parse_values
-        |> Printf.printf "%s\n"
+        |> parse_values in 
+
+    let k = 4 in 
+    let recall = calc_recall_at_k k values in 
+    let precision = calc_precision_at_k k values in 
+    let f1 = calc_f1_at_k k values in 
+
+    Printf.printf "%s:\t%f\t%f\t%f\n" feature recall precision f1
 
 let process_file file = 
     let lines = In_channel.read_lines file in 
