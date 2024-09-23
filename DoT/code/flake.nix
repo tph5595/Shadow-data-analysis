@@ -26,6 +26,7 @@
             batteries 
             findlib
             ocaml_pcre
+            yojson
             ]);
         };
       });

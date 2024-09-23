@@ -6,5 +6,6 @@
             batteries 
             metrics
             pcre
+            yojson
             )
  (preprocess (pps ppx_jane)))
