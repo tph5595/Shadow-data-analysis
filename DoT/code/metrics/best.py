@@ -1,6 +1,6 @@
 import json
 
-with open('input.json') as f:
+with open('output/input.json') as f:
     d = json.load(f)
 
 output = {}
@@ -16,15 +16,15 @@ for experiment, data in d.items():
                 best[scope] = recall_at_1
                 output[experiment][scope] = m
 
-with open('best.json', 'w') as f:
+with open('output/best.json', 'w') as f:
     json.dump(output, f)
 
 # format for graph needs
 for experiment, data in output.items():
-    with open("{}.csv".format(experiment), "w") as f:
-        f.write("Missing title")
+    with open("output/{}.csv".format(experiment[2:]), "w") as f:
+        f.write("Missing title\n")
         for scope, data in data.items():
-            f.write("{},{},{},{},{}".format(
+            f.write("{},{},{},{},{}\n".format(
                 data[0]['1'][2]['f1'],
                 data[0]['2'][2]['f1'],
                 data[0]['4'][2]['f1'],
