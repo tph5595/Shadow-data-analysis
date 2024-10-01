@@ -30,6 +30,7 @@ let get_values line =
         {|^\((?:\d+.\d+, ){5}\[((?:\(\S* \S* *){100})\],|} in
     try
         let parts = Pcre.exec ~rex line |> Pcre.get_substrings in 
+        (* Printf.printf "%s\n" parts.(1); *)
         parts.(1)
     with _ -> "ERROR: could not parse line"
 
@@ -70,6 +71,21 @@ let calc_f1_at_k k values =
     top /. bottom
 ;;
 
+let calc_mrr values = 
+    let len = float_of_int @@ List.length values in
+
+    let good = values
+    (* Must remove values that are 0. These are values that could not be found  *)
+    |> List.map ~f:(fun x -> 
+            match x with 
+            | 0 ->  0.
+            | _ -> 1. /. (float_of_int x)
+            )
+    |> List.fold_left ~f:(+.) ~init:0.
+    in 
+    good /. len
+;;
+
 let process_line line = 
     let feature, scope = get_feature line in 
 
@@ -81,13 +97,15 @@ let process_line line =
         let recall = calc_recall_at_k k values in 
         let precision = calc_precision_at_k k values in 
         let f1 = calc_f1_at_k k values in 
+        let mrr = calc_mrr values in 
 
         let (json_result: Yojson.Basic.t)= 
             `Assoc [
                 (string_of_int k, `List [
                     `Assoc [("recall", `Float recall)];
                     `Assoc [("precision", `Float precision)];
-                    `Assoc [("f1", `Float f1)]
+                    `Assoc [("f1", `Float f1)];
+                    `Assoc [("mrr", `Float mrr)]
                 ])] in
 
         json_result

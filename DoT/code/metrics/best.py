@@ -19,9 +19,10 @@ for experiment, data in d.items():
 with open('output/best.json', 'w') as f:
     json.dump(output, f)
 
+print('Finding Best F1')
 # format for graph needs
 for experiment, data in output.items():
-    with open("output/{}.csv".format(experiment[2:]), "w") as f:
+    with open("output/{}-f1.csv".format(experiment[2:]), "w") as f:
         f.write("Missing title\n")
         for scope, data in data.items():
             f.write("{},{},{},{},{}\n".format(
@@ -29,5 +30,15 @@ for experiment, data in output.items():
                 data[0]['2'][2]['f1'],
                 data[0]['4'][2]['f1'],
                 data[0]['8'][2]['f1'],
+                scope
+                ))
+
+print('Finding Best MRR')
+for experiment, data in output.items():
+    with open("output/{}-mrr.csv".format(experiment[2:]), "w") as f:
+        f.write("Missing title\n")
+        for scope, data in data.items():
+            f.write("{},{}\n".format(
+                data[0]['1'][3]['mrr'],
                 scope
                 ))
