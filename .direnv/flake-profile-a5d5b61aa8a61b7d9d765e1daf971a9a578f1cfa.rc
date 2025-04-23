@@ -31,13 +31,13 @@ NIX_BINTOOLS='/nix/store/yy6r6ls718wh0hazvidvv5js535s8azx-binutils-wrapper-2.41'
 export NIX_BINTOOLS
 NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_BUILD_CORES='12'
+NIX_BUILD_CORES='16'
 export NIX_BUILD_CORES
 NIX_CC='/nix/store/yc9q0h72rlj98y0116c4mma6k80264mv-gcc-wrapper-13.2.0'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=b65pgc6wms -isystem /nix/store/hkb6d0q5vfpab8d99j0qx2lzf2c83w3i-python3-3.11.9-env/include -isystem /nix/store/hkb6d0q5vfpab8d99j0qx2lzf2c83w3i-python3-3.11.9-env/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=75r537nwpp -isystem /nix/store/hkb6d0q5vfpab8d99j0qx2lzf2c83w3i-python3-3.11.9-env/include -isystem /nix/store/hkb6d0q5vfpab8d99j0qx2lzf2c83w3i-python3-3.11.9-env/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
@@ -65,6 +65,8 @@ RANLIB='ranlib'
 export RANLIB
 READELF='readelf'
 export READELF
+SHELL='/nix/store/1xhds5s320nfp2022yjah1h7dpv8qqns-bash-5.2p32/bin/bash'
+export SHELL
 SIZE='size'
 export SIZE
 SOURCE_DATE_EPOCH='315532800'
@@ -127,7 +129,7 @@ declare -a envHostHostHooks=('ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envHostTargetHooks=('ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envTargetTargetHooks=()
 declare -a fixupOutputHooks=('if [ -z "${dontPatchELF-}" ]; then patchELF "$prefix"; fi' 'if [[ -z "${noAuditTmpdir-}" && -e "$prefix" ]]; then auditTmpdir "$prefix"; fi' 'if [ -z "${dontGzipMan-}" ]; then compressManPages "$prefix"; fi' '_moveLib64' '_moveSbin' '_moveSystemdUserUnits' 'patchShebangsAuto' '_pruneLibtoolFiles' '_doStrip' )
-guess='12'
+guess='16'
 initialPath='/nix/store/k71apxkm38m3g34k01sb6zhysi0y7gph-coreutils-9.5 /nix/store/asgsrh9ijxmypmxi0dy3f5bwy84bmjp7-findutils-4.9.0 /nix/store/k7blc6n0m3qgdmbmmdny2pwmpnpsw62x-diffutils-3.10 /nix/store/5ppp0xw11navs501xv805jwxgn5yrymf-gnused-4.9 /nix/store/xpq4yhadyhazkcsggmqd7rsgvxb3kjy4-gnugrep-3.11 /nix/store/dq8gbwzp3bgvk5d7syi88b4ilhk53x75-gawk-5.2.2 /nix/store/d9nawsywcrdv7cz892nn16spgr8y64gd-gnutar-1.35 /nix/store/ib20pvkazriwm6vcfbf6cvjhvgx5fyq4-gzip-1.13 /nix/store/jgy7glyav2c6b5qnjhc2gg306j8kmlsk-bzip2-1.0.8-bin /nix/store/6x42kczk505372wqayhjvwbmjwvxrrkp-gnumake-4.4.1 /nix/store/1xhds5s320nfp2022yjah1h7dpv8qqns-bash-5.2p32 /nix/store/mcwzjxydhc5dvnfx4rwngdqj0d94rnli-patch-2.7.6 /nix/store/mxdz31gap1v808j1dih2rdangkk8s8im-xz-5.4.7-bin /nix/store/iw9x2m9lxk566qvcn13ypwyb6f2x7kdy-file-5.45'
 mesonFlags=''
 export mesonFlags
@@ -1880,4 +1882,4 @@ export TMP="$NIX_BUILD_TOP"
 export TMPDIR="$NIX_BUILD_TOP"
 export TEMP="$NIX_BUILD_TOP"
 export TEMPDIR="$NIX_BUILD_TOP"
-eval "$shellHook"
+eval "${shellHook:-}"
