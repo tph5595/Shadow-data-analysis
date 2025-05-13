@@ -11,6 +11,7 @@ from tqdm import tqdm
 import numpy as np
 import math
 from fastdtw import fastdtw
+from pathlib import Path
 
 # Local Imports
 from TDA import TDA_Parameters, ts_to_tda
@@ -71,28 +72,36 @@ tda_config = TDA_Parameters(config['dim'],
                             config['k'],
                             float(config['thresh']))
 
-
-# src, dst = preprocess(config['pcappath'],
-#                       config['logpath'],
-#                       config['scope_config'],
-#                       config['server_logs'],
-#                       config['infra_ip'],
-#                       window,
-#                       config['evil_domain'],
-#                       config['bad_features'],
-#                       debug=config['DEBUG'])
-
 p_filename = config['experiment_name'] + "_ts.pkl"
 
-# with open(p_filename, 'wb') as file:
-#     pickle.dump(src, file)
-#     pickle.dump(dst, file)
+if Path(p_filename).is_file():
+    print("opening saved data")
+    with open(p_filename, 'rb') as file:
+        flows_ts_ip_total = pickle.load(file)
+        client_chat_logs = pickle.load(file)
+    exit(0)
 
-# exit(1)
+else:
+    src, dst = preprocess(config['pcappath'],
+                          config['logpath'],
+                          config['scope_config'],
+                          config['server_logs'],
+                          config['infra_ip'],
+                          window,
+                          config['evil_domain'],
+                          config['bad_features'],
+                          debug=config['DEBUG'])
 
-with open(p_filename, 'rb') as file:
-    flows_ts_ip_total = pickle.load(file)
-    client_chat_logs = pickle.load(file)
+
+    with open(p_filename, 'wb') as file:
+        pickle.dump(src, file)
+        pickle.dump(dst, file)
+
+    flows_ts_ip_total = src
+    client_chat_logs = dst
+    print("saved")
+    exit(0)
+
 
 # bad_features = [
 #                 # 'ip',

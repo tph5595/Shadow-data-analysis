@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 shopt -s nullglob
-for f in $(find data -type f -name "*.pcap"); do
+for f in $(find . -type f -name "*.pcap"); do
     base=${f##*/}
     tshark -r "$f" \
         -T fields -e frame.number -e frame.time \

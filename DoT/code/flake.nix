@@ -12,7 +12,14 @@
     in
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
-        default = pkgs.mkShell {
+        default =
+          let
+            # Use Python 3.11
+            python = pkgs.python311;
+          in
+          pkgs.mkShell {
+            LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib.outPath}/lib:${pkgs.lib.makeLibraryPath [pkgs.zlib]}:$LD_LIBRARY_PATH";
+            # The Nix packages provided in the environment
           packages = with pkgs; 
           [ ocaml jq python3] ++
             (with pkgs.ocamlPackages; [ 
@@ -27,7 +34,13 @@
             findlib
             ocaml_pcre
             yojson
-            ]);
+            ]) ++ 
+          [poetry
+          git-lfs
+          # Python plus helper tools
+          (python.withPackages (ps: with ps; [
+                pip
+          ]))];
         };
       });
     };
