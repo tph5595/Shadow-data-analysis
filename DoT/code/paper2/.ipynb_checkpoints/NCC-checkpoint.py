@@ -20,10 +20,10 @@ class NCCTree:
         self.points = {}
 
 
-    def insert(self, point):
+    def insert(self, point, label):
         cords = np.concatenate((point, point))
         self.idx.insert(self.pointIDX, cords)
-        self.points[self.pointIDX] = point
+        self.points[self.pointIDX] = (label, point)
 
         self.pointIDX += 1
 
@@ -33,7 +33,7 @@ class NCCTree:
 
     def ncc(self, query, k):
         P = self.knn(query, k)
-        return [np.dot(query, p) for p in P]
+        return [(label, np.dot(query, p)) for (label, p) in P]
 
 # def sample_spherical(npoints, ndim):
 #     vec = np.random.randn(ndim, npoints)
