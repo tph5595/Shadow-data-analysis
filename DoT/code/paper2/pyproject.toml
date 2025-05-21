@@ -13,7 +13,8 @@ dependencies = [
     "rtree (>=1.4.0,<2.0.0)",
     "jupyterlab (>=4.4.2,<5.0.0)",
     "pandas (>=2.2.3,<3.0.0)",
-    "matplotlib (>=3.10.3,<4.0.0)"
+    "matplotlib (>=3.10.3,<4.0.0)",
+    "statsmodels (>=0.14.4,<0.15.0)"
 ]
 
 
