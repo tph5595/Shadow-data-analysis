@@ -42,6 +42,7 @@ def preprocess(pcappath, logpath, scope_config, server_logs, infra_ip, window,
     ips_seen = getPossibleIPs(scopes)
     IPs = list(set(ips_seen) - set(infra_ip))
     print(IPs)
+    print(len(IPs))
     assert len(IPs) == 10
 
     if debug:
