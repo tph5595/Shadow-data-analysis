@@ -1,0 +1,45 @@
+---
+experiment_name: "doh_vpn_3routes_100users_reddit_paper2_"
+DEBUG: True
+pcappath: "../../../../gns3-automation/results/100-multi-DOH-vpn-3-routes/csv/"
+logpath: "../../../../gns3-automation/results/100-multi-DOH-vpn-3-routes/"
+window: "1 seconds" # cache size but maybe smaller
+tda: False
+multiISP: True
+gzip: False
+# Scopes will be proccessed in order. Ensure order takes path most likely for
+# communication
+scope_config:
+  - [".*ISP1-main.csv", "ISP1-all", none, [True, False]]
+  - [".*ISP1-1.csv", "ISP1-1", none, [True, False]]
+  - [".*ISP1-2.csv", "ISP1-2", none, [True, False]]
+  - [".*ISP1-3.csv", "ISP1-3", none, [True, False]]
+  - [".*resolver-main.csv", "resolver-all", dot_filter, [True, False]]
+  - [".*resolver-1.csv", "resolver-1", dot_filter, [True, False]]
+  - [".*resolver-2.csv", "resolver-2", dot_filter, [True, False]]
+  - [".*resolver-3.csv", "resolver-3", dot_filter, [True, False]]
+  - ["(.*root).*.csv", "root", dot_filter, [True, True] ]
+  - ["(.*sld).*.csv", "SLD", dot_filter, [True, True] ]
+  - ["(.*tld).*.csv", "TLD", dot_filter, [True, True] ]
+  - [".*/service-main.csv", "Service-all", none, [True, False]]
+  - [".*/service-1.csv", "Service-1", none, [True, False]]
+  - [".*/service-2.csv", "Service-2", none, [True, False]]
+  - [".*/service-3.csv", "Service-3", none, [True, False]]
+  - [".*/vpn-main.csv", "VPN-all", none, [True, False]]
+  - [".*/vpn-1.csv", "VPN-1", none, [True, False]]
+  - [".*/vpn-2.csv", "VPN-2", none, [True, False]]
+  - [".*/vpn-3.csv", "VPN-3", none, [True, False]]
+server_logs: [".*pythonServerThread.log", "chatlogs"]
+evil_domain: 'evil.dne'
+bad_features: ['tcp.srcport', 'udp.srcport', 'tcp.seq',
+                'frame.number', 'frame.time_relative', 'frame.time_delta']
+output_file: "output.csv"
+num_cpus: 40
+skip: 1
+dim: 0
+tda_window: 3
+k: 9
+thresh: "inf"
+# Optional
+# Will be removed from search
+infra_ip: ['192.168.150.10', '101.0.0.10', '101.0.0.20', '172.20.0.1', '172.20.0.10', '172.20.0.11', '172.20.0.12', '172.21.0.10', '172.21.0.1', '109.0.0.10', '109.0.0.10']
