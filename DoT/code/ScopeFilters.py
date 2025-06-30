@@ -7,11 +7,12 @@ TCP_PROTO = 6
 
 
 def getPossibleIPs(scopes):
-    resolver = [scope for scope in scopes if "isp" in scope.name.lower()]
+    resolver = [scope for scope in scopes if "vpn" in scope.name.lower() or "service" in scope.name.lower()]
     assert len(resolver) >= 1
-    resolver = resolver[0]
-    resolv_df = resolver.as_df()
-    r = resolv_df['ip.src'].unique()
+    # resolver = resolver[0]
+    resolv_df = [r.as_df() for r in resolver]
+    r = [ip for x in resolv_df for ip in x['ip.src'].unique()]
+    r = list(set(r))
     r = [x for x in r if str(x) != 'nan']
     return r
 
