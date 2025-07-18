@@ -1,8 +1,8 @@
 ---
 experiment_name: "dot_3routes_100users_reddit_paper2_"
 DEBUG: True
-pcappath: "../../../../gns3-automation/results/100-multi-DOT-3-routes/csv/"
-logpath: "../../../../gns3-automation/results/100-multi-DOT-3-routes/"
+pcappath: "../../../../gns3-automation/results/WeirdResults/100-multi-DOT-3-routes/csv/"
+logpath: "../../../../gns3-automation/results/WeirdResults/100-multi-DOT-3-routes/"
 window: "1 seconds" # cache size but maybe smaller
 tda: False
 multiISP: True

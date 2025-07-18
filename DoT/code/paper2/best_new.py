@@ -6,12 +6,13 @@
 
 import pandas as pd
 import yaml
+import sys
 
 
 # In[2]:
 
 
-config_file = "../config_multiscope/doh_vpn_multi_scale5k10k.yaml"
+config_file = sys.argv[1]
 with open(config_file, 'r') as file:
     config = yaml.safe_load(file)
 
