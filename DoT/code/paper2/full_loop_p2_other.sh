@@ -9,7 +9,7 @@ SPLITS=30
 
 for r in ${RATIOS[@]}; do
     for i in $(seq 1 $SPLITS); do
-        dst_file="../config_multiscope/dot_multi_scale5k10k_base_${r}_${i}.yaml"
+        dst_file="../config_multiscope/dot_vpn_multi_scale5k10k_base_${r}_${i}.yaml"
 
         # run NCC fast
         poetry run python analysis.py $dst_file
