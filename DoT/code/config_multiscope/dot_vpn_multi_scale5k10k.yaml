@@ -21,7 +21,7 @@ scope_config:
   - ["(.*root).*.csv", "root", dot_filter, [True, True] ]
   - ["(.*sld).*.csv", "SLD", dot_filter, [True, True] ]
   - ["(.*tld).*.csv", "TLD", dot_filter, [True, True] ]
-  - [".*/service-main.csv", "Service-all", none, [True, False]]
+  - [".*/service-\\d.csv", "Service-all", none, [True, False]]
   - [".*/service-1.csv", "Service-1", none, [True, False]]
   - [".*/service-2.csv", "Service-2", none, [True, False]]
   - [".*/service-3.csv", "Service-3", none, [True, False]]

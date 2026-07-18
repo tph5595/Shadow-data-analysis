@@ -11,8 +11,6 @@ gzip: False
 # communication
 scope_config:
   - [".*ISP1-main.csv_splits-100_sample-3.csv", "ISP1-all", none, [True, False]]
-  - [".*resolver-main.csv_splits-100_sample-3.csv", "resolver-all", dot_filter, [True, False]]
-  - [".*/service-main.csv_splits-100_sample-3.csv", "Service-all", none, [True, False]]
   - [".*/vpn-main.csv_splits-100_sample-3.csv", "VPN-all", none, [True, False]]
 server_logs: [".*pythonServerThread.log", "chatlogs"]
 evil_domain: 'evil.dne'

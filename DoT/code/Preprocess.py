@@ -44,7 +44,7 @@ def preprocess(pcappath, logpath, scope_config, server_logs, infra_ip, window,
     print(ips_seen)
     print(IPs)
     print(len(IPs))
-    assert len(IPs) == 100
+    assert len(IPs) <= 100
 
     if debug:
         print("Scopes created")

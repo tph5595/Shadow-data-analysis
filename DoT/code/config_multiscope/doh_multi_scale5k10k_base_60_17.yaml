@@ -1,0 +1,29 @@
+---
+experiment_name: "doh_3routes_100users_reddit_paper2_ratio-60_sample-17"
+DEBUG: True
+pcappath: "../../../../gns3-automation/results/WeirdResults/100-multi-DOH-3-routes/csv/"
+logpath: "../../../../gns3-automation/results/WeirdResults/100-multi-DOH-3-routes/"
+window: "1 seconds" # cache size but maybe smaller
+tda: False
+multiISP: True
+gzip: False
+# Scopes will be proccessed in order. Ensure order takes path most likely for
+# communication
+scope_config:
+  - [".*ISP1-main-all.csv_splits-60_sample-17.csv", "ISP1-all", none, [True, False]]
+  - [".*resolver-main-all.csv_splits-60_sample-17.csv", "resolver-all", dot_filter, [True, False]]
+  - [".*/service-main-all.csv_splits-60_sample-17.csv", "Service-all", none, [True, False]]
+server_logs: [".*pythonServerThread.log", "chatlogs"]
+evil_domain: 'evil.dne'
+bad_features: ['tcp.srcport', 'udp.srcport', 'tcp.seq',
+                'frame.number', 'frame.time_relative', 'frame.time_delta']
+output_file: "output.csv"
+num_cpus: 40
+skip: 1
+dim: 0
+tda_window: 3
+k: 9
+thresh: "inf"
+# Optional
+# Will be removed from search
+infra_ip: ['192.168.150.10', '101.0.0.10', '101.0.0.20', '172.20.0.1', '172.20.0.10', '172.20.0.11', '172.20.0.12', '172.21.0.10', '172.21.0.1', '109.0.0.10', '9.9.5.10', '9.9.5.11', '9.9.5.12', '9.9.5.13', '8.8.5.10', '8.8.5.11', '8.8.5.12', '8.8.5.13', '109.0.0.9', '102.0.0.1']
