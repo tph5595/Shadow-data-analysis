@@ -129,7 +129,6 @@ declare -a envHostHostHooks=('ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envHostTargetHooks=('ccWrapper_addCVars' 'bintoolsWrapper_addLDVars' )
 declare -a envTargetTargetHooks=()
 declare -a fixupOutputHooks=('if [ -z "${dontPatchELF-}" ]; then patchELF "$prefix"; fi' 'if [[ -z "${noAuditTmpdir-}" && -e "$prefix" ]]; then auditTmpdir "$prefix"; fi' 'if [ -z "${dontGzipMan-}" ]; then compressManPages "$prefix"; fi' '_moveLib64' '_moveSbin' '_moveSystemdUserUnits' 'patchShebangsAuto' '_pruneLibtoolFiles' '_doStrip' )
-guess='12'
 initialPath='/nix/store/k71apxkm38m3g34k01sb6zhysi0y7gph-coreutils-9.5 /nix/store/asgsrh9ijxmypmxi0dy3f5bwy84bmjp7-findutils-4.9.0 /nix/store/k7blc6n0m3qgdmbmmdny2pwmpnpsw62x-diffutils-3.10 /nix/store/5ppp0xw11navs501xv805jwxgn5yrymf-gnused-4.9 /nix/store/xpq4yhadyhazkcsggmqd7rsgvxb3kjy4-gnugrep-3.11 /nix/store/dq8gbwzp3bgvk5d7syi88b4ilhk53x75-gawk-5.2.2 /nix/store/d9nawsywcrdv7cz892nn16spgr8y64gd-gnutar-1.35 /nix/store/ib20pvkazriwm6vcfbf6cvjhvgx5fyq4-gzip-1.13 /nix/store/jgy7glyav2c6b5qnjhc2gg306j8kmlsk-bzip2-1.0.8-bin /nix/store/6x42kczk505372wqayhjvwbmjwvxrrkp-gnumake-4.4.1 /nix/store/1xhds5s320nfp2022yjah1h7dpv8qqns-bash-5.2p32 /nix/store/mcwzjxydhc5dvnfx4rwngdqj0d94rnli-patch-2.7.6 /nix/store/mxdz31gap1v808j1dih2rdangkk8s8im-xz-5.4.7-bin /nix/store/iw9x2m9lxk566qvcn13ypwyb6f2x7kdy-file-5.45'
 mesonFlags=''
 export mesonFlags
